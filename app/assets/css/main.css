@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* классы, встречающиеся только в markdown-контенте */
+@source "../../../content/**/*.md";
+
+@import "./tokens.css";   /* сгенерирован из Figma, руками не править */
+
+@layer base {
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+}
+
+@utility container-page {
+  width: 100%;
+  max-width: var(--breakpoint-xl);
+  margin-inline: auto;
+  padding-inline: --spacing(4);
+  @media (width >= 48rem) { padding-inline: --spacing(8); }
+}
+
+@custom-variant hocus (&:hover, &:focus-visible);
