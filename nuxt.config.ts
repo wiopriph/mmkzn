@@ -30,8 +30,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       routes: ['/', '/sitemap.xml', '/robots.txt'],
-      // Этап 0, шаг 6: переключить в true перед приёмкой
-      failOnError: false,
+      failOnError: true,
     },
     compressPublicAssets: { brotli: true, gzip: true },
   },
