@@ -1,0 +1,13 @@
+company: ООО «МИРУМИР»
+address: ул. Портовая, д.27. оф. 2.2, г. Казань Республика Татарстан, 420108
+email: mirumirKZN@mail.ru
+phone:
+  display: 8 (843) 233-31-40
+  tel: 8(843)233-31-40
+dispatcher:
+  label: Телефон диспетчерской службы
+  display: 8 (962) 556-31-19
+  tel: "+79625563119"
+whatsapp: https://wa.me/79625563119?text=Здравствуйте
+telegram: https://t.me/micro_cosm
+formNote: Оставьте ваш телефон и наш консультант свяжется с вами

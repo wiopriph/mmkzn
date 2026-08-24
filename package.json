@@ -28,6 +28,7 @@
     "@rolldown/binding-darwin-x64": "1.2.5",
     "@types/turndown": "^5.0.6",
     "cheerio": "^1.2.0",
+    "playwright": "^1.62.1",
     "tsx": "^4.23.12",
     "turndown": "^7.2.4",
     "yaml": "^2.9.0"
