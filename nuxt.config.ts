@@ -19,6 +19,11 @@ export default defineNuxtConfig({
   // OG-картинки — Этап 8 (SEO-финиш); рендерер takumi не ставим до тех пор
   ogImage: { enabled: false },
 
+  image: {
+    quality: 72,
+    format: ['webp'],
+  },
+
   site: {
     url: 'https://mirumirkzn.ru',
     name: 'МируМир',
