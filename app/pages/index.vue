@@ -1,11 +1,17 @@
 <script setup lang="ts">
+// Главная в редизайне (Этап 3, макет Figma «NY 90»).
+// SEO-мета остаётся прежней (copy-first) до отдельного решения.
+definePageMeta({ layout: 'redesign', headerTheme: 'overlay' })
+
 interface Home {
   seo: { title: string; description: string }
-  hero: { title: string; image: { src: string; alt: string } }
-  about: { title: string; text: string }
-  services: { title: string; intro: string; items: { title: string; text: string; icon: string; link: string }[] }
-  advantages: { title: string; items: string[] }
-  gallery: { images: { src: string; alt: string }[] }
+  hero: { title: string; subtitle: string; cta: string; image: { src: string; alt: string } }
+  infra: { title: string; note: string; stats: { label: string; value: string }[] }
+  products: { title: string; intro: string; cta: string; photos: Record<string, string> }
+  trust: { title: string; text: string; image: { src: string; alt: string }; facts: { value: string; label: string; highlight?: boolean }[] }
+  supply: { title: string; subtitle: string; image: { src: string; alt: string } }
+  news: { title: string; intro: string; cta: string }
+  dialog: { title: string; text: string; nameLabel: string; phoneLabel: string; submit: string; consent: string }
 }
 
 const { data: home } = await useAsyncData('home', async () => {
@@ -23,12 +29,12 @@ useSeoMeta({
 
 <template>
   <main v-if="home">
-    <SectionHomeHero :title="home.hero.title" :image="home.hero.image" />
-    <SectionHomeAbout v-bind="home.about" />
-    <SectionHomeServices v-bind="home.services" />
-    <MaterialCategories />
-    <SectionHomeAdvantages v-bind="home.advantages" />
-    <SectionHomeGallery :images="home.gallery.images" />
-    <SectionPriceTable />
+    <HomeHero v-bind="home.hero" />
+    <HomeInfra v-bind="home.infra" />
+    <HomeProducts v-bind="home.products" />
+    <HomeTrust v-bind="home.trust" />
+    <HomeSupply v-bind="home.supply" />
+    <HomeNews :intro="home.news.intro" :cta="home.news.cta" />
+    <HomeDialog v-bind="home.dialog" />
   </main>
 </template>
