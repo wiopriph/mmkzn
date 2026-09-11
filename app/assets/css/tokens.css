@@ -1,35 +1,75 @@
-/* app/assets/css/tokens.css — ГЕНЕРИРУЕТСЯ, не редактировать.
-   Значения — заглушки до токенов из Figma (Этап 2). */
+/* app/assets/css/tokens.css — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts
+   из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ. */
 @theme {
-  --*: initial;                /* стираем дефолтную тему целиком */
+  --*: initial;                /* дефолтной темы Tailwind не существует */
 
-  --spacing: 4px;              /* p-1 = 4px, p-4 = 16px, gap-8 = 32px */
+  --spacing: 4px;
 
-  --breakpoint-sm: 40rem;      /* после --*: initial объявляем заново */
+  --breakpoint-sm: 40rem;
   --breakpoint-md: 48rem;
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
 
-  --color-ink:        oklch(0.22 0.01 250);
-  --color-ink-muted:  oklch(0.52 0.01 250);
-  --color-paper:      oklch(0.99 0 0);
-  --color-stone:      oklch(0.94 0.005 250);
-  --color-brand:      oklch(0.58 0.16 245);
-  --color-brand-dark: oklch(0.48 0.16 245);
-  --color-accent:     oklch(0.72 0.17 62);
+  --color-ink: #363636;
+  --color-ink-strong: #2b2a29;
+  --color-ink-muted: #8a8a8a;
+  --color-line: #b0b0b0;
+  --color-paper: #ffffff;
+  --color-stone: #ebe9ea;
+  --color-brand: #212782;
+  --color-brand-deep: #092289;
+  --color-brand-mid: #202576;
+  --color-accent: #ff4027;
+  --color-accent-deep: #ca493e;
+  --color-accent-mid: #eb5137;
+  --color-logo-red: #ff0000;
 
-  --font-sans: "Onest", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
 
-  --text-h1: 3rem;
-  --text-h1--line-height: 1.05;
-  --text-h1--letter-spacing: -0.02em;
-  --text-h2: 2rem;
-  --text-h2--line-height: 1.15;
-  --text-body: 1rem;
-  --text-body--line-height: 1.6;
-  --text-caption: 0.8125rem;
+  --text-display: 6rem;
+  --text-display--line-height: 1;
+  --text-display--font-weight: 500;
+  --text-h1: 4.5rem;
+  --text-h1--line-height: 1.06;
+  --text-h1--font-weight: 500;
+  --text-h2: 4rem;
+  --text-h2--line-height: 1;
+  --text-h2--font-weight: 500;
+  --text-h3: 2.25rem;
+  --text-h3--line-height: 1.06;
+  --text-h3--font-weight: 500;
+  --text-card: 1.5rem;
+  --text-card--line-height: 1.2;
+  --text-card--font-weight: 500;
+  --text-lead: 1.5rem;
+  --text-lead--line-height: 1.31;
+  --text-lead--font-weight: 400;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.4;
+  --text-body--font-weight: 400;
+  --text-body-sm: 1rem;
+  --text-body-sm--line-height: 1.6;
+  --text-body-sm--font-weight: 400;
+  --text-button: 0.875rem;
+  --text-button--line-height: 1;
+  --text-button--font-weight: 400;
+  --text-button--letter-spacing: 0.02em;
+  --text-caption: 0.875rem;
+  --text-caption--line-height: 1.4;
+  --text-caption--font-weight: 400;
+  --text-small: 0.75rem;
+  --text-small--line-height: 1.4;
+  --text-small--font-weight: 400;
 
-  --radius-card: 12px;
+  --radius-card: 16px;
   --radius-pill: 999px;
-  --shadow-card: 0 1px 2px oklch(0 0 0 / 0.06), 0 8px 24px oklch(0 0 0 / 0.06);
+}
+
+/* градиенты и контейнер — обычные переменные, вне шкалы @theme */
+:root {
+  --gradient-section: linear-gradient(160deg, #202576 0%, #092289 100%);
+  --gradient-button: linear-gradient(180deg, #eb5137 0%, #ca493e 100%);
+  --container-max: 80rem;
+  --container-pad: 1.5rem;
+  --container-pad-md: 2.5rem;
 }

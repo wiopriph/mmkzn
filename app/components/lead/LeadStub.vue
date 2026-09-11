@@ -10,15 +10,15 @@ const { data: contacts } = useContacts()
       <div class="flex flex-wrap items-center justify-center gap-4">
         <a
           :href="`tel:${contacts.phone.tel}`"
-          class="rounded-pill bg-paper px-8 py-3 font-semibold text-brand-dark shadow-card hocus:bg-stone"
+          class="rounded-pill bg-paper px-8 py-3 font-semibold text-brand-deep hocus:bg-stone"
         >{{ contacts.phone.display }}</a>
         <a
           :href="contacts.whatsapp" target="_blank" rel="noopener"
-          class="rounded-pill border border-paper px-8 py-3 font-semibold text-paper hocus:bg-brand-dark"
+          class="rounded-pill border border-paper px-8 py-3 font-semibold text-paper hocus:bg-brand-deep"
         >WhatsApp</a>
         <a
           :href="contacts.telegram" target="_blank" rel="noopener"
-          class="rounded-pill border border-paper px-8 py-3 font-semibold text-paper hocus:bg-brand-dark"
+          class="rounded-pill border border-paper px-8 py-3 font-semibold text-paper hocus:bg-brand-deep"
         >Telegram</a>
       </div>
       <p class="text-caption text-paper/80">

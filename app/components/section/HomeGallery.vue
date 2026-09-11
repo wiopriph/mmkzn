@@ -10,7 +10,7 @@ defineProps<{ images: { src: string; alt: string }[] }>()
         v-for="img in images" :key="img.src"
         :src="img.src" :alt="img.alt" v-bind="dimsOf(img.src)"
         sizes="50vw md:25vw" loading="lazy"
-        class="aspect-[3/4] w-full rounded-card object-cover shadow-card"
+        class="aspect-[3/4] w-full rounded-card object-cover"
       />
     </div>
   </section>

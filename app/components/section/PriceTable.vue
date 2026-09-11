@@ -29,7 +29,7 @@ const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== nu
       </table>
     </div>
     <p class="mt-8 text-center">
-      <a href="#form" class="inline-block rounded-pill bg-accent px-10 py-3 font-semibold text-ink shadow-card hocus:opacity-90">Заказать!</a>
+      <a href="#form" class="inline-block rounded-pill bg-accent px-10 py-3 font-semibold text-ink hocus:opacity-90">Заказать!</a>
     </p>
   </section>
 </template>

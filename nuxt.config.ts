@@ -23,13 +23,15 @@ export default defineNuxtConfig({
     url: 'https://mirumirkzn.ru',
     name: 'МируМир',
     defaultLocale: 'ru',
+    // старые URL живут со слешем на конце — вариант зафиксирован до Этапа 4
+    trailingSlash: true,
   },
 
   nitro: {
     preset: 'node-server',
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/sitemap.xml', '/robots.txt'],
+      routes: ['/', '/sitemap.xml', '/robots.txt', '/_kitchen-sink'],
       failOnError: true,
     },
     compressPublicAssets: { brotli: true, gzip: true },
@@ -38,5 +40,6 @@ export default defineNuxtConfig({
   routeRules: {
     '/**': { prerender: true },
     '/api/**': { prerender: false, robots: false },
+    '/_kitchen-sink': { robots: false, sitemap: false },
   },
 })

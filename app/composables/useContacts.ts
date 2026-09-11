@@ -7,6 +7,8 @@ export interface Contacts {
   whatsapp: string
   telegram: string
   formNote: string
+  /** ИНН/ОГРН одной строкой; из макета, подтвердить у клиента */
+  requisites?: string
 }
 
 export function useContacts() {

@@ -30,7 +30,7 @@ useSeoMeta({
           v-if="material.images[0]"
           :src="material.images[0].src" :alt="material.images[0].alt"
           v-bind="dimsOf(material.images[0].src)"
-          sizes="100vw lg:400px" class="w-full rounded-card shadow-card"
+          sizes="100vw lg:400px" class="w-full rounded-card"
         />
       </div>
 

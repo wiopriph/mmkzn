@@ -21,7 +21,7 @@ const groups = computed(() => {
       <h2 class="text-h2 mb-2 text-center">Наша продукция</h2>
       <p class="mb-10 text-center text-ink-muted">Нерудные строительные материалы от ООО "МИРУМИР"</p>
       <div class="grid gap-6 sm:grid-cols-2">
-        <div v-for="g in groups" :key="g.title" class="rounded-card bg-paper p-6 shadow-card">
+        <div v-for="g in groups" :key="g.title" class="rounded-card bg-paper p-6">
           <h3 class="text-h2 mb-4">{{ g.title }}</h3>
           <ul class="flex flex-col gap-2">
             <li v-for="m in g.items" :key="m.legacyPath">
