@@ -8,23 +8,101 @@ defineProps<{
 </script>
 
 <template>
-  <section class="relative min-h-[43.75rem] overflow-hidden text-paper">
-    <NuxtImg
+  <section class="hero">
+    <NuxtImg format="webp"
       :src="image.src" :alt="image.alt" width="2560" height="1398"
-      sizes="100vw xl:1440px" fetchpriority="high" preload
-      class="absolute inset-0 size-full object-cover"
+      sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" fetchpriority="high" preload
+      class="bg"
     />
-    <div aria-hidden="true" class="absolute inset-0 bg-ink-strong/20" />
-    <div aria-hidden="true" class="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-ink-strong/70 to-transparent" />
+    <div aria-hidden="true" class="tint" />
+    <div aria-hidden="true" class="shade" />
 
-    <div class="container-page relative flex min-h-[43.75rem] flex-col justify-end pb-14 pt-32">
-      <h1 class="max-w-4xl text-h1 md:text-display">
+    <div class="container inner">
+      <h1 class="title">
         {{ title }}
-        <span class="mt-4 block text-body md:text-lead">{{ subtitle }}</span>
+        <span class="subtitle">{{ subtitle }}</span>
       </h1>
-      <div class="mt-10 flex items-center gap-4 md:absolute md:bottom-14 md:right-10 md:mt-0">
+      <div class="cta">
         <UiButton variant="glass" size="lg" to="/#products">{{ cta }}</UiButton>
       </div>
     </div>
   </section>
 </template>
+
+<style scoped lang="scss">
+.hero {
+  position: relative;
+  min-height: 43.75rem;
+  overflow: hidden;
+  color: var(--color-paper);
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tint {
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-ink-strong) 20%, transparent);
+}
+
+.shade {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 66%;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--color-ink-strong) 70%, transparent),
+    transparent
+  );
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 43.75rem;
+  padding-top: calc(var(--spacing) * 32);
+  padding-bottom: calc(var(--spacing) * 14);
+}
+
+.title {
+  max-width: 56rem;
+  @include text-h1;
+
+  @include from-md {
+    @include text-display;
+  }
+}
+
+.subtitle {
+  display: block;
+  margin-top: calc(var(--spacing) * 4);
+  @include text-body;
+
+  @include from-md {
+    @include text-lead;
+  }
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 4);
+  margin-top: calc(var(--spacing) * 10);
+
+  @include from-md {
+    position: absolute;
+    right: var(--container-pad-md);
+    bottom: calc(var(--spacing) * 14);
+    margin-top: 0;
+  }
+}
+</style>

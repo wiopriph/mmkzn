@@ -1,13 +1,14 @@
 /**
- * design-tokens.ts — генерирует app/assets/css/tokens.css из data/design/tokens.json.
+ * design-tokens.ts — генерирует стилевые артефакты из data/design/tokens.json:
  *
- *   pnpm exec tsx scripts/design-tokens.ts
+ *   app/assets/scss/variables.scss — CSS custom properties (:root)
+ *   app/assets/scss/_mixins.scss   — SCSS-миксины брейкпоинтов и текстовых стилей
+ *
+ *   pnpm tokens
  *
  * data/design/tokens.json — единственный источник правды по дизайн-токенам,
  * снятый с макета Figma «NY 90 / Нерудные материалы МируМир».
- * tokens.css руками не правится (см. PROMPT.md, раздел 4.3).
- * Когда у команды появится Figma Enterprise (Variables API) — этот скрипт
- * заменяется выгрузкой напрямую из Figma, формат tokens.css не меняется.
+ * Сгенерированные файлы руками не правятся (см. PROMPT.md, раздел 4.3).
  */
 
 import { readFile, writeFile } from 'node:fs/promises'
@@ -35,36 +36,62 @@ interface Tokens {
 const root = process.cwd()
 const t: Tokens = JSON.parse(await readFile(join(root, 'data/design/tokens.json'), 'utf8'))
 
-const lines: string[] = []
-lines.push('/* app/assets/css/tokens.css — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts')
-lines.push('   из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ. */')
-lines.push('@theme {')
-lines.push('  --*: initial;                /* дефолтной темы Tailwind не существует */')
-lines.push('')
-lines.push(`  --spacing: ${t.spacing};`)
-lines.push('')
-for (const [k, v] of Object.entries(t.breakpoints)) lines.push(`  --breakpoint-${k}: ${v};`)
-lines.push('')
-for (const [k, v] of Object.entries(t.colors)) lines.push(`  --color-${k}: ${v};`)
-lines.push('')
-for (const [k, v] of Object.entries(t.font)) lines.push(`  --font-${k}: ${v};`)
-lines.push('')
-for (const [k, v] of Object.entries(t.text)) {
-  lines.push(`  --text-${k}: ${v.size};`)
-  lines.push(`  --text-${k}--line-height: ${v.lineHeight};`)
-  lines.push(`  --text-${k}--font-weight: ${v.weight};`)
-  if (v.letterSpacing) lines.push(`  --text-${k}--letter-spacing: ${v.letterSpacing};`)
-}
-lines.push('')
-for (const [k, v] of Object.entries(t.radius)) lines.push(`  --radius-${k}: ${v};`)
-lines.push('}')
-lines.push('')
-lines.push('/* градиенты и контейнер — обычные переменные, вне шкалы @theme */')
-lines.push(':root {')
-for (const [k, v] of Object.entries(t.gradients)) lines.push(`  --gradient-${k}: ${v};`)
-for (const [k, v] of Object.entries(t.container)) lines.push(`  --container-${k}: ${v};`)
-lines.push('}')
-lines.push('')
+const HEADER = (what: string) =>
+  `// ${what} — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts\n// из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ.\n`
 
-await writeFile(join(root, 'app/assets/css/tokens.css'), lines.join('\n'))
-console.log('✓ app/assets/css/tokens.css сгенерирован из data/design/tokens.json')
+// ------------------------------------------------------------ variables.scss
+
+const v: string[] = [HEADER('variables.scss')]
+v.push(':root {')
+for (const [k, val] of Object.entries(t.colors)) v.push(`  --color-${k}: ${val};`)
+v.push('')
+for (const [k, val] of Object.entries(t.gradients)) v.push(`  --gradient-${k}: ${val};`)
+v.push('')
+for (const [k, val] of Object.entries(t.font)) v.push(`  --font-${k}: ${val};`)
+v.push('')
+for (const [k, val] of Object.entries(t.text)) {
+  v.push(`  --text-${k}: ${val.size};`)
+  v.push(`  --text-${k}--line-height: ${val.lineHeight};`)
+  v.push(`  --text-${k}--font-weight: ${val.weight};`)
+  if (val.letterSpacing) v.push(`  --text-${k}--letter-spacing: ${val.letterSpacing};`)
+}
+v.push('')
+for (const [k, val] of Object.entries(t.radius)) v.push(`  --radius-${k}: ${val};`)
+for (const [k, val] of Object.entries(t.container)) v.push(`  --container-${k}: ${val};`)
+v.push(`  --spacing: ${t.spacing};`)
+v.push('}')
+v.push('')
+
+await writeFile(join(root, 'app/assets/scss/variables.scss'), v.join('\n'))
+
+// -------------------------------------------------------------- _mixins.scss
+
+const m: string[] = [HEADER('_mixins.scss')]
+m.push('// Брейкпоинты (мобайл-ферст): @include from-md { ... } — от 48rem и шире.')
+m.push('// Зеркальные ограничители: @include below-md { ... } — уже 48rem.')
+for (const [k, val] of Object.entries(t.breakpoints)) {
+  m.push('')
+  m.push(`@mixin from-${k} {`)
+  m.push(`  @media (min-width: ${val}) { @content; }`)
+  m.push('}')
+  m.push(`@mixin below-${k} {`)
+  m.push(`  @media (max-width: calc(${val} - 1px)) { @content; }`)
+  m.push('}')
+}
+m.push('')
+m.push('// Текстовые стили макета: @include text-h1; и т.д.')
+for (const [k, val] of Object.entries(t.text)) {
+  m.push('')
+  m.push(`@mixin text-${k} {`)
+  m.push(`  font-size: var(--text-${k});`)
+  m.push(`  line-height: var(--text-${k}--line-height);`)
+  m.push(`  font-weight: var(--text-${k}--font-weight);`)
+  if (val.letterSpacing) m.push(`  letter-spacing: var(--text-${k}--letter-spacing);`)
+  if (val.transform) m.push(`  text-transform: ${val.transform};`)
+  m.push('}')
+}
+m.push('')
+
+await writeFile(join(root, 'app/assets/scss/_mixins.scss'), m.join('\n'))
+
+console.log('✓ app/assets/scss/variables.scss и _mixins.scss сгенерированы из data/design/tokens.json')

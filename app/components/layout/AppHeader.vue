@@ -1,4 +1,5 @@
 <script setup lang="ts">
+// Шапка копийных страниц (до их редизайна на Этапах 4-5).
 const { data: contacts } = useContacts()
 const menuOpen = ref(false)
 
@@ -13,43 +14,148 @@ const menu = [
 </script>
 
 <template>
-  <header class="bg-paper sticky top-0 z-50">
-    <div class="container-page flex items-center justify-between gap-6 py-3">
-      <NuxtLink to="/" aria-label="МируМир — на главную" class="shrink-0">
-        <img src="/legacy/media/mirymir_logo_2.svg" alt="МируМир" width="82" height="54" class="h-14 w-auto">
+  <header class="header">
+    <div class="container bar">
+      <NuxtLink to="/" aria-label="МируМир — на главную" class="logo-link">
+        <img src="/legacy/media/mirymir_logo_2.svg" alt="МируМир" width="82" height="54" class="logo">
       </NuxtLink>
 
-      <nav aria-label="Основное меню" class="hidden lg:flex items-center gap-6">
-        <NuxtLink
-          v-for="item in menu" :key="item.to" :to="item.to"
-          class="text-caption font-medium uppercase tracking-wide text-ink hocus:text-brand"
-        >{{ item.label }}</NuxtLink>
-        <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="text-caption font-semibold text-brand hocus:text-brand-deep">
+      <nav aria-label="Основное меню" class="menu">
+        <NuxtLink v-for="item in menu" :key="item.to" :to="item.to" class="menu-link">
+          {{ item.label }}
+        </NuxtLink>
+        <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="phone">
           {{ contacts.phone.display }}
         </a>
       </nav>
 
       <button
-        type="button" class="lg:hidden p-2 text-ink" :aria-expanded="menuOpen"
+        type="button" class="burger" :aria-expanded="menuOpen"
         aria-label="Открыть меню" @click="menuOpen = !menuOpen"
       >
-        <span aria-hidden="true" class="block w-6 border-t-2 border-ink" />
-        <span aria-hidden="true" class="mt-1.5 block w-6 border-t-2 border-ink" />
-        <span aria-hidden="true" class="mt-1.5 block w-6 border-t-2 border-ink" />
+        <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
       </button>
     </div>
 
-    <nav v-if="menuOpen" aria-label="Мобильное меню" class="lg:hidden border-t border-stone bg-paper">
-      <div class="container-page flex flex-col py-2">
+    <nav v-if="menuOpen" aria-label="Мобильное меню" class="mobile-menu">
+      <div class="container mobile-list">
         <NuxtLink
           v-for="item in menu" :key="item.to" :to="item.to"
-          class="py-3 text-body font-medium text-ink hocus:text-brand"
-          @click="menuOpen = false"
+          class="mobile-link" @click="menuOpen = false"
         >{{ item.label }}</NuxtLink>
-        <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="py-3 font-semibold text-brand">
+        <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="mobile-link mobile-phone">
           {{ contacts.phone.display }}
         </a>
       </div>
     </nav>
   </header>
 </template>
+
+<style scoped lang="scss">
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--color-paper);
+  border-bottom: 1px solid var(--color-stone);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--spacing) * 6);
+  padding-block: calc(var(--spacing) * 3);
+}
+
+.logo-link {
+  flex-shrink: 0;
+}
+
+.logo {
+  height: calc(var(--spacing) * 14);
+  width: auto;
+}
+
+.menu {
+  display: none;
+
+  @include from-lg {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--spacing) * 6);
+  }
+}
+
+.menu-link {
+  @include text-caption;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-brand);
+  }
+}
+
+.phone {
+  @include text-caption;
+  font-weight: 600;
+  color: var(--color-brand);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-brand-deep);
+  }
+}
+
+.burger {
+  padding: calc(var(--spacing) * 2);
+
+  span {
+    display: block;
+    width: calc(var(--spacing) * 6);
+    border-top: 2px solid var(--color-ink);
+
+    + span {
+      margin-top: calc(var(--spacing) * 1.5);
+    }
+  }
+
+  @include from-lg {
+    display: none;
+  }
+}
+
+.mobile-menu {
+  border-top: 1px solid var(--color-stone);
+  background: var(--color-paper);
+
+  @include from-lg {
+    display: none;
+  }
+}
+
+.mobile-list {
+  display: flex;
+  flex-direction: column;
+  padding-block: calc(var(--spacing) * 2);
+}
+
+.mobile-link {
+  padding-block: calc(var(--spacing) * 3);
+  @include text-body;
+  font-weight: 500;
+
+  &:hover,
+  &:focus-visible {
+    color: var(--color-brand);
+  }
+}
+
+.mobile-phone {
+  font-weight: 600;
+  color: var(--color-brand);
+}
+</style>

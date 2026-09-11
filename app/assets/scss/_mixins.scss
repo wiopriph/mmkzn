@@ -1,0 +1,103 @@
+// _mixins.scss — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts
+// из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ.
+
+// Брейкпоинты (мобайл-ферст): @include from-md { ... } — от 48rem и шире.
+// Зеркальные ограничители: @include below-md { ... } — уже 48rem.
+
+@mixin from-sm {
+  @media (min-width: 40rem) { @content; }
+}
+@mixin below-sm {
+  @media (max-width: calc(40rem - 1px)) { @content; }
+}
+
+@mixin from-md {
+  @media (min-width: 48rem) { @content; }
+}
+@mixin below-md {
+  @media (max-width: calc(48rem - 1px)) { @content; }
+}
+
+@mixin from-lg {
+  @media (min-width: 64rem) { @content; }
+}
+@mixin below-lg {
+  @media (max-width: calc(64rem - 1px)) { @content; }
+}
+
+@mixin from-xl {
+  @media (min-width: 80rem) { @content; }
+}
+@mixin below-xl {
+  @media (max-width: calc(80rem - 1px)) { @content; }
+}
+
+// Текстовые стили макета: @include text-h1; и т.д.
+
+@mixin text-display {
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  font-weight: var(--text-display--font-weight);
+}
+
+@mixin text-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  font-weight: var(--text-h1--font-weight);
+}
+
+@mixin text-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  font-weight: var(--text-h2--font-weight);
+}
+
+@mixin text-h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: var(--text-h3--font-weight);
+}
+
+@mixin text-card {
+  font-size: var(--text-card);
+  line-height: var(--text-card--line-height);
+  font-weight: var(--text-card--font-weight);
+}
+
+@mixin text-lead {
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  font-weight: var(--text-lead--font-weight);
+}
+
+@mixin text-body {
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-weight: var(--text-body--font-weight);
+}
+
+@mixin text-body-sm {
+  font-size: var(--text-body-sm);
+  line-height: var(--text-body-sm--line-height);
+  font-weight: var(--text-body-sm--font-weight);
+}
+
+@mixin text-button {
+  font-size: var(--text-button);
+  line-height: var(--text-button--line-height);
+  font-weight: var(--text-button--font-weight);
+  letter-spacing: var(--text-button--letter-spacing);
+  text-transform: uppercase;
+}
+
+@mixin text-caption {
+  font-size: var(--text-caption);
+  line-height: var(--text-caption--line-height);
+  font-weight: var(--text-caption--font-weight);
+}
+
+@mixin text-small {
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+  font-weight: var(--text-small--font-weight);
+}

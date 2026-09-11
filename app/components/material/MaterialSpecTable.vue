@@ -9,33 +9,99 @@ const hasGost = computed(() => props.specs.some(r => r.gost !== undefined))
 <template>
   <div v-if="specs.length">
     <!-- десктоп: полноценная таблица -->
-    <table class="hidden w-full border-collapse md:table">
-      <caption class="sr-only">Характеристики материала</caption>
+    <table class="table">
+      <caption class="visually-hidden">Характеристики материала</caption>
       <thead>
-        <tr class="border-b-2 border-stone text-left">
-          <th scope="col" class="py-3 pr-4 font-semibold">Характеристики</th>
-          <th v-if="hasGost" scope="col" class="py-3 pr-4 font-semibold">{{ gostRef ?? 'Норма' }}</th>
-          <th scope="col" class="py-3 font-semibold">По факту</th>
+        <tr>
+          <th scope="col">Характеристики</th>
+          <th v-if="hasGost" scope="col">{{ gostRef ?? 'Норма' }}</th>
+          <th scope="col">По факту</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in specs" :key="row.param" class="border-b border-stone even:bg-stone/50">
-          <td class="py-2.5 pr-4">{{ row.param }}</td>
-          <td v-if="hasGost" class="py-2.5 pr-4 text-ink-muted">{{ row.gost ?? '—' }}</td>
-          <td class="py-2.5 font-medium">{{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}</td>
+        <tr v-for="row in specs" :key="row.param">
+          <td>{{ row.param }}</td>
+          <td v-if="hasGost" class="gost">{{ row.gost ?? '—' }}</td>
+          <td class="actual">{{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}</td>
         </tr>
       </tbody>
     </table>
 
     <!-- мобильный: список «параметр → значение» -->
-    <dl class="md:hidden">
-      <div v-for="row in specs" :key="row.param" class="border-b border-stone py-3">
-        <dt class="text-caption text-ink-muted">{{ row.param }}</dt>
-        <dd class="mt-1 font-medium">
+    <dl class="list">
+      <div v-for="row in specs" :key="row.param" class="row">
+        <dt class="param">{{ row.param }}</dt>
+        <dd class="value">
           {{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}
-          <span v-if="hasGost && row.gost" class="ml-2 text-caption text-ink-muted">({{ gostRef ?? 'норма' }}: {{ row.gost }})</span>
+          <span v-if="hasGost && row.gost" class="norm">({{ gostRef ?? 'норма' }}: {{ row.gost }})</span>
         </dd>
       </div>
     </dl>
   </div>
 </template>
+
+<style scoped lang="scss">
+.table {
+  display: none;
+
+  @include from-md {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th {
+    padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4) calc(var(--spacing) * 3) 0;
+    border-bottom: 2px solid var(--color-stone);
+    font-weight: 600;
+    text-align: left;
+  }
+
+  td {
+    padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 4) calc(var(--spacing) * 2.5) 0;
+    border-bottom: 1px solid var(--color-stone);
+  }
+
+  tbody tr:nth-child(even) {
+    background: color-mix(in srgb, var(--color-stone) 50%, transparent);
+  }
+}
+
+.gost {
+  color: var(--color-ink-muted);
+}
+
+.actual {
+  font-weight: 500;
+}
+
+.list {
+  margin: 0;
+
+  @include from-md {
+    display: none;
+  }
+}
+
+.row {
+  padding-block: calc(var(--spacing) * 3);
+  border-bottom: 1px solid var(--color-stone);
+}
+
+.param {
+  color: var(--color-ink-muted);
+  @include text-caption;
+}
+
+.value {
+  margin: calc(var(--spacing)) 0 0;
+  font-weight: 500;
+}
+
+.norm {
+  margin-left: calc(var(--spacing) * 2);
+  color: var(--color-ink-muted);
+  @include text-caption;
+  font-weight: 400;
+}
+</style>

@@ -4,11 +4,23 @@
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col">
+  <div class="shell">
     <LayoutSiteHeader :theme="($route.meta.headerTheme as 'overlay' | 'solid') ?? 'overlay'" />
-    <div class="flex-1">
+    <div class="page">
       <slot />
     </div>
     <LayoutSiteFooter />
   </div>
 </template>
+
+<style scoped lang="scss">
+.shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page {
+  flex: 1;
+}
+</style>

@@ -12,10 +12,30 @@ useSeoMeta({
 </script>
 
 <template>
-  <main v-if="page" class="container-page py-10">
-    <h1 class="text-h1 mb-8">{{ page.title }}</h1>
-    <div class="prose max-w-3xl">
+  <main v-if="page" class="container page">
+    <h1 class="title">{{ page.title }}</h1>
+    <div class="content body">
       <ContentRenderer :value="page" />
     </div>
   </main>
 </template>
+
+<style scoped lang="scss">
+.page {
+  padding-block: calc(var(--spacing) * 10);
+}
+
+.title {
+  margin-bottom: calc(var(--spacing) * 8);
+  @include text-h3;
+  overflow-wrap: anywhere;
+
+  @include from-md {
+    @include text-h1;
+  }
+}
+
+.body {
+  max-width: 48rem;
+}
+</style>

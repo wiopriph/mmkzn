@@ -12,10 +12,25 @@ useSeoMeta({
 
 <template>
   <main v-if="page">
-    <div class="container-page py-10">
-      <h1 class="text-h1">{{ page.title }}</h1>
+    <div class="container head">
+      <h1 class="title">{{ page.title }}</h1>
     </div>
     <MaterialCategories />
     <SectionPriceTable />
   </main>
 </template>
+
+<style scoped lang="scss">
+.head {
+  padding-block: calc(var(--spacing) * 10);
+}
+
+.title {
+  @include text-h3;
+  overflow-wrap: anywhere;
+
+  @include from-md {
+    @include text-h1;
+  }
+}
+</style>

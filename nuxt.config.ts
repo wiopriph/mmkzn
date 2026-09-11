@@ -1,5 +1,3 @@
-import tailwindcss from '@tailwindcss/vite'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2026-08-01',
@@ -13,8 +11,17 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
   ],
 
-  css: ['~/assets/css/main.css'],
-  vite: { plugins: [tailwindcss()] },
+  css: ['~/assets/scss/index.scss'],
+  vite: {
+    css: {
+      preprocessorOptions: {
+        scss: {
+          // миксины брейкпоинтов и текстовых стилей доступны в каждом <style lang="scss">
+          additionalData: '@use "~/assets/scss/mixins" as *;',
+        },
+      },
+    },
+  },
 
   // OG-картинки — Этап 8 (SEO-финиш); рендерер takumi не ставим до тех пор
   ogImage: { enabled: false },

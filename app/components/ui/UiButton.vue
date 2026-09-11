@@ -13,21 +13,79 @@ const props = withDefaults(defineProps<{
 }>(), { variant: 'outline-dark', size: 'md', type: 'button' })
 
 const tag = computed(() => props.to ? resolveComponent('NuxtLink') : props.href ? 'a' : 'button')
-
-const classes = computed(() => [
-  'inline-flex items-center justify-center rounded-pill text-button uppercase tracking-wide transition-colors duration-200 cursor-pointer select-none',
-  props.size === 'lg' ? 'h-16 px-10' : 'h-14 px-8',
-  {
-    'outline-dark': 'border border-line text-ink hocus:border-ink hocus:text-ink-strong',
-    'outline-light': 'border border-paper/60 text-paper hocus:border-paper hocus:bg-paper/10',
-    'gradient': 'bg-button-gradient text-paper hocus:brightness-110',
-    'glass': 'bg-ink-strong/50 text-paper backdrop-blur-sm hocus:bg-ink-strong/70',
-  }[props.variant],
-])
 </script>
 
 <template>
-  <component :is="tag" :to="to" :href="href" :type="to || href ? undefined : type" :class="classes">
+  <component
+    :is="tag" :to="to" :href="href" :type="to || href ? undefined : type"
+    class="button" :class="[variant, size]"
+  >
     <slot />
   </component>
 </template>
+
+<style scoped lang="scss">
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  @include text-button;
+  transition: all 0.2s;
+  cursor: pointer;
+  user-select: none;
+
+  &.md {
+    height: calc(var(--spacing) * 14);
+    padding-inline: calc(var(--spacing) * 8);
+  }
+
+  &.lg {
+    height: calc(var(--spacing) * 16);
+    padding-inline: calc(var(--spacing) * 10);
+  }
+
+  &.outline-dark {
+    border: 1px solid var(--color-line);
+    color: var(--color-ink);
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-ink);
+      color: var(--color-ink-strong);
+    }
+  }
+
+  &.outline-light {
+    border: 1px solid color-mix(in srgb, var(--color-paper) 60%, transparent);
+    color: var(--color-paper);
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-paper);
+      background: color-mix(in srgb, var(--color-paper) 10%, transparent);
+    }
+  }
+
+  &.gradient {
+    background-image: var(--gradient-button);
+    color: var(--color-paper);
+
+    &:hover,
+    &:focus-visible {
+      filter: brightness(1.1);
+    }
+  }
+
+  &.glass {
+    background: color-mix(in srgb, var(--color-ink-strong) 50%, transparent);
+    color: var(--color-paper);
+    backdrop-filter: blur(4px);
+
+    &:hover,
+    &:focus-visible {
+      background: color-mix(in srgb, var(--color-ink-strong) 70%, transparent);
+    }
+  }
+}
+</style>

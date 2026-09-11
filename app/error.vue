@@ -5,11 +5,44 @@ defineProps<{ error: NuxtError }>()
 </script>
 
 <template>
-  <div class="flex min-h-screen flex-col items-center justify-center gap-6 bg-paper p-8 text-center">
-    <h1 class="text-h1">{{ error.statusCode === 404 ? 'Страница не найдена' : 'Что-то пошло не так' }}</h1>
-    <p class="text-ink-muted">{{ error.statusCode }}</p>
-    <NuxtLink to="/" class="rounded-pill bg-brand px-8 py-3 font-semibold text-paper hocus:bg-brand-deep">
-      На главную
-    </NuxtLink>
+  <div class="error">
+    <h1 class="title">{{ error.statusCode === 404 ? 'Страница не найдена' : 'Что-то пошло не так' }}</h1>
+    <p class="code">{{ error.statusCode }}</p>
+    <NuxtLink to="/" class="home">На главную</NuxtLink>
   </div>
 </template>
+
+<style scoped lang="scss">
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: calc(var(--spacing) * 6);
+  min-height: 100vh;
+  padding: calc(var(--spacing) * 8);
+  background: var(--color-paper);
+  text-align: center;
+}
+
+.title {
+  @include text-h1;
+}
+
+.code {
+  color: var(--color-ink-muted);
+}
+
+.home {
+  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 8);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: var(--color-paper);
+  font-weight: 600;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-brand-deep);
+  }
+}
+</style>

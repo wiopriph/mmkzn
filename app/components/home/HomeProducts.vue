@@ -23,42 +23,146 @@ const cards = computed(() =>
 
 <template>
   <section id="products">
-    <div class="bg-section-gradient relative overflow-hidden text-paper">
-      <img
-        src="/design/pattern-dialog.svg" alt="" aria-hidden="true"
-        class="absolute -right-16 top-1/2 h-[150%] -translate-y-1/2 opacity-90"
-      >
-      <div class="container-page relative py-16 md:py-20">
-        <h2 class="text-h2 md:text-display">{{ title }}</h2>
-        <p class="mt-6 max-w-md text-body-sm">{{ intro }}</p>
+    <div class="banner">
+      <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern">
+      <div class="container banner-inner">
+        <h2 class="banner-title">{{ title }}</h2>
+        <p class="banner-intro">{{ intro }}</p>
       </div>
     </div>
 
-    <div class="container-page py-14">
-      <ul class="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4">
+    <div class="container catalog">
+      <ul class="cards">
         <li v-for="c in cards" :key="c.legacyPath">
-          <NuxtLink :to="c.legacyPath" class="group block">
-            <div class="aspect-[3/4.2] overflow-hidden bg-stone">
-              <NuxtImg
+          <NuxtLink :to="c.legacyPath" class="card">
+            <div class="photo-box">
+              <NuxtImg format="webp"
                 v-if="c.photo" :src="c.photo" :alt="c.title" width="640" height="900"
-                sizes="50vw lg:320px" loading="lazy"
-                class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+                sizes="50vw lg:320px" loading="lazy" class="photo"
               />
             </div>
-            <p class="mt-5 flex items-center justify-between gap-2 text-card uppercase">
+            <p class="name">
               {{ c.shortTitle }}
-              <svg width="27" height="21" viewBox="0 0 27 21" fill="none" aria-hidden="true" class="shrink-0 text-ink-muted transition-transform duration-200 group-hover:translate-x-1">
-                <path d="M16.5 1.5L25.5 10.5L16.5 19.5M25.5 10.5H0.5" stroke="currentColor" stroke-width="1.5" />
-              </svg>
+              <IconArrow class="arrow" />
             </p>
-            <p class="mt-2 text-body-sm text-ink-muted">{{ c.cashless }} руб. / {{ c.unit }}.</p>
+            <p class="price">{{ c.cashless }} руб. / {{ c.unit }}.</p>
           </NuxtLink>
         </li>
       </ul>
 
-      <p class="mt-12 text-center">
+      <p class="more">
         <UiButton variant="outline-dark" to="/nasha-produkcziya/">{{ cta }}</UiButton>
       </p>
     </div>
   </section>
 </template>
+
+<style scoped lang="scss">
+.banner {
+  position: relative;
+  overflow: hidden;
+  background-image: var(--gradient-section);
+  color: var(--color-paper);
+}
+
+.pattern {
+  position: absolute;
+  right: calc(var(--spacing) * -16);
+  top: 50%;
+  height: 150%;
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+
+.banner-inner {
+  position: relative;
+  padding-block: calc(var(--spacing) * 16);
+
+  @include from-md {
+    padding-block: calc(var(--spacing) * 20);
+  }
+}
+
+.banner-title {
+  @include text-h2;
+
+  @include from-md {
+    @include text-display;
+  }
+}
+
+.banner-intro {
+  max-width: 28rem;
+  margin-top: calc(var(--spacing) * 6);
+  @include text-body-sm;
+}
+
+.catalog {
+  padding-block: calc(var(--spacing) * 14);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: calc(var(--spacing) * 10) calc(var(--spacing) * 4);
+
+  @include from-lg {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.card {
+  display: block;
+
+  &:hover,
+  &:focus-visible {
+    .photo {
+      transform: scale(1.05);
+    }
+
+    .arrow {
+      transform: translateX(calc(var(--spacing)));
+    }
+  }
+}
+
+.photo-box {
+  aspect-ratio: 3 / 4.2;
+  overflow: hidden;
+  background: var(--color-stone);
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: calc(var(--spacing) * 2);
+  margin-top: calc(var(--spacing) * 5);
+  @include text-card;
+  text-transform: uppercase;
+
+  .arrow {
+    flex-shrink: 0;
+    color: var(--color-ink-muted);
+    transition: transform 0.2s;
+  }
+}
+
+.price {
+  margin-top: calc(var(--spacing) * 2);
+  color: var(--color-ink-muted);
+  @include text-body-sm;
+}
+
+.more {
+  margin-top: calc(var(--spacing) * 12);
+  text-align: center;
+}
+</style>

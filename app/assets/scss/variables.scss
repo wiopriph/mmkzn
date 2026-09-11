@@ -1,15 +1,7 @@
-/* app/assets/css/tokens.css — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts
-   из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ. */
-@theme {
-  --*: initial;                /* дефолтной темы Tailwind не существует */
+// variables.scss — ГЕНЕРИРУЕТСЯ скриптом scripts/design-tokens.ts
+// из data/design/tokens.json. НЕ РЕДАКТИРОВАТЬ РУКАМИ.
 
-  --spacing: 4px;
-
-  --breakpoint-sm: 40rem;
-  --breakpoint-md: 48rem;
-  --breakpoint-lg: 64rem;
-  --breakpoint-xl: 80rem;
-
+:root {
   --color-ink: #363636;
   --color-ink-strong: #2b2a29;
   --color-ink-muted: #8a8a8a;
@@ -23,6 +15,9 @@
   --color-accent-deep: #ca493e;
   --color-accent-mid: #eb5137;
   --color-logo-red: #ff0000;
+
+  --gradient-section: linear-gradient(160deg, #202576 0%, #092289 100%);
+  --gradient-button: linear-gradient(180deg, #eb5137 0%, #ca493e 100%);
 
   --font-sans: "Inter", system-ui, sans-serif;
 
@@ -63,13 +58,8 @@
 
   --radius-card: 16px;
   --radius-pill: 999px;
-}
-
-/* градиенты и контейнер — обычные переменные, вне шкалы @theme */
-:root {
-  --gradient-section: linear-gradient(160deg, #202576 0%, #092289 100%);
-  --gradient-button: linear-gradient(180deg, #eb5137 0%, #ca493e 100%);
   --container-max: 80rem;
   --container-pad: 1.5rem;
   --container-pad-md: 2.5rem;
+  --spacing: 4px;
 }
