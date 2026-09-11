@@ -52,7 +52,8 @@ const menu = [
     <div class="bottom">
       <div class="container bottom-row">
         <NuxtLink to="/politika/" class="link">Политика конфиденциальности</NuxtLink>
-        <p class="muted">©2014-2026</p>
+        <p class="muted copyright">©2014-2026</p>
+        <span aria-hidden="true" class="tm">тм</span>
       </div>
     </div>
   </footer>
@@ -162,5 +163,29 @@ const menu = [
   gap: calc(var(--spacing) * 4);
   padding-block: calc(var(--spacing) * 6);
   @include text-body-sm;
+}
+
+.copyright {
+  @include from-md {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+.bottom .container {
+  position: relative;
+}
+
+.tm {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--spacing) * 9);
+  height: calc(var(--spacing) * 9);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink-muted);
+  @include text-small;
 }
 </style>

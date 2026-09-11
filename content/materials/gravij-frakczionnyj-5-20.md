@@ -1,6 +1,6 @@
 ---
 title: Гравий фракционный 5-20
-shortTitle: Гравий 5-20
+shortTitle: Гравий (фр. 5-20)
 order: 4
 legacyPath: /gravij-frakczionnyj-5-20/
 gostRef: ГОСТ 8763-2014

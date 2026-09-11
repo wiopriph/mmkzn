@@ -9,7 +9,8 @@ defineProps<{
 
 <template>
   <section class="hero">
-    <NuxtImg format="webp"
+    <NuxtImg
+      format="webp"
       :src="image.src" :alt="image.alt" width="2560" height="1398"
       sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" fetchpriority="high" preload
       class="bg"
@@ -18,10 +19,8 @@ defineProps<{
     <div aria-hidden="true" class="shade" />
 
     <div class="container inner">
-      <h1 class="title">
-        {{ title }}
-        <span class="subtitle">{{ subtitle }}</span>
-      </h1>
+      <h1 class="title">{{ title }}</h1>
+      <p class="subtitle">{{ subtitle }}</p>
       <div class="cta">
         <UiButton variant="glass" size="lg" to="/#products">{{ cta }}</UiButton>
       </div>
@@ -70,11 +69,11 @@ defineProps<{
   justify-content: flex-end;
   min-height: 43.75rem;
   padding-top: calc(var(--spacing) * 32);
-  padding-bottom: calc(var(--spacing) * 14);
+  padding-bottom: calc(var(--spacing) * 11);
 }
 
 .title {
-  max-width: 56rem;
+  max-width: 56rem; // перенос как в макете: «Добыча, хранение / и отгрузка»
   @include text-h1;
 
   @include from-md {
@@ -83,7 +82,6 @@ defineProps<{
 }
 
 .subtitle {
-  display: block;
   margin-top: calc(var(--spacing) * 4);
   @include text-body;
 
@@ -98,10 +96,11 @@ defineProps<{
   gap: calc(var(--spacing) * 4);
   margin-top: calc(var(--spacing) * 10);
 
+  // в макете кнопка стоит на уровне последней строки заголовка, справа
   @include from-md {
     position: absolute;
     right: var(--container-pad-md);
-    bottom: calc(var(--spacing) * 14);
+    bottom: calc(var(--spacing) * 22);
     margin-top: 0;
   }
 }

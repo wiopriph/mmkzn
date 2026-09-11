@@ -104,7 +104,7 @@ const cards = computed(() =>
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: calc(var(--spacing) * 10) calc(var(--spacing) * 4);
+  gap: calc(var(--spacing) * 10) calc(var(--spacing) * 2);
 
   @include from-lg {
     grid-template-columns: repeat(4, 1fr);

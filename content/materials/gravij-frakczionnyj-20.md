@@ -1,6 +1,6 @@
 ---
 title: Гравий фракционный 20+
-shortTitle: Гравий 20+
+shortTitle: Гравий (фр. 20+)
 order: 5
 legacyPath: /gravij-frakczionnyj-20/
 price:
