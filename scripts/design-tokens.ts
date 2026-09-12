@@ -4,7 +4,7 @@
  *   app/assets/scss/variables.scss — CSS custom properties (:root)
  *   app/assets/scss/_mixins.scss   — SCSS-миксины брейкпоинтов и текстовых стилей
  *
- *   pnpm tokens
+ *   npm run tokens
  *
  * data/design/tokens.json — единственный источник правды по дизайн-токенам,
  * снятый с макета Figma «NY 90 / Нерудные материалы МируМир».

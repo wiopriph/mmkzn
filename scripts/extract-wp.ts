@@ -1,9 +1,9 @@
 /**
  * extract-wp.ts — выгрузка mirumirkzn.ru (WordPress) в структурированный контент.
  *
- *   pnpm add -D tsx cheerio yaml turndown @types/turndown
- *   pnpm dlx tsx scripts/extract-wp.ts --all
- *   pnpm dlx tsx scripts/extract-wp.ts --shots     # + скриншоты старого сайта (нужен playwright)
+ *   npm i -D tsx cheerio yaml turndown @types/turndown
+ *   npx tsx scripts/extract-wp.ts --all
+ *   npx tsx scripts/extract-wp.ts --shots     # + скриншоты старого сайта (нужен playwright)
  *
  * Кладёт на диск:
  *   content/materials/<slug>.md        карточки материалов: frontmatter + specs[] + текст
@@ -276,7 +276,7 @@ async function runShots() {
   console.log('\n=== скриншоты старого сайта ===')
   let chromium: typeof import('playwright')['chromium']
   try { ({ chromium } = await import('playwright')) }
-  catch { console.warn('  playwright не установлен: pnpm add -D playwright && pnpm exec playwright install chromium'); return }
+  catch { console.warn('  playwright не установлен: npm i -D playwright && npx playwright install chromium'); return }
 
   const paths: string[] = JSON.parse(await readFile(join(OUT.data, 'url-map.json'), 'utf8'))
   if (!paths.includes('/')) paths.unshift('/')

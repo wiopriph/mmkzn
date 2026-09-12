@@ -32,11 +32,6 @@
     "turndown": "^7.2.4",
     "yaml": "^2.9.0"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3"
-    ]
-  },
   "engines": {
     "node": ">=22.12"
   }

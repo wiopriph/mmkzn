@@ -11,7 +11,7 @@
 - Работаем **этапами** (раздел 12). Один этап = одна ветка = один PR = один демо-деплой.
 - Не начинай следующий этап, пока не выполнен Definition of Done предыдущего.
 - Раздел 14 («Антипаттерны») — жёсткие запреты. Нарушение = откат.
-- Все команды запускаются из корня репозитория. Node 22 LTS, pnpm.
+- Все команды запускаются из корня репозитория. Node 22 LTS (≥22.12), npm (решение от 2026-09-12, заменило pnpm).
 - Задачи приходят отдельными файлами `TASK-NN-*.md`. Они рассчитаны на **автономное выполнение**: вопросов не задаём, спорные решения принимаем консервативно и пишем строкой в `DECISIONS.md`. Останавливаемся только если внешний источник недоступен, скрипт падает второй раз подряд после правки, или предстоит перезаписать чужой файл.
 
 ---
@@ -93,8 +93,8 @@ REST API старого сайта открыт и проверен: `/wp-json/w
 Всё делает `scripts/extract-wp.ts`:
 
 ```bash
-pnpm add -D tsx cheerio yaml turndown @types/turndown
-pnpm dlx tsx scripts/extract-wp.ts --all
+npm i -D tsx cheerio yaml turndown @types/turndown
+npx tsx scripts/extract-wp.ts --all
 ```
 
 Он даёт три разные вещи, и путать их нельзя.
@@ -108,7 +108,7 @@ pnpm dlx tsx scripts/extract-wp.ts --all
 Приёмка автоматическая:
 
 ```bash
-pnpm dlx tsx scripts/verify-copy.ts http://localhost:3000
+npx tsx scripts/verify-copy.ts http://localhost:3000
 ```
 
 Проверяет, что все пути отдают 200, `title` и `description` совпадают с эталоном, `h1` ровно один на страницу и на новом сайте не осталось ни одной ссылки или картинки на `mirumirkzn.ru`. Ненулевой код возврата — приёмка не пройдена.
@@ -182,7 +182,7 @@ Copy-first добавляет к проекту примерно **16–24 ча�
 поштучные px в компонентах запрещены. Цвет, которого нет в макете, не должен
 появиться в коде.
 
-**Артефакты генерируются** скриптом `scripts/design-tokens.ts` (`pnpm tokens`)
+**Артефакты генерируются** скриптом `scripts/design-tokens.ts` (`npm run tokens`)
 из `data/design/tokens.json` — единственного источника правды по токенам:
 
 - `app/assets/scss/variables.scss` — все токены как CSS custom properties в `:root`;
@@ -190,7 +190,7 @@ Copy-first добавляет к проекту примерно **16–24 ча�
   мобайл-ферст) и текстовые стили (`@include text-h1`).
 
 Сгенерированные файлы руками не правятся. Правки дизайна вносятся в
-`tokens.json` → `pnpm tokens`. Когда у команды появится Figma Enterprise
+`tokens.json` → `npm run tokens`. Когда у команды появится Figma Enterprise
 (Variables API), источником станет выгрузка из Figma, формат не изменится.
 
 **Структура стилей:**
@@ -566,9 +566,9 @@ Beget VPS (2 vCPU / 4 ГБ / 40 ГБ NVMe)
 
 ```
 push в main
-  → pnpm install --frozen-lockfile
-  → pnpm lint && pnpm typecheck && pnpm test
-  → pnpm build (включая prerender, failOnError)
+  → npm ci
+  → npm run lint && npm run typecheck && npm test
+  → npm run build (включая prerender, failOnError)
   → link-checker по .output/public
   → docker build & push в GHCR
   → ssh на Beget: docker compose pull && up -d
