@@ -4,7 +4,7 @@
 definePageMeta({ layout: 'redesign', headerTheme: 'overlay' })
 
 interface Home {
-  seo: { title: string; description: string }
+  seo: { title: string; description: string; ogImage?: string }
   hero: { title: string; subtitle: string; cta: string; image: { src: string; alt: string } }
   infra: { title: string; note: string; stats: { label: string; value: string }[] }
   products: { title: string; intro: string; cta: string; photos: Record<string, string> }
@@ -21,9 +21,19 @@ const { data: home } = await useAsyncData('home', async () => {
 
 if (!home.value) throw createError({ statusCode: 500, statusMessage: 'home.yml not found' })
 
+const site = useSiteConfig()
+
 useSeoMeta({
   title: home.value.seo.title,
   description: home.value.seo.description,
+  ogTitle: home.value.seo.title,
+  ogDescription: home.value.seo.description,
+  ogType: 'website',
+  // соцсетям нужен абсолютный URL картинки
+  ogImage: home.value.seo.ogImage ? site.url + home.value.seo.ogImage : undefined,
+  ogLocale: 'ru_RU',
+  ogSiteName: site.name,
+  twitterCard: 'summary_large_image',
 })
 </script>
 

@@ -30,6 +30,16 @@ const fail = (path: string, msg: string) => { failures++; console.error(`  ✗ $
 const paths: string[] = JSON.parse(await readFile(join(DATA, 'url-map.json'), 'utf8'))
 const seoMap: Record<string, Seo> = JSON.parse(await readFile(join(DATA, 'seo-map.json'), 'utf8'))
 
+// Осознанные переопределения меты (редизайн отдельных страниц) — см. файл.
+// Эталон seo-map.json остаётся нетронутым снимком старого сайта.
+try {
+  const overrides: Record<string, Seo & { _comment?: string }> =
+    JSON.parse(await readFile(join(process.cwd(), 'data/seo-overrides.json'), 'utf8'))
+  for (const [p, seo] of Object.entries(overrides)) {
+    if (p.startsWith('/')) seoMap[p] = { title: seo.title, description: seo.description }
+  }
+} catch { /* файла может не быть — тогда сверяем всё с эталоном */ }
+
 console.log(`Приёмка копии: ${BASE}  (${paths.length} путей)\n`)
 
 for (const path of paths) {

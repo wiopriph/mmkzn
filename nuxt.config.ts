@@ -37,6 +37,9 @@ export default defineNuxtConfig({
     defaultLocale: 'ru',
     // старые URL живут со слешем на конце — вариант зафиксирован до Этапа 4
     trailingSlash: true,
+    // ВЕСЬ САЙТ ЗАКРЫТ ОТ ИНДЕКСАЦИИ (robots.txt Disallow: / + meta robots noindex).
+    // Снять перед боевым запуском на Этапе 8 — иначе потеряем позиции!
+    indexable: false,
   },
 
   nitro: {
