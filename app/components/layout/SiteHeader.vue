@@ -64,6 +64,12 @@ const menu = [
       >
         <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
       </button>
+
+      <!-- на мобиле телефон — второй строкой шапки, как в макете (фрейм 10390:22383) -->
+      <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="phone-mobile">
+        <IconPhone width="18" height="18" />
+        {{ contacts.phone.display }}
+      </a>
     </div>
 
     <nav v-if="menuOpen" aria-label="Мобильное меню" class="mobile-menu">
@@ -72,9 +78,6 @@ const menu = [
           v-for="item in menu" :key="item.to" :to="item.to"
           class="mobile-link" @click="menuOpen = false"
         >{{ item.label }}</NuxtLink>
-        <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="mobile-link mobile-phone">
-          {{ contacts.phone.display }}
-        </a>
       </div>
     </nav>
   </header>
@@ -107,12 +110,22 @@ const menu = [
   }
 }
 
+// мобильная шапка макета (фрейм 10390:22383) — две строки:
+// лого + бургер (лого ~18px), ниже телефон 18px с иконкой 18px
 .bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: calc(var(--spacing) * 8);
-  height: calc(var(--spacing) * 17); // ~68px, как полоса контента макета
+  row-gap: calc(var(--spacing) * 2.5);
+  padding-block: calc(var(--spacing) * 7) calc(var(--spacing) * 3.5);
+
+  @include from-lg {
+    flex-wrap: nowrap;
+    gap: calc(var(--spacing) * 8);
+    height: calc(var(--spacing) * 17); // ~68px, как полоса контента макета
+    padding-block: 0;
+  }
 }
 
 .logo-link {
@@ -121,8 +134,26 @@ const menu = [
 }
 
 .logo {
-  height: calc(var(--spacing) * 5); // лого-строка макета ~19px
+  height: calc(var(--spacing) * 4.5); // мобильная лого-строка макета ~17.6px
+
+  @include from-lg {
+    height: calc(var(--spacing) * 5); // десктопная ~19px
+  }
+
   width: auto;
+}
+
+.phone-mobile {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  gap: calc(var(--spacing) * 1.75); // 7px до текста, как в макете
+  font-size: var(--text-body); // 18px
+  line-height: 1;
+
+  @include from-lg {
+    display: none;
+  }
 }
 
 .logo-solid {
