@@ -1,4 +1,10 @@
 <script setup lang="ts">
+// «Приглашаем к диалогу» — фрейм 10357:21401 (1280×600):
+// заголовок 72/76.3 слева сверху, текст 18/27 правой половиной, форма 320px
+// по центру (поля 62px, зазор 15; кнопка 62px с белой обводкой; чекбокс 24px),
+// телефон 36/38.2 и кружки MAX+Telegram 48px — слева снизу, узор 600×528
+// справа за верхней кромкой. Мобилка — фрейм 10406:4320 (390×900): всё в стопку,
+// заголовок 58/58, форма 292px, телефон 32/33.9 и иконки по центру.
 defineProps<{
   title: string
   text: string
@@ -19,50 +25,52 @@ function onSubmit() {
 
 <template>
   <section id="dialog" class="dialog">
-    <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern">
-    <div class="container grid">
-      <div class="left">
+    <div aria-hidden="true" class="pattern-holder">
+      <img src="/design/pattern-dialog.svg" alt="" class="pattern">
+    </div>
+
+    <div class="container inner">
+      <div class="top">
         <h2 class="title">{{ title }}</h2>
-        <div v-if="contacts" class="contacts">
-          <a :href="`tel:${contacts.phone.tel}`" class="phone">{{ contacts.phone.display }}</a>
-          <div class="socials">
-            <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp" class="social">
-              <IconWhatsapp />
-            </a>
-            <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
-              <IconTelegram />
-            </a>
-          </div>
-        </div>
+        <p class="text">{{ text }}</p>
       </div>
 
-      <div class="right">
-        <p class="text">{{ text }}</p>
+      <form v-if="form.state.value !== 'done'" class="form" @submit.prevent="onSubmit">
+        <UiInput v-model="form.name.value" name="name" :label="nameLabel" required autocomplete="name" />
+        <UiInput v-model="form.phone.value" name="phone" :label="phoneLabel" type="tel" required autocomplete="tel" />
+        <UiButton variant="gradient" size="lg" type="submit" class="submit" :aria-busy="form.state.value === 'sending'">
+          {{ form.state.value === 'sending' ? 'Отправляем…' : submit }}
+        </UiButton>
+        <UiCheckbox v-model="form.consent.value" name="consent" required class="consent">
+          <NuxtLink to="/politika/" class="consent-link">{{ consent }}</NuxtLink>
+        </UiCheckbox>
 
-        <form v-if="form.state.value !== 'done'" class="form" @submit.prevent="onSubmit">
-          <UiInput v-model="form.name.value" name="name" :label="nameLabel" required autocomplete="name" />
-          <UiInput v-model="form.phone.value" name="phone" :label="phoneLabel" type="tel" required autocomplete="tel" />
-          <UiButton variant="gradient" type="submit" :aria-busy="form.state.value === 'sending'">
-            {{ form.state.value === 'sending' ? 'Отправляем…' : submit }}
-          </UiButton>
-          <UiCheckbox v-model="form.consent.value" name="consent" required>
-            <NuxtLink to="/politika/" class="consent-link">{{ consent }}</NuxtLink>
-          </UiCheckbox>
-
-          <p v-if="form.state.value === 'unavailable' && contacts" role="status" class="status">
-            Онлайн-заявки заработают после запуска нового сайта. Пока позвоните нам:
-            <a :href="`tel:${contacts.phone.tel}`" class="status-link">{{ contacts.phone.display }}</a>
-            — или напишите в мессенджеры слева.
-          </p>
-          <p v-else-if="form.state.value === 'error'" role="status" class="status">
-            Не получилось отправить заявку. Позвоните нам или напишите в мессенджер —
-            ответим так же быстро.
-          </p>
-        </form>
-
-        <p v-else role="status" class="thanks">
-          Спасибо! Заявка получена — перезвоним в ближайшее время.
+        <p v-if="form.state.value === 'unavailable' && contacts" role="status" class="status">
+          Онлайн-заявки заработают после запуска нового сайта. Пока позвоните нам:
+          <a :href="`tel:${contacts.phone.tel}`" class="status-link">{{ contacts.phone.display }}</a>
+          — или напишите в мессенджеры.
         </p>
+        <p v-else-if="form.state.value === 'error'" role="status" class="status">
+          Не получилось отправить заявку. Позвоните нам или напишите в мессенджер —
+          ответим так же быстро.
+        </p>
+      </form>
+
+      <p v-else role="status" class="thanks">
+        Спасибо! Заявка получена — перезвоним в ближайшее время.
+      </p>
+
+      <div v-if="contacts" class="bottom">
+        <a :href="`tel:${contacts.phone.tel}`" class="phone">{{ contacts.phone.display }}</a>
+        <div class="socials">
+          <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
+          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social social--max">
+            <IconMax />
+          </a>
+          <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
+            <IconTelegram />
+          </a>
+        </div>
       </div>
     </div>
   </section>
@@ -76,50 +84,159 @@ function onSubmit() {
   color: var(--color-paper);
 }
 
-.pattern {
+// узор привязан к центрированной полосе 1280, а не к краю экрана
+.pattern-holder {
   position: absolute;
-  right: 0;
-  top: 0;
-  height: 75%;
-  transform: translate(25%, -20%);
-  opacity: 0.9;
+  inset: 0;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  pointer-events: none;
 }
 
-.grid {
-  position: relative;
-  display: grid;
-  gap: calc(var(--spacing) * 12);
-  padding-block: calc(var(--spacing) * 20);
+.pattern {
+  position: absolute;
+  left: 25%; // мобилка: x98 при ширине 390
+  top: -95px;
+  width: 131.6%; // 513/390
 
-  @include from-md {
-    grid-template-columns: 1fr 1fr;
-    padding-block: calc(var(--spacing) * 28);
+  @include from-lg {
+    left: 877px; // десктоп: x877.8 y-108.3, 600×528
+    top: -108px;
+    width: 600px;
   }
 }
 
-.left {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: calc(var(--spacing) * 12);
+.inner {
+  position: relative;
+  padding-block: calc(var(--spacing) * 14); // мобилка: верх 56, низ 55
+
+  @include from-lg {
+    padding-block: calc(var(--spacing) * 9.5) calc(var(--spacing) * 9.25); // 38 / 37
+  }
+}
+
+.top {
+  display: grid;
+  gap: calc(var(--spacing) * 2.5); // мобилка: заголовок → текст 10px
+
+  @include from-lg {
+    grid-template-columns: 1fr 1fr; // текст начинается ровно с середины полосы
+    gap: 0;
+  }
 }
 
 .title {
-  @include text-h3;
+  font-size: 3.625rem; // мобильный заголовок макета 58/58 (токена нет)
+  line-height: 1;
+  font-weight: 500;
 
-  @include from-md {
-    @include text-h2;
+  @include from-lg {
+    @include text-h1; // 72 / 76.3
+    max-width: 31.5rem; // 504px
   }
 }
 
-.contacts {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing) * 5);
+.text {
+  white-space: pre-line; // перенос после первого предложения — как в макете
+  @include text-small; // мобилка 12px
+  line-height: 1.5;
+
+  @include from-lg {
+    @include text-body; // десктоп 18px
+    line-height: 1.5; // 27px
+    max-width: 37.5rem; // 600px
+  }
+}
+
+// форма 292px по центру (мобилка), 320px по центру полосы (десктоп)
+.form {
+  width: 100%;
+  max-width: 18.25rem;
+  margin-inline: auto;
+  margin-top: calc(var(--spacing) * 30); // мобилка: текст низ 236 → форма 357
+
+  @include from-lg {
+    max-width: 20rem;
+    // в макете форма на y300: заголовочный ряд в браузере 153px (у фигмы 162),
+    // поэтому отступ 109, а не 100
+    margin-top: calc(var(--spacing) * 27.25);
+  }
+
+  > * + * {
+    margin-top: calc(var(--spacing) * 2.5); // поля через 10 (мобилка)
+
+    @include from-lg {
+      margin-top: calc(var(--spacing) * 3.75); // десктоп 15
+    }
+  }
+
+  > .submit {
+    width: 100%;
+    border: 1px solid var(--color-paper); // у кнопки макета белая обводка
+    margin-top: calc(var(--spacing) * 5); // 20px в обоих макетах
+  }
+
+  > .consent {
+    margin-top: calc(var(--spacing) * 5); // мобилка 20
+
+    @include from-lg {
+      margin-top: calc(var(--spacing) * 2.5); // десктоп 10
+    }
+  }
+}
+
+.consent-link {
+  &:hover,
+  &:focus-visible {
+    text-decoration: underline;
+  }
+}
+
+.status {
+  @include text-small;
+  line-height: 1.4;
+}
+
+.status-link {
+  text-decoration: underline;
+}
+
+.thanks {
+  max-width: 28rem;
+  margin-inline: auto;
+  margin-top: calc(var(--spacing) * 30);
+  text-align: center;
+  @include text-lead;
+
+  @include from-lg {
+    margin-top: calc(var(--spacing) * 25);
+  }
+}
+
+// телефон и мессенджеры: мобилка — по центру после формы,
+// десктоп — левый нижний угол (телефон y450, кружки y515)
+.bottom {
+  margin-top: calc(var(--spacing) * 29.5); // мобилка: чекбокс низ 625 → телефон 743
+  text-align: center;
+
+  @include from-lg {
+    position: absolute;
+    left: var(--container-pad-md);
+    bottom: calc(var(--spacing) * 9.25); // низ кружков на 37px выше кромки
+    margin-top: 0;
+    text-align: left;
+  }
 }
 
 .phone {
-  @include text-h3;
+  display: inline-block;
+  font-size: 2rem; // мобилка 32/33.9
+  line-height: 1.06;
+  font-weight: 500;
+
+  @include from-lg {
+    @include text-h3; // 36 / 38.2
+  }
 
   &:hover,
   &:focus-visible {
@@ -129,7 +246,14 @@ function onSubmit() {
 
 .socials {
   display: flex;
-  gap: calc(var(--spacing) * 4);
+  justify-content: center;
+  gap: calc(var(--spacing) * 2.5); // кружки через 10
+  margin-top: calc(var(--spacing) * 5); // мобилка: телефон низ 777 → иконки 797
+
+  @include from-lg {
+    justify-content: flex-start;
+    margin-top: calc(var(--spacing) * 6.75); // десктоп: 488 → 515
+  }
 }
 
 .social {
@@ -148,43 +272,9 @@ function onSubmit() {
   }
 }
 
-.right {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing) * 8);
-}
-
-.text {
-  max-width: 32rem;
-  @include text-body-sm;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: calc(var(--spacing) * 4);
-  max-width: 28rem;
-}
-
-.consent-link {
-  text-decoration: underline;
-
-  &:hover,
-  &:focus-visible {
-    opacity: 0.8;
-  }
-}
-
-.status {
-  @include text-body-sm;
-}
-
-.status-link {
-  text-decoration: underline;
-}
-
-.thanks {
-  max-width: 28rem;
-  @include text-lead;
+// иконка MAX сама является белым кружком с вырезом до фона
+.social--max {
+  background: none;
+  color: var(--color-paper);
 }
 </style>

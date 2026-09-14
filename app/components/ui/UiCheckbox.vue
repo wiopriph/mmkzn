@@ -11,8 +11,8 @@ const id = useId()
       class="visually-hidden native"
     >
     <span aria-hidden="true" class="box">
-      <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-        <path d="M1 4L3.7 6.7L9 1.3" stroke="var(--color-brand)" stroke-width="1.6" />
+      <svg width="12" height="10" viewBox="0 0 10 8" fill="none">
+        <path d="M1 4L3.7 6.7L9 1.3" stroke="var(--color-accent-mid)" stroke-width="1.6" />
       </svg>
     </span>
     <span class="label"><slot /></span>
@@ -20,12 +20,14 @@ const id = useId()
 </template>
 
 <style scoped lang="scss">
+// по макету: кружок 24px, текст 12/15.6, зазор 5px, оранжевая галочка
 .checkbox {
   display: flex;
   align-items: flex-start;
-  gap: calc(var(--spacing) * 3);
+  gap: calc(var(--spacing) * 1.25);
   color: var(--color-paper);
   @include text-small;
+  line-height: 1.3;
   cursor: pointer;
 }
 
@@ -34,9 +36,9 @@ const id = useId()
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: calc(var(--spacing) * 5);
-  height: calc(var(--spacing) * 5);
-  margin-top: calc(var(--spacing) / 2);
+  width: calc(var(--spacing) * 6);
+  height: calc(var(--spacing) * 6);
+  margin-top: calc(var(--spacing) * 1);
   border: 1px solid color-mix(in srgb, var(--color-paper) 70%, transparent);
   border-radius: var(--radius-pill);
 
