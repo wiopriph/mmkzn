@@ -169,7 +169,7 @@ const cards = computed(() => {
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: calc(var(--spacing) * 10.5) calc(var(--spacing) * 2); // моб.: 8px между колонками
+  gap: calc(var(--spacing) * 5) calc(var(--spacing) * 2); // моб.: ряды 20px, колонки 8px
 
   @include from-lg {
     grid-template-columns: repeat(4, 1fr);
@@ -194,12 +194,15 @@ const cards = computed(() => {
 
 .photo-box {
   aspect-ratio: 280 / 422; // пропорция фото макета
-  // фото в макете шире своей колонки (296-306px при сетке 280):
-  // выпуск ±8px, подписи остаются по сетке
-  width: calc(100% + var(--spacing) * 4);
-  margin-inline: calc(var(--spacing) * -2);
   overflow: hidden;
   background: var(--color-stone);
+
+  // десктоп: фото шире своей колонки (296-306px при сетке 280) —
+  // выпуск ±8px, подписи остаются по сетке; на мобиле выпуска нет
+  @include from-lg {
+    width: calc(100% + var(--spacing) * 4);
+    margin-inline: calc(var(--spacing) * -2);
+  }
 }
 
 .photo {
