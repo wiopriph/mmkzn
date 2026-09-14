@@ -64,11 +64,11 @@ function onSubmit() {
         <a :href="`tel:${contacts.phone.tel}`" class="phone">{{ contacts.phone.display }}</a>
         <div class="socials">
           <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
-          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social social--max">
+          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social">
             <IconMax />
           </a>
           <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
-            <IconTelegram />
+            <IconTelegram width="48" height="48" />
           </a>
         </div>
       </div>
@@ -172,7 +172,6 @@ function onSubmit() {
 
   > .submit {
     width: 100%;
-    border: 1px solid var(--color-paper); // у кнопки макета белая обводка
     margin-top: calc(var(--spacing) * 5); // 20px в обоих макетах
   }
 
@@ -256,25 +255,16 @@ function onSubmit() {
   }
 }
 
+// по макету значки без подложек: белый пузырь MAX и контурный самолётик, 48px
 .social {
   display: flex;
-  align-items: center;
-  justify-content: center;
   width: calc(var(--spacing) * 12);
   height: calc(var(--spacing) * 12);
-  border-radius: var(--radius-pill);
-  background: var(--color-paper);
-  color: var(--color-brand);
+  color: var(--color-paper);
 
   &:hover,
   &:focus-visible {
     opacity: 0.8;
   }
-}
-
-// иконка MAX сама является белым кружком с вырезом до фона
-.social--max {
-  background: none;
-  color: var(--color-paper);
 }
 </style>
