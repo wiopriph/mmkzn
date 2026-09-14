@@ -20,7 +20,9 @@ defineProps<{
     />
     <!-- контурная карта Татарстана поверх фото режимом plus-lighter, как в макете -->
     <img src="/design/map-tatarstan.svg" alt="" aria-hidden="true" class="map">
-    <div aria-hidden="true" class="shade" />
+    <!-- слой затемнения макета — те же два градиента, что в hero -->
+    <div aria-hidden="true" class="shade shade-bottom" />
+    <div aria-hidden="true" class="shade shade-top" />
 
     <div class="container inner">
       <h2 class="title">{{ title }}</h2>
@@ -66,9 +68,19 @@ defineProps<{
 
 .shade {
   position: absolute;
-  inset: 0;
   z-index: 2; // затемнение поверх карты (blend-слой не должен его перекрывать)
-  background: var(--gradient-supply-bottom);
+}
+
+.shade-bottom {
+  inset: 0;
+  background: var(--gradient-hero-bottom);
+}
+
+.shade-top {
+  inset-inline: 0;
+  top: 0;
+  height: 18%;
+  background: var(--gradient-hero-top);
 }
 
 .inner {
