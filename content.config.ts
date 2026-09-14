@@ -43,7 +43,8 @@ export default defineContentConfig({
 
     articles: defineCollection({
       type: 'page',
-      source: 'articles/**/*.md',
+      // статьи блога живут под /blog/<slug>
+      source: { include: 'articles/**/*.md', prefix: '/blog' },
       schema: z.object({
         title: z.string(),
         description: z.string(),
