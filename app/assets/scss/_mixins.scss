@@ -40,6 +40,12 @@
   font-weight: var(--text-display--font-weight);
 }
 
+@mixin text-display-sm {
+  font-size: var(--text-display-sm);
+  line-height: var(--text-display-sm--line-height);
+  font-weight: var(--text-display-sm--font-weight);
+}
+
 @mixin text-h1 {
   font-size: var(--text-h1);
   line-height: var(--text-h1--line-height);

@@ -18,12 +18,17 @@
 
   --gradient-section: linear-gradient(160deg, #202576 0%, #092289 100%);
   --gradient-button: linear-gradient(180deg, #eb5137 0%, #ca493e 100%);
+  --gradient-hero-bottom: linear-gradient(180deg, rgba(0, 0, 0, 0) 42%, rgba(0, 0, 0, 0.9) 95%);
+  --gradient-hero-top: linear-gradient(to top, rgba(12, 50, 82, 0) 0%, rgba(12, 50, 82, 0.58) 100%);
 
   --font-sans: "Inter", system-ui, sans-serif;
 
   --text-display: 6rem;
   --text-display--line-height: 1;
   --text-display--font-weight: 500;
+  --text-display-sm: 3.75rem;
+  --text-display-sm--line-height: 0.9;
+  --text-display-sm--font-weight: 500;
   --text-h1: 4.5rem;
   --text-h1--line-height: 1.06;
   --text-h1--font-weight: 500;

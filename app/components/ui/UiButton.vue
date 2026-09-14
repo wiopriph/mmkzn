@@ -40,9 +40,10 @@ const tag = computed(() => props.to ? resolveComponent('NuxtLink') : props.href 
     padding-inline: calc(var(--spacing) * 8);
   }
 
+  // размер кнопок макета: «Frame 36» 208×62, паддинги ~38px
   &.lg {
-    height: calc(var(--spacing) * 16);
-    padding-inline: calc(var(--spacing) * 10);
+    height: calc(var(--spacing) * 15.5);
+    padding-inline: calc(var(--spacing) * 9.5);
   }
 
   &.outline-dark {
