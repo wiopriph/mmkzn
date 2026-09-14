@@ -18,8 +18,10 @@ defineProps<{
 
 <template>
   <section class="trust">
-    <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern pattern-mob">
-    <img src="/design/pattern-trust.svg" alt="" aria-hidden="true" class="pattern pattern-desk">
+    <div aria-hidden="true" class="pattern-holder">
+      <img src="/design/pattern-dialog.svg" alt="" class="pattern pattern-mob">
+      <img src="/design/pattern-trust.svg" alt="" class="pattern pattern-desk">
+    </div>
 
     <div class="container grid">
       <img src="/design/logo-sign-white.svg" alt="" aria-hidden="true" width="240" height="190" class="sign">
@@ -51,6 +53,18 @@ defineProps<{
   overflow: hidden;
   background-image: var(--gradient-section);
   color: var(--color-paper);
+}
+
+// узоры привязаны к центрированной 1280-полосе, не к краям экрана
+.pattern-holder {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 100%;
+  max-width: var(--container-max);
+  height: 100%;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .pattern {
