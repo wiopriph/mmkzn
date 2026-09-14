@@ -7,7 +7,10 @@
 // Цены приходят только из карточек материалов (usePrices) — макетные цифры не используются.
 const props = defineProps<{
   title: string
-  intro: string
+  introBefore: string
+  introLink: string
+  introLinkTo: string
+  introAfter: string
   cta: string
   photos: Record<string, string>
 }>()
@@ -31,7 +34,11 @@ const cards = computed(() =>
       <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern">
       <div class="container banner-inner">
         <h2 class="banner-title">{{ title }}</h2>
-        <p class="banner-intro">{{ intro }}</p>
+        <p class="banner-intro">
+          {{ introBefore }}
+          <NuxtLink :to="introLinkTo" class="intro-link">{{ introLink }}</NuxtLink>
+          {{ introAfter }}
+        </p>
       </div>
     </div>
 
@@ -95,6 +102,16 @@ const cards = computed(() =>
 
   @include from-md {
     @include text-display; // десктоп: 96 / 96
+  }
+}
+
+.intro-link {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+
+  &:hover,
+  &:focus-visible {
+    opacity: 0.8;
   }
 }
 
@@ -192,7 +209,8 @@ const cards = computed(() =>
   @include text-small; // моб.: 12
 
   @include from-md {
-    @include text-caption; // десктоп: 14 / 16.8
+    @include text-caption; // десктоп: 14
+    line-height: 1.2; // 16.8 в макете
   }
 }
 
