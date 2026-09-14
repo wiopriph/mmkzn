@@ -31,6 +31,7 @@ const tag = computed(() => props.to ? resolveComponent('NuxtLink') : props.href 
   justify-content: center;
   border-radius: var(--radius-pill);
   @include text-button;
+  white-space: nowrap; // пилюля не переносится на узких экранах
   transition: all 0.2s;
   cursor: pointer;
   user-select: none;
