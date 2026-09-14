@@ -8,7 +8,7 @@ interface Home {
   hero: { title: string; subtitle: string; cta: string; image: { src: string; alt: string } }
   infra: { title: string; note: string; stats: { label: string; value: string }[] }
   products: { title: string; introBefore: string; introLink: string; introLinkTo: string; introAfter: string; cta: string; photos: Record<string, string> }
-  trust: { title: string; text: string; facts: { value: string; label: string }[] }
+  trust: { title: string; textBefore: string; textLink: string; textLinkTo: string; textAfter: string; facts: { value: string; label: string }[] }
   supply: { title: string; subtitle: string; image: { src: string; alt: string } }
   news: { title: string; intro: string; cta: string }
   dialog: { title: string; text: string; nameLabel: string; phoneLabel: string; submit: string; consent: string }
