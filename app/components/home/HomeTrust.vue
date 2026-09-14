@@ -18,7 +18,8 @@ defineProps<{
 
 <template>
   <section class="trust">
-    <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern">
+    <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern pattern-mob">
+    <img src="/design/pattern-trust.svg" alt="" aria-hidden="true" class="pattern pattern-desk">
 
     <div class="container grid">
       <img src="/design/logo-sign-white.svg" alt="" aria-hidden="true" width="240" height="190" class="sign">
@@ -36,10 +37,7 @@ defineProps<{
         <li v-for="(f, i) in facts" :key="f.label" class="fact">
           <IconArrow v-if="i === facts.length - 1" class="fact-arrow" />
           <p v-if="f.value" class="value">{{ f.value }}</p>
-          <svg v-else width="52" height="52" viewBox="0 0 64 64" fill="none" aria-hidden="true" class="check">
-            <circle cx="32" cy="32" r="24" stroke="currentColor" stroke-width="2.5" />
-            <path d="M22 32.5L29 39.5L42 26" stroke="currentColor" stroke-width="2.5" />
-          </svg>
+          <IconCheckCircle v-else class="check" />
           <p class="label">{{ f.label }}</p>
         </li>
       </ul>
@@ -55,17 +53,32 @@ defineProps<{
   color: var(--color-paper);
 }
 
-// узор по координатам макета
 .pattern {
   position: absolute;
+}
+
+// мобильный узор: два зигзага по моб. фрейму (x-311 y853 при 390×1100)
+.pattern-mob {
   left: -80%;
-  top: 77.5%; // моб.: x-311 y853 при фрейме 390×1100
+  top: 77.5%;
   width: 180%;
 
   @include from-lg {
-    left: -42.5%; // десктоп: x-545 y280 при фрейме 1282×700
-    top: 40%;
-    width: 115%;
+    display: none;
+  }
+}
+
+// десктопный узор — готовый кроп из макета (нода 10355:13032, 930×420),
+// прижат к левому нижнему углу секции
+.pattern-desk {
+  display: none;
+
+  @include from-lg {
+    display: block;
+    left: 0;
+    bottom: 0;
+    width: 72.5%; // 930 / 1282
+    height: auto;
   }
 }
 
