@@ -215,20 +215,24 @@ defineProps<{
 }
 
 .region {
-  // мобилка: знак и подписи справа, на уровне карточки «32»
+  // мобилка: знак и подписи справа от «32»; надпись «Республика Татарстан»
+  // (163px) выше ряда — в макете она начинается в зоне заголовка (y173)
+  // и заканчивается за 16px до низа ряда, поэтому регион занимает ряды 1-2
+  // с прижимом к низу — ряд карточки не растягивается
   display: flex;
   flex-direction: row-reverse; // визуально: знак, «Казань—2026», «Республика Татарстан»
-  align-items: flex-start;
+  align-items: flex-end;
   gap: calc(var(--spacing));
   grid-column: 3 / 4;
-  grid-row: 2;
+  grid-row: 1 / 3;
   justify-self: end;
+  align-self: end;
+  margin-bottom: calc(var(--spacing) * 4);
 
   @include from-lg {
-    align-items: flex-end; // вертикальные подписи выровнены по низу
     grid-column: 26 / 30;
     grid-row: 3;
-    align-self: end;
+    margin-bottom: 0;
   }
 }
 
