@@ -146,6 +146,7 @@ defineProps<{
   grid-column: 3 / 4;
   grid-row: 5;
   margin-top: -1px;
+  margin-left: -1px;
 }
 
 @include from-lg {

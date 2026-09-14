@@ -31,7 +31,10 @@ const cards = computed(() =>
 <template>
   <section id="products">
     <div class="banner">
-      <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern">
+      <!-- мобилка: узор — два зигзага (pattern-dialog × 0.567), сдвинуты вправо-вверх
+           с выходом за края баннера (фрейм 341×300 на x130 y-72); десктоп — pattern-heading -->
+      <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern pattern-m">
+      <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern pattern-d">
       <div class="container banner-inner">
         <h2 class="banner-title">{{ title }}</h2>
         <p class="banner-intro">
@@ -79,13 +82,34 @@ const cards = computed(() =>
   color: var(--color-paper);
 }
 
-// узор уже обрезан под правую часть баннера (715×360 при фрейме 1282)
 .pattern {
   position: absolute;
-  right: 0;
-  top: 0;
-  height: 100%;
-  width: auto;
+}
+
+// мобильный узор: pattern-dialog шириной 87% (341/390), сдвинут на треть вправо
+// и на 20% за верх — обрезается краями самого баннера
+.pattern-m {
+  left: 33.3%;
+  top: -20%;
+  width: 87.4%;
+  height: auto;
+
+  @include from-md {
+    display: none;
+  }
+}
+
+// десктопный узор уже обрезан под правую часть баннера (715×360 при фрейме 1282)
+.pattern-d {
+  display: none;
+
+  @include from-md {
+    display: block;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: auto;
+  }
 }
 
 .banner-inner {
