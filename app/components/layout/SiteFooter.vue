@@ -2,10 +2,11 @@
 // Подвал редизайна: реквизиты слева, крупный лого по центру, меню и мессенджеры справа.
 const { data: contacts } = useContacts()
 
-// «Новости» вернутся в меню на Этапе 7 (блог) — пока лента пуста, ссылки нет
 const menu = [
   { label: 'Продукция', to: '/nasha-produkcziya/' },
+  { label: 'Услуги', to: '/uslugi/' },
   { label: 'Компания', to: '/#infra' },
+  { label: 'Новости', to: '/blog/' },
   { label: 'Контакты', to: '/#dialog' },
 ]
 </script>

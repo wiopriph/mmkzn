@@ -8,10 +8,10 @@ withDefaults(defineProps<{ theme?: 'overlay' | 'solid' }>(), { theme: 'overlay' 
 const { data: contacts } = useContacts()
 const menuOpen = ref(false)
 
-// «Услуги» и «Компания» появятся отдельными страницами на Этапе 5 —
-// до тех пор пункты ведут на смысловые якоря главной
+// «Компания» появится отдельной страницей на Этапе 5 — пока якорь главной
 const menu = [
   { label: 'Продукция', to: '/nasha-produkcziya/' },
+  { label: 'Услуги', to: '/uslugi/' },
   { label: 'Компания', to: '/#infra' },
   { label: 'Контакты', to: '/#dialog' },
 ]
