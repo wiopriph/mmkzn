@@ -93,6 +93,7 @@ const cards = computed(() =>
   top: -20%;
   width: 87.4%;
   height: auto;
+  transform: scaleX(-1); // наклон зигзагов в мобильном макете зеркален
 
   @include from-md {
     display: none;
