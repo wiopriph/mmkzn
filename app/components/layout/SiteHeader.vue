@@ -39,11 +39,12 @@ const menu = [
       </nav>
 
       <div v-if="contacts" class="contacts">
+        <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
         <a
           :href="contacts.whatsapp" target="_blank" rel="noopener"
-          aria-label="Написать в WhatsApp" class="icon-link"
+          aria-label="Написать в мессенджер" class="icon-link"
         >
-          <IconWhatsapp width="24" height="24" />
+          <IconMax width="24" height="24" />
         </a>
         <a
           :href="contacts.telegram" target="_blank" rel="noopener"

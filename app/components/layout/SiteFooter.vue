@@ -37,11 +37,12 @@ const menu = [
 
       <nav aria-label="Меню в подвале" class="nav">
         <div class="socials">
+          <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
+          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social">
+            <IconMax width="24" height="24" />
+          </a>
           <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
             <IconTelegram />
-          </a>
-          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp" class="social">
-            <IconWhatsapp />
           </a>
         </div>
         <NuxtLink v-for="item in menu" :key="item.label" :to="item.to" class="link">
