@@ -6,7 +6,7 @@ phone:
   tel: 8(843)233-31-40
 dispatcher:
   label: Телефон диспетчерской службы
-  display: 8 (962) 556-31-19
+  display: +7(962) 556-31-19
   tel: "+79625563119"
 whatsapp: https://wa.me/79625563119?text=Здравствуйте
 telegram: https://t.me/micro_cosm
