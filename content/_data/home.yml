@@ -41,7 +41,7 @@ products:
   introLinkTo: "/#dialog"
   introAfter: до объекта заказчика
   cta: Вся продукция
-  # фото карточек из макета, по слагам материалов
+  # фото карточек из макета; порядок перечисления = порядок карточек на главной
   photos:
     gravij-frakczionnyj-20: /design/photo-gravij-20.jpg
     gravij-frakczionnyj-5-20: /design/photo-gravij-5-20.jpg

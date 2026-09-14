@@ -17,15 +17,20 @@ const props = defineProps<{
 
 const { data: prices } = usePrices()
 
-// показываем те же 4 карточки, что в макете: материалы с ценой и фото
-const cards = computed(() =>
-  (prices.value ?? [])
+// показываем те же 4 карточки, что в макете: материалы с ценой и фото,
+// в порядке перечисления в photos (home.yml) — как в макете
+const cards = computed(() => {
+  const order = Object.keys(props.photos)
+  return (prices.value ?? [])
     .map(p => ({
       ...p,
+      slug: p.legacyPath.replaceAll('/', ''),
       photo: props.photos[p.legacyPath.replaceAll('/', '')] ?? null,
     }))
     .filter(p => p.cashless !== null && p.photo)
-    .slice(0, 4))
+    .sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug))
+    .slice(0, 4)
+})
 </script>
 
 <template>
@@ -189,6 +194,10 @@ const cards = computed(() =>
 
 .photo-box {
   aspect-ratio: 280 / 422; // пропорция фото макета
+  // фото в макете шире своей колонки (296-306px при сетке 280):
+  // выпуск ±8px, подписи остаются по сетке
+  width: calc(100% + var(--spacing) * 4);
+  margin-inline: calc(var(--spacing) * -2);
   overflow: hidden;
   background: var(--color-stone);
 }
