@@ -1,5 +1,9 @@
 <script setup lang="ts">
-// Синий баннер «Продукция» + карточки материалов.
+// «Продукция» — баннер (9740:5874 / 10391:1614) + карточки (9731:4974 / 10391:1932).
+// Баннер: градиент section, узор pattern-heading.svg (правая часть, 715×360),
+// заголовок 96 (моб. 60), интро 16/22.4 max-width 531.
+// Карточки: зазор 28px (моб. 8), фото 280×422, название 24/28.8 (моб. 12),
+// цена 14 (моб. 12), кнопка 62px по центру (моб. во всю ширину).
 // Цены приходят только из карточек материалов (usePrices) — макетные цифры не используются.
 const props = defineProps<{
   title: string
@@ -24,7 +28,7 @@ const cards = computed(() =>
 <template>
   <section id="products">
     <div class="banner">
-      <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern">
+      <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern">
       <div class="container banner-inner">
         <h2 class="banner-title">{{ title }}</h2>
         <p class="banner-intro">{{ intro }}</p>
@@ -36,8 +40,8 @@ const cards = computed(() =>
         <li v-for="c in cards" :key="c.legacyPath">
           <NuxtLink :to="c.legacyPath" class="card">
             <div class="photo-box">
-              <NuxtImg format="webp"
-                v-if="c.photo" :src="c.photo" :alt="c.title" width="640" height="900"
+              <NuxtImg
+                v-if="c.photo" format="webp" :src="c.photo" :alt="c.title" width="640" height="900"
                 sizes="50vw lg:320px" loading="lazy" class="photo"
               />
             </div>
@@ -51,7 +55,7 @@ const cards = computed(() =>
       </ul>
 
       <p class="more">
-        <UiButton variant="outline-dark" to="/nasha-produkcziya/">{{ cta }}</UiButton>
+        <UiButton variant="outline-dark" size="lg" to="/nasha-produkcziya/">{{ cta }}</UiButton>
       </p>
     </div>
   </section>
@@ -60,54 +64,69 @@ const cards = computed(() =>
 <style scoped lang="scss">
 .banner {
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 22.5rem; // 360px на обоих брейкпоинтах
   overflow: hidden;
   background-image: var(--gradient-section);
   color: var(--color-paper);
 }
 
+// узор уже обрезан под правую часть баннера (715×360 при фрейме 1282)
 .pattern {
   position: absolute;
-  right: calc(var(--spacing) * -16);
-  top: 50%;
-  height: 150%;
-  transform: translateY(-50%);
-  opacity: 0.9;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: auto;
 }
 
 .banner-inner {
   position: relative;
-  padding-block: calc(var(--spacing) * 16);
+  padding-bottom: calc(var(--spacing) * 10); // моб.: интро на 40px от низа
 
   @include from-md {
-    padding-block: calc(var(--spacing) * 20);
+    padding-bottom: calc(var(--spacing) * 15); // десктоп: низ текста на 60px
   }
 }
 
 .banner-title {
-  @include text-h2;
+  @include text-display-sm; // моб.: 60 / 54
 
   @include from-md {
-    @include text-display;
+    @include text-display; // десктоп: 96 / 96
   }
 }
 
 .banner-intro {
-  max-width: 28rem;
-  margin-top: calc(var(--spacing) * 6);
-  @include text-body-sm;
+  max-width: 21.375rem;
+  margin-top: calc(var(--spacing) * 2.5);
+  @include text-small; // моб.: 12 / 16.8
+
+  @include from-md {
+    max-width: 33.1875rem; // 531px
+    margin-top: calc(var(--spacing) * 2.5); // зазор заголовок→интро 10px
+    @include text-body-sm;
+    line-height: 1.4; // 16 / 22.4
+  }
 }
 
 .catalog {
-  padding-block: calc(var(--spacing) * 14);
+  padding-block: calc(var(--spacing) * 5) calc(var(--spacing) * 10);
+
+  @include from-md {
+    padding-block: calc(var(--spacing) * 11); // карточки y44, кнопка низ 43
+  }
 }
 
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: calc(var(--spacing) * 10) calc(var(--spacing) * 2);
+  gap: calc(var(--spacing) * 10.5) calc(var(--spacing) * 2); // моб.: 8px между колонками
 
   @include from-lg {
     grid-template-columns: repeat(4, 1fr);
+    gap: calc(var(--spacing) * 7); // десктоп: 28px
   }
 }
 
@@ -127,7 +146,7 @@ const cards = computed(() =>
 }
 
 .photo-box {
-  aspect-ratio: 3 / 4.2;
+  aspect-ratio: 280 / 422; // пропорция фото макета
   overflow: hidden;
   background: var(--color-stone);
 }
@@ -144,25 +163,53 @@ const cards = computed(() =>
   align-items: center;
   justify-content: space-between;
   gap: calc(var(--spacing) * 2);
-  margin-top: calc(var(--spacing) * 5);
-  @include text-card;
+  margin-top: calc(var(--spacing) * 2.5); // моб.: фото→название 10px
+  font-size: var(--text-small); // моб.: 12 / 14.4
+  font-weight: 500;
+  line-height: 1.2;
   text-transform: uppercase;
+
+  @include from-md {
+    margin-top: calc(var(--spacing) * 5); // десктоп: 20px
+    @include text-card; // 24 / 28.8
+    text-transform: uppercase;
+  }
 
   .arrow {
     flex-shrink: 0;
+    width: calc(var(--spacing) * 4);
     color: var(--color-ink-muted);
     transition: transform 0.2s;
+
+    @include from-md {
+      width: auto;
+    }
   }
 }
 
 .price {
-  margin-top: calc(var(--spacing) * 2);
-  color: var(--color-ink-muted);
-  @include text-body-sm;
+  margin-top: calc(var(--spacing) * 1.25); // название→цена 5px
+  @include text-small; // моб.: 12
+
+  @include from-md {
+    @include text-caption; // десктоп: 14 / 16.8
+  }
 }
 
 .more {
-  margin-top: calc(var(--spacing) * 12);
-  text-align: center;
+  margin-top: calc(var(--spacing) * 8); // моб.: до кнопки 32px
+
+  @include from-md {
+    margin-top: calc(var(--spacing) * 14.5); // десктоп: цены→кнопка 58px
+    text-align: center;
+  }
+
+  :deep(.button) {
+    width: 100%; // моб.: кнопка во всю ширину (366×62)
+
+    @include from-md {
+      width: auto;
+    }
+  }
 }
 </style>
