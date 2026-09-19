@@ -3,12 +3,36 @@
 // заголовок 96/96 (моб. 60/54), подзаголовок 24 (моб. 18) на одной нижней
 // линии с кнопками; кнопки — outline-пилюля 62px + круглая play 62×62;
 // затемняющих оверлеев поверх фото в макете нет.
-defineProps<{
+// Фон — видео: крутится беззвучно поверх фото (фото остаётся постером
+// и фолбэком), появляется с плавным проявлением; кнопка play включает
+// и выключает звук того же видео. При prefers-reduced-motion видео
+// не запускается вовсе — остаётся статичное фото.
+const props = defineProps<{
   title: string
   subtitle: string
   cta: string
   image: { src: string; alt: string }
+  video?: string
 }>()
+
+const videoEl = ref<HTMLVideoElement>()
+const videoReady = ref(false)
+const soundOn = ref(false)
+const showVideo = ref(false)
+
+onMounted(() => {
+  if (!props.video) return
+  // видео только тем, кто не просил убрать анимацию
+  showVideo.value = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
+
+function toggleSound() {
+  const v = videoEl.value
+  if (!v) return
+  if (v.paused) v.play().catch(() => {})
+  v.muted = soundOn.value
+  soundOn.value = !soundOn.value
+}
 </script>
 
 <template>
@@ -19,6 +43,16 @@ defineProps<{
       sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" fetchpriority="high" preload
       class="bg"
     />
+    <video
+      v-if="showVideo"
+      ref="videoEl"
+      class="bg video"
+      :class="{ ready: videoReady }"
+      autoplay muted loop playsinline preload="metadata"
+      @playing="videoReady = true"
+    >
+      <source :src="video" type="video/mp4">
+    </video>
     <!-- оверлеи из макета (слой «luch_render 3»): затемнение низа + синий градиент под шапку -->
     <div aria-hidden="true" class="shade-bottom" />
     <div aria-hidden="true" class="shade-top" />
@@ -29,10 +63,21 @@ defineProps<{
         <p class="subtitle">{{ subtitle }}</p>
         <div class="actions">
           <UiButton variant="outline-light" size="lg" to="/#products">{{ cta }}</UiButton>
-          <!-- видео о компании появится позже — кнопка из макета, пока без действия -->
-          <button type="button" class="play" aria-label="Видео о компании" disabled>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <button
+            v-if="showVideo"
+            type="button" class="play"
+            :aria-label="soundOn ? 'Выключить звук видео' : 'Включить звук видео'"
+            :aria-pressed="soundOn"
+            @click="toggleSound"
+          >
+            <svg v-if="!soundOn" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M8 5.5v13l11-6.5-11-6.5Z" />
+            </svg>
+            <!-- звук включён — иконка динамика с волнами -->
+            <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4v-5Z" fill="currentColor" />
+              <path d="M15.5 9a4.2 4.2 0 0 1 0 6" stroke-linecap="round" />
+              <path d="M18 6.7a7.6 7.6 0 0 1 0 10.6" stroke-linecap="round" />
             </svg>
           </button>
         </div>
@@ -59,6 +104,16 @@ defineProps<{
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// видео проявляется поверх фото, когда реально пошли кадры
+.video {
+  opacity: 0;
+  transition: opacity 0.8s;
+
+  &.ready {
+    opacity: 1;
+  }
 }
 
 .shade-bottom {
