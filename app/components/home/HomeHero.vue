@@ -37,9 +37,10 @@ function toggleSound() {
 
 <template>
   <section class="hero">
+    <!-- постер = первый кадр видео, поэтому старт ролика бесшовный -->
     <NuxtImg
       format="webp"
-      :src="image.src" :alt="image.alt" width="2560" height="1398"
+      :src="image.src" :alt="image.alt" width="1920" height="1072"
       sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" fetchpriority="high" preload
       class="bg"
     />
