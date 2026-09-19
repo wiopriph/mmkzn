@@ -13,17 +13,23 @@ const props = defineProps<{
   cta: string
   image: { src: string; alt: string }
   video?: string
+  videoMobile?: string
 }>()
 
 const videoEl = ref<HTMLVideoElement>()
 const videoReady = ref(false)
 const soundOn = ref(false)
 const showVideo = ref(false)
+const videoSrc = ref<string>()
 
 onMounted(() => {
   if (!props.video) return
   // видео только тем, кто не просил убрать анимацию
   showVideo.value = !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  // узким экранам — лёгкий 720p-файл (выбор один раз при загрузке)
+  videoSrc.value = props.videoMobile && window.matchMedia('(max-width: 767px)').matches
+    ? props.videoMobile
+    : props.video
 })
 
 function toggleSound() {
@@ -52,7 +58,7 @@ function toggleSound() {
       autoplay muted loop playsinline preload="metadata"
       @playing="videoReady = true"
     >
-      <source :src="video" type="video/mp4">
+      <source :src="videoSrc" type="video/mp4">
     </video>
     <!-- оверлеи из макета (слой «luch_render 3»): затемнение низа + синий градиент под шапку -->
     <div aria-hidden="true" class="shade-bottom" />
