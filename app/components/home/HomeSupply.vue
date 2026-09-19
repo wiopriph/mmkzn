@@ -4,20 +4,50 @@
 // blend LINEAR_DODGE = plus-lighter) → тёмно-синий градиент к низу (op 0.9)
 // → заголовок 96/96 (моб. 60) и подзаголовок 18/25.2 слева внизу.
 // Подписи городов в макете лежат ниже кадра (y758+) — в секцию не попадают.
-defineProps<{
+// Фон — беззвучное видео поверх фото (фото остаётся постером и фолбэком);
+// секция глубоко под сгибом, поэтому видео монтируется только когда она
+// подъезжает к экрану, а при prefers-reduced-motion не грузится вовсе.
+const props = defineProps<{
   title: string
   subtitle: string
   image: { src: string; alt: string }
+  video?: string
 }>()
+
+const sectionEl = ref<HTMLElement>()
+const videoReady = ref(false)
+const showVideo = ref(false)
+
+onMounted(() => {
+  if (!props.video || !sectionEl.value) return
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const io = new IntersectionObserver((entries) => {
+    if (entries.some(e => e.isIntersecting)) {
+      showVideo.value = true
+      io.disconnect()
+    }
+  }, { rootMargin: '200px' })
+  io.observe(sectionEl.value)
+  onBeforeUnmount(() => io.disconnect())
+})
 </script>
 
 <template>
-  <section id="supply" class="supply">
+  <section id="supply" ref="sectionEl" class="supply">
     <NuxtImg
       format="webp"
       :src="image.src" :alt="image.alt" width="2560" height="1398"
       sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" loading="lazy" class="bg"
     />
+    <video
+      v-if="showVideo"
+      class="bg video"
+      :class="{ ready: videoReady }"
+      autoplay muted loop playsinline preload="none"
+      @playing="videoReady = true"
+    >
+      <source :src="video" type="video/mp4">
+    </video>
     <!-- контурная карта Татарстана поверх фото режимом plus-lighter, как в макете -->
     <img src="/design/map-tatarstan.svg" alt="" aria-hidden="true" class="map">
     <!-- слой затемнения макета — те же два градиента, что в hero -->
@@ -45,6 +75,16 @@ defineProps<{
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+// видео проявляется поверх фото, когда реально пошли кадры
+.video {
+  opacity: 0;
+  transition: opacity 0.8s;
+
+  &.ready {
+    opacity: 1;
+  }
 }
 
 .map {
