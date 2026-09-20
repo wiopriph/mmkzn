@@ -53,8 +53,8 @@ onMounted(() => {
     <div aria-hidden="true" class="shade shade-top" />
 
     <div class="container inner">
-      <h2 class="title">{{ title }}</h2>
-      <p class="subtitle">{{ subtitle }}</p>
+      <h2 v-reveal class="title">{{ title }}</h2>
+      <p v-reveal="{ delay: 150 }" class="subtitle">{{ subtitle }}</p>
     </div>
   </section>
 </template>

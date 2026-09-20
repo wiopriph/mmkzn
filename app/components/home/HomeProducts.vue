@@ -41,8 +41,8 @@ const cards = computed(() => {
       <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern pattern-m">
       <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern pattern-d">
       <div class="container banner-inner">
-        <h2 class="banner-title">{{ title }}</h2>
-        <p class="banner-intro">
+        <h2 v-reveal class="banner-title">{{ title }}</h2>
+        <p v-reveal="{ delay: 150 }" class="banner-intro">
           {{ introBefore }}
           <NuxtLink :to="introLinkTo" class="intro-link">{{ introLink }}</NuxtLink>
           {{ introAfter }}
@@ -52,7 +52,7 @@ const cards = computed(() => {
 
     <div class="container catalog">
       <ul class="cards">
-        <li v-for="c in cards" :key="c.legacyPath">
+        <li v-for="(c, i) in cards" :key="c.legacyPath" v-reveal="{ delay: (i % 4) * 100 }">
           <NuxtLink :to="c.legacyPath" class="card">
             <div class="photo-box">
               <NuxtImg
@@ -69,7 +69,7 @@ const cards = computed(() => {
         </li>
       </ul>
 
-      <p class="more">
+      <p v-reveal class="more">
         <UiButton variant="outline-dark" size="lg" to="/nasha-produkcziya/">{{ cta }}</UiButton>
       </p>
     </div>

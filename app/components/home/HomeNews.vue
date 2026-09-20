@@ -46,7 +46,7 @@ function formatDate(iso: string) {
 
 <template>
   <section v-if="articles?.length" id="news" class="news">
-    <div class="container head">
+    <div v-reveal class="container head">
       <p class="intro">{{ intro }}</p>
 
       <div class="nav">
@@ -61,7 +61,7 @@ function formatDate(iso: string) {
       </div>
     </div>
 
-    <div ref="scroller" class="scroller" @scroll.passive="onScroll">
+    <div ref="scroller" v-reveal="{ delay: 100 }" class="scroller" @scroll.passive="onScroll">
       <NuxtLink v-for="a in articles" :key="a.path" :to="a.path" class="card">
         <NuxtImg
           v-if="a.cover" format="webp" :src="a.cover.src" :alt="a.cover.alt" width="780" height="1160"
@@ -75,7 +75,7 @@ function formatDate(iso: string) {
       </NuxtLink>
     </div>
 
-    <p class="container more">
+    <p v-reveal class="container more">
       <UiButton variant="outline-dark" size="lg" to="/blog/">{{ cta }}</UiButton>
     </p>
   </section>

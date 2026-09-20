@@ -24,11 +24,11 @@ defineProps<{
     </div>
 
     <div class="container grid">
-      <img src="/design/logo-sign-white.svg" alt="" aria-hidden="true" width="240" height="190" class="sign">
+      <img v-reveal src="/design/logo-sign-white.svg" alt="" aria-hidden="true" width="240" height="190" class="sign">
 
       <div class="head">
-        <h2 class="title">{{ title }}</h2>
-        <p class="text">
+        <h2 v-reveal class="title">{{ title }}</h2>
+        <p v-reveal="{ delay: 150 }" class="text">
           {{ textBefore }}
           <NuxtLink :to="textLinkTo" class="text-link">{{ textLink }}</NuxtLink>
           {{ textAfter }}
@@ -36,7 +36,7 @@ defineProps<{
       </div>
 
       <ul class="facts">
-        <li v-for="(f, i) in facts" :key="f.label" class="fact">
+        <li v-for="(f, i) in facts" :key="f.label" v-reveal="{ delay: i * 120 }" class="fact">
           <IconArrow v-if="i === facts.length - 1" class="fact-arrow" />
           <p v-if="f.value" class="value">{{ f.value }}</p>
           <IconCheckCircle v-else class="check" />

@@ -31,11 +31,11 @@ function onSubmit() {
 
     <div class="container inner">
       <div class="top">
-        <h2 class="title">{{ title }}</h2>
-        <p class="text">{{ text }}</p>
+        <h2 v-reveal class="title">{{ title }}</h2>
+        <p v-reveal="{ delay: 150 }" class="text">{{ text }}</p>
       </div>
 
-      <form v-if="form.state.value !== 'done'" class="form" @submit.prevent="onSubmit">
+      <form v-if="form.state.value !== 'done'" v-reveal="{ delay: 100 }" class="form" @submit.prevent="onSubmit">
         <UiInput v-model="form.name.value" name="name" :label="nameLabel" required autocomplete="name" />
         <UiInput v-model="form.phone.value" name="phone" :label="phoneLabel" type="tel" required autocomplete="tel" />
         <UiButton variant="gradient" size="lg" type="submit" class="submit" :aria-busy="form.state.value === 'sending'">
@@ -60,7 +60,7 @@ function onSubmit() {
         Спасибо! Заявка получена — перезвоним в ближайшее время.
       </p>
 
-      <div v-if="contacts" class="bottom">
+      <div v-if="contacts" v-reveal="{ delay: 200 }" class="bottom">
         <a :href="`tel:${contacts.phone.tel}`" class="phone">{{ contacts.phone.display }}</a>
         <div class="socials">
           <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->

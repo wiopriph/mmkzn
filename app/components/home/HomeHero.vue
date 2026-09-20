@@ -65,10 +65,10 @@ function toggleSound() {
     <div aria-hidden="true" class="shade-top" />
 
     <div class="container inner">
-      <h1 class="title">{{ title }}</h1>
+      <h1 v-reveal class="title">{{ title }}</h1>
       <div class="bottom">
-        <p class="subtitle">{{ subtitle }}</p>
-        <div class="actions">
+        <p v-reveal="{ delay: 150 }" class="subtitle">{{ subtitle }}</p>
+        <div v-reveal="{ delay: 250 }" class="actions">
           <UiButton variant="outline-light" size="lg" to="/#products">{{ cta }}</UiButton>
           <button
             v-if="showVideo"

@@ -19,20 +19,23 @@ defineProps<{
 <template>
   <section id="infra" class="infra">
     <div class="container grid">
-      <h2 class="title">{{ title }}</h2>
+      <h2 v-reveal class="title">{{ title }}</h2>
 
-      <div v-for="(s, i) in stats" :key="s.label" class="stat" :class="`stat-${i + 1}`">
+      <div
+        v-for="(s, i) in stats" :key="s.label" v-reveal="{ delay: i * 120 }"
+        class="stat" :class="`stat-${i + 1}`"
+      >
         <p class="stat-label">{{ s.label }}</p>
         <p class="stat-value">{{ s.value }}</p>
       </div>
 
-      <div class="note-block">
+      <div v-reveal class="note-block">
         <p class="note">{{ note }}</p>
         <!-- страница «Компания» появится на Этапе 5 — пока ведём к форме диалога -->
         <UiButton variant="outline-dark" size="lg" href="#dialog">Подробнее о нас</UiButton>
       </div>
 
-      <div class="region" aria-hidden="true">
+      <div v-reveal="{ delay: 150 }" class="region" aria-hidden="true">
         <span class="region-text">Республика Татарстан</span>
         <span class="region-text">Казань—2026</span>
         <img src="/design/sign-tatarstan.svg" alt="" class="region-sign">
