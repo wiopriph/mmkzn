@@ -1,75 +1,38 @@
-# Nuxt Minimal Starter
+# МируМир — mirumirkzn.ru
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Сайт компании «МируМир» (нерудные материалы, Казань): Nuxt 4 + @nuxt/content,
+статическая генерация. ТЗ и этапы — в [PROMPT.md](PROMPT.md), журнал решений —
+в [DECISIONS.md](DECISIONS.md).
 
-## Setup
+## Команды
 
-Make sure to install dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Нужен Node ≥ 22.12 (см. `.nvmrc`).
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm install        # зависимости
+npm run dev        # дев-сервер на :3000
+npm run build      # прод-сборка (.output)
+npm run generate   # статика для деплоя (dist)
+npm run tokens     # пересобрать SCSS-переменные из data/design/tokens.json
 ```
 
-## Production
+## Как устроено
 
-Build the application for production:
+- **Контент** — `content/`: материалы (`materials/*.md`, цены и характеристики
+  во frontmatter), статьи блога (`articles/`), услуги, страницы и общие данные
+  (`_data/*.yml`: контакты, главная, CTA-диалог).
+- **Дизайн-токены** — `data/design/tokens.json` → `npm run tokens` →
+  `app/assets/scss/variables.scss` (+ миксины в `_mixins.scss`). В стилях —
+  только `var(--…)` и миксины.
+- **Страницы** — `app/pages/`; карточки материалов живут на старых URL
+  (`/opgs/` и т.д.) через `[slug].vue` и `legacyPath` во frontmatter.
+- **SEO** — @nuxtjs/seo; мета страниц-копий сохранена из старого сайта.
+  Весь сайт закрыт от индексации (`site.indexable: false` в `nuxt.config.ts`)
+  до боевого запуска — снять на Этапе 8!
+- **Форма заявки** — `server/api/lead.post.ts`, до Этапа 1 отвечает 501,
+  форма показывает телефонный фолбэк.
 
-```bash
-# npm
-npm run build
+## Деплой-превью
 
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Render Static Site: `npm ci && npm run generate`, publish `dist`,
+`NODE_VERSION=22.23.2`. Прод по ТЗ — Beget (Этап 1).
