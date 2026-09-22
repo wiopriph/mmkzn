@@ -38,8 +38,10 @@ applications:
   - Ландшафтный дизайн
   - Балластные слои железнодорожных путей
 images:
-  - src: /legacy/media/312v31vv3113v.png
+  - src: /design/materials/312v31vv3113v.png
     alt: Щебень известковый фракционный 20-80
+    width: 600
+    height: 600
 seo:
   title: Щебень известковый фракционный 20-80 - ООО МируМир
   description: ""

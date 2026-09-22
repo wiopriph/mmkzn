@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// Политика обработки ПД: текстовая страница на новом лейауте, noindex.
+definePageMeta({ headerTheme: 'solid' })
+
 const { data: page } = await useAsyncData('page-politika', () =>
   queryCollection('pages').where('stem', 'LIKE', '%politika').first())
 

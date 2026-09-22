@@ -57,8 +57,10 @@ applications:
   - Обратная отсыпка и дренирование почвы
   - Ландшафтный дизайн
 images:
-  - src: /legacy/media/pesok-rechnoy.jpg
+  - src: /design/materials/pesok-rechnoy.jpg
     alt: Песок речной
+    width: 779
+    height: 779
 seo:
   title: Песок речной - ООО МируМир
   description: ""

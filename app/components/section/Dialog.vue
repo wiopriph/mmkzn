@@ -5,14 +5,20 @@
 // телефон 36/38.2 и кружки MAX+Telegram 48px — слева снизу, узор 600×528
 // справа за верхней кромкой. Мобилка — фрейм 10406:4320 (390×900): всё в стопку,
 // заголовок 58/58, форма 292px, телефон 32/33.9 и иконки по центру.
-defineProps<{
+// Общий CTA-блок: тексты в content/_data/dialog.yml, ставится на любую страницу.
+interface DialogData {
   title: string
   text: string
   nameLabel: string
   phoneLabel: string
   submit: string
   consent: string
-}>()
+}
+
+const { data: dialog } = await useAsyncData('dialog', async () => {
+  const doc = await queryCollection('data').where('stem', 'LIKE', '%dialog').first()
+  return unwrapDataDoc<DialogData>(doc)
+})
 
 const { data: contacts } = useContacts()
 const route = useRoute()
@@ -24,25 +30,25 @@ function onSubmit() {
 </script>
 
 <template>
-  <section id="dialog" class="dialog">
+  <section v-if="dialog" id="dialog" class="dialog">
     <div aria-hidden="true" class="pattern-holder">
       <img src="/design/pattern-dialog.svg" alt="" class="pattern">
     </div>
 
     <div class="container inner">
       <div class="top">
-        <h2 v-reveal class="title">{{ title }}</h2>
-        <p v-reveal="{ delay: 150 }" class="text">{{ text }}</p>
+        <h2 v-reveal class="title">{{ dialog.title }}</h2>
+        <p v-reveal="{ delay: 150 }" class="text">{{ dialog.text }}</p>
       </div>
 
       <form v-if="form.state.value !== 'done'" v-reveal="{ delay: 100 }" class="form" @submit.prevent="onSubmit">
-        <UiInput v-model="form.name.value" name="name" :label="nameLabel" required autocomplete="name" />
-        <UiInput v-model="form.phone.value" name="phone" :label="phoneLabel" type="tel" required autocomplete="tel" />
+        <UiInput v-model="form.name.value" name="name" :label="dialog.nameLabel" required autocomplete="name" />
+        <UiInput v-model="form.phone.value" name="phone" :label="dialog.phoneLabel" type="tel" required autocomplete="tel" />
         <UiButton variant="gradient" size="lg" type="submit" class="submit" :aria-busy="form.state.value === 'sending'">
-          {{ form.state.value === 'sending' ? 'Отправляем…' : submit }}
+          {{ form.state.value === 'sending' ? 'Отправляем…' : dialog.submit }}
         </UiButton>
         <UiCheckbox v-model="form.consent.value" name="consent" required class="consent">
-          <NuxtLink to="/politika/" class="consent-link">{{ consent }}</NuxtLink>
+          <NuxtLink to="/politika/" class="consent-link">{{ dialog.consent }}</NuxtLink>
         </UiCheckbox>
 
         <p v-if="form.state.value === 'unavailable' && contacts" role="status" class="status">

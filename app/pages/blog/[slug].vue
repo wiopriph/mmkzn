@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Черновой каркас страницы статьи — типографика и related-материалы на Этапе 7.
-definePageMeta({ layout: 'redesign', headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' })
 
 const route = useRoute()
 

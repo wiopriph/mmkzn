@@ -71,8 +71,10 @@ applications:
   - Пешеходные зоны и садовые тропинки
   - Экологически чистые покрытия в местах отдыха
 images:
-  - src: /legacy/media/scheben-frakciya-5-20.jpg
+  - src: /design/materials/scheben-frakciya-5-20.jpg
     alt: Гравий фракционный 5-20
+    width: 800
+    height: 800
 seo:
   title: Гравий фракционный 5-20 - ООО МируМир
   description: ""

@@ -17,8 +17,10 @@ applications:
   - Заполнитель бетона и строительных смесей
   - Засыпка малонагруженных фундаментов и уплотнение грунта
 images:
-  - src: /legacy/media/5f0c84a65c6c1a34367dd9ca-1.jpg
+  - src: /design/materials/5f0c84a65c6c1a34367dd9ca-1.jpg
     alt: Гравий фракционный 20+
+    width: 360
+    height: 360
 seo:
   title: Гравий фракционный 20+ - ООО МируМир
   description: ""

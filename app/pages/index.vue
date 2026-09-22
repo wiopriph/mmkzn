@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Главная в редизайне (Этап 3, макет Figma «NY 90»).
 // SEO-мета остаётся прежней (copy-first) до отдельного решения.
-definePageMeta({ layout: 'redesign', headerTheme: 'overlay' })
+definePageMeta({ headerTheme: 'overlay' })
 
 interface Home {
   seo: { title: string; description: string; ogImage?: string }
@@ -11,7 +11,6 @@ interface Home {
   trust: { title: string; textBefore: string; textLink: string; textLinkTo: string; textAfter: string; facts: { value: string; label: string }[] }
   supply: { title: string; subtitle: string; image: { src: string; alt: string } }
   news: { title: string; intro: string; cta: string }
-  dialog: { title: string; text: string; nameLabel: string; phoneLabel: string; submit: string; consent: string }
 }
 
 const { data: home } = await useAsyncData('home', async () => {
@@ -45,6 +44,6 @@ useSeoMeta({
     <HomeTrust v-bind="home.trust" />
     <HomeSupply v-bind="home.supply" />
     <HomeNews :intro="home.news.intro" :cta="home.news.cta" />
-    <HomeDialog v-bind="home.dialog" />
+    <SectionDialog />
   </main>
 </template>

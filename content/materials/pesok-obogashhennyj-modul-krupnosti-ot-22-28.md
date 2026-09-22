@@ -57,8 +57,10 @@ applications:
   - Наливные полы и фундаментные работы
   - Фильтрующие слои при обустройстве скважин
 images:
-  - src: /legacy/media/pesok-obogasheniy-e1649066227880.jpg
+  - src: /design/materials/pesok-obogasheniy-e1649066227880.jpg
     alt: Песок обогащенный (модуль крупности от 2,2-2,8)
+    width: 787
+    height: 787
 seo:
   title: Песок обогащенный (модуль крупности от 2,2-2,8) - ООО МируМир
   description: ""

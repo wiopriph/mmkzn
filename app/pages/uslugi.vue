@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Черновой каркас страницы услуг — полная вёрстка по макету придёт на Этапе 5.
 // Тексты услуг — со старого сайта (content/services), не выдуманы.
-definePageMeta({ layout: 'redesign', headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' })
 
 const { data: services } = await useAsyncData('services-list', () =>
   queryCollection('services').order('order', 'ASC').all())
@@ -21,10 +21,8 @@ useSeoMeta({
         <p class="summary">{{ s.summary }}</p>
       </li>
     </ul>
-    <div class="cta">
-      <UiButton variant="gradient" size="lg" href="/#dialog">Обсудить задачу</UiButton>
-    </div>
   </main>
+  <SectionDialog />
 </template>
 
 <style scoped lang="scss">
@@ -66,9 +64,5 @@ useSeoMeta({
 .summary {
   @include text-body-sm;
   color: var(--color-ink-muted);
-}
-
-.cta {
-  margin-top: calc(var(--spacing) * 10);
 }
 </style>

@@ -38,8 +38,10 @@ applications:
   - Дренирование грунтов
   - Жилищное строительство и ландшафтный дизайн
 images:
-  - src: /legacy/media/chebu.jpg
+  - src: /design/materials/chebu.jpg
     alt: Щебень известковый фракционный 20-40
+    width: 500
+    height: 500
 seo:
   title: Щебень известковый фракционный 20-40 - ООО МируМир
   description: ""

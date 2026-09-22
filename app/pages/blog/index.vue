@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Черновой каркас ленты блога — полноценная лента и RSS придут на Этапе 7.
-definePageMeta({ layout: 'redesign', headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' })
 
 const { data: articles } = await useAsyncData('blog-list', () =>
   queryCollection('articles')

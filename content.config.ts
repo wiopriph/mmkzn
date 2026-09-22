@@ -36,7 +36,12 @@ export default defineContentConfig({
         price: price,
         specs: z.array(specRow),
         applications: z.array(z.string()),   // где применяется
-        images: z.array(z.object({ src: z.string(), alt: z.string() })),
+        images: z.array(z.object({
+          src: z.string(),
+          alt: z.string(),
+          width: z.number().optional(),
+          height: z.number().optional(),
+        })),
         seo: seo,
       }),
     }),

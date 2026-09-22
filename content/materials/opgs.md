@@ -51,8 +51,10 @@ applications:
   - Рекультивация земель и благоустройство территорий
   - Наполнитель для бетона
 images:
-  - src: /legacy/media/opgs1.jpg
+  - src: /design/materials/opgs1.jpg
     alt: ОПГС — обогащенная песчано-гравийная смесь
+    width: 780
+    height: 749
 seo:
   title: ОПГС - ООО МируМир
   description: ""

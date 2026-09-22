@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // Витрина дизайн-системы вместо Storybook (Этап 2). Не индексируется.
-definePageMeta({ layout: 'redesign', headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' })
 
 useSeoMeta({ title: 'Kitchen sink — дизайн-система', robots: 'noindex, nofollow' })
 

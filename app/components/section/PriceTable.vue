@@ -1,13 +1,14 @@
 <script setup lang="ts">
-// Прайс собирается из карточек материалов — цена живёт в одном месте (копийные страницы).
+// Прайс собирается из карточек материалов — цена живёт в одном месте
+// (раздел 6.3 PROMPT.md). Стилистика — по типографике редизайна.
 const { data: prices } = usePrices()
 const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== null || p.cash !== null))
 </script>
 
 <template>
   <section id="price" class="container prices">
-    <h2 class="title">Цены</h2>
-    <div class="scroll">
+    <h2 v-reveal class="title">Цены</h2>
+    <div v-reveal class="scroll">
       <table class="table">
         <caption class="visually-hidden">Прайс-лист на нерудные материалы</caption>
         <thead>
@@ -28,21 +29,24 @@ const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== nu
         </tbody>
       </table>
     </div>
-    <p class="order">
-      <a href="#form" class="order-btn">Заказать!</a>
+    <p v-reveal class="order">
+      <UiButton variant="gradient" size="lg" href="#dialog">Заказать!</UiButton>
     </p>
   </section>
 </template>
 
 <style scoped lang="scss">
 .prices {
-  padding-block: calc(var(--spacing) * 14);
+  padding-block: calc(var(--spacing) * 10) calc(var(--spacing) * 15);
 }
 
 .title {
   margin-bottom: calc(var(--spacing) * 8);
   @include text-h3;
-  text-align: center;
+
+  @include from-md {
+    @include text-h2;
+  }
 }
 
 .scroll {
@@ -55,18 +59,16 @@ const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== nu
 
   th {
     padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4) calc(var(--spacing) * 3) 0;
-    border-bottom: 2px solid var(--color-stone);
-    font-weight: 600;
+    border-bottom: 1px solid var(--color-ink);
+    @include text-caption;
+    font-weight: 500;
     text-align: left;
   }
 
   td {
-    padding: calc(var(--spacing) * 2.5) calc(var(--spacing) * 4) calc(var(--spacing) * 2.5) 0;
-    border-bottom: 1px solid var(--color-stone);
-  }
-
-  tbody tr:nth-child(even) {
-    background: color-mix(in srgb, var(--color-stone) 50%, transparent);
+    padding: calc(var(--spacing) * 3.5) calc(var(--spacing) * 4) calc(var(--spacing) * 3.5) 0;
+    border-bottom: 1px solid var(--color-line);
+    @include text-body-sm;
   }
 }
 
@@ -75,8 +77,6 @@ const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== nu
 }
 
 .link {
-  text-decoration: underline;
-
   &:hover,
   &:focus-visible {
     color: var(--color-brand);
@@ -85,20 +85,5 @@ const priced = computed(() => (prices.value ?? []).filter(p => p.cashless !== nu
 
 .order {
   margin-top: calc(var(--spacing) * 8);
-  text-align: center;
-}
-
-.order-btn {
-  display: inline-block;
-  padding: calc(var(--spacing) * 3) calc(var(--spacing) * 10);
-  border-radius: var(--radius-pill);
-  background: var(--color-accent);
-  color: var(--color-paper);
-  font-weight: 600;
-
-  &:hover,
-  &:focus-visible {
-    opacity: 0.9;
-  }
 }
 </style>
