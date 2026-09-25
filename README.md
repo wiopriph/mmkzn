@@ -29,10 +29,22 @@ npm run tokens     # пересобрать SCSS-переменные из data/
 - **SEO** — @nuxtjs/seo; мета страниц-копий сохранена из старого сайта.
   Весь сайт закрыт от индексации (`site.indexable: false` в `nuxt.config.ts`)
   до боевого запуска — снять на Этапе 8!
-- **Форма заявки** — `server/api/lead.post.ts`, до Этапа 1 отвечает 501,
-  форма показывает телефонный фолбэк.
+- **Форма заявки** — `server/api/lead.post.ts`: валидация + антиспам +
+  отправка в Telegram (переменные из `.env`, образец — `.env.example`).
+  Без настроенного бота отвечает 501, форма показывает телефонный фолбэк.
+  Postgres добавится на Этапе 1.
 
-## Деплой-превью
+## Деплой
 
-Render Static Site: `npm ci && npm run generate`, publish `dist`,
-`NODE_VERSION=22.23.2`. Прод по ТЗ — Beget (Этап 1).
+Гибрид: страницы пререндерены в HTML на сборке, `/api/*` живёт в node-процессе.
+
+```bash
+npm run build
+node .output/server/index.mjs   # PORT=3000 по умолчанию
+```
+
+Render (превью) — Web Service: build `npm ci && npm run build`,
+start `node .output/server/index.mjs`, env `NODE_VERSION=22.23.2` +
+переменные из `.env.example`. Прод по ТЗ — Beget VPS, тот же процесс за Caddy
+(Этап 1). Чистая статика (`npm run generate` → `dist`) тоже работает —
+без ручек: форма деградирует в телефонный фолбэк.

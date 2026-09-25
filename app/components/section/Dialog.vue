@@ -42,6 +42,11 @@ function onSubmit() {
       </div>
 
       <form v-if="form.state.value !== 'done'" v-reveal="{ delay: 100 }" class="form" @submit.prevent="onSubmit">
+        <!-- honeypot-антиспам: поле скрыто от людей, боты его заполняют -->
+        <input
+          v-model="form.company.value" type="text" name="company" tabindex="-1"
+          autocomplete="off" aria-hidden="true" class="hp"
+        >
         <UiInput v-model="form.name.value" name="name" :label="dialog.nameLabel" required autocomplete="name" />
         <UiInput v-model="form.phone.value" name="phone" :label="dialog.phoneLabel" type="tel" required autocomplete="tel" />
         <UiButton variant="gradient" size="lg" type="submit" class="submit" :aria-busy="form.state.value === 'sending'">
@@ -188,6 +193,15 @@ function onSubmit() {
       margin-top: calc(var(--spacing) * 2.5); // десктоп 10
     }
   }
+}
+
+// honeypot — за экраном; display:none нельзя, часть ботов такое распознаёт
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
 }
 
 .consent-link {

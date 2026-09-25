@@ -10,6 +10,14 @@ export default defineNuxtConfig({
     '@nuxtjs/seo',
   ],
 
+  // серверные секреты формы заявки; значения приходят из env:
+  // NUXT_TELEGRAM_BOT_TOKEN, NUXT_TELEGRAM_CHAT_ID, NUXT_IP_SALT
+  runtimeConfig: {
+    telegramBotToken: '',
+    telegramChatId: '',
+    ipSalt: '',
+  },
+
   css: ['~/assets/scss/index.scss'],
   vite: {
     css: {
