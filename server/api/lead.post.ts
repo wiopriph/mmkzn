@@ -86,19 +86,26 @@ export default defineEventHandler(async (event) => {
     utm ? `UTM: ${utm}` : '',
   ].filter(Boolean)
 
-  try {
-    await $fetch(`https://api.telegram.org/bot${config.telegramBotToken}/sendMessage`, {
+  // NUXT_TELEGRAM_CHAT_ID — один id или несколько через запятую
+  // (личка менеджера — положительный, группа — отрицательный -100…)
+  const chatIds = config.telegramChatId.split(',').map(s => s.trim()).filter(Boolean)
+
+  const results = await Promise.allSettled(chatIds.map(chatId =>
+    $fetch(`https://api.telegram.org/bot${config.telegramBotToken}/sendMessage`, {
       method: 'POST',
       timeout: 5000,
       body: {
-        chat_id: config.telegramChatId,
+        chat_id: chatId,
         text: lines.join('\n'),
         parse_mode: 'HTML',
         disable_web_page_preview: true,
       },
-    })
-  } catch {
-    // наружу детали не текут — форма покажет телефонный фолбэк
+    }),
+  ))
+
+  // заявка считается доставленной, если дошла хотя бы одному получателю;
+  // наружу детали не текут — форма покажет телефонный фолбэк
+  if (!results.some(r => r.status === 'fulfilled')) {
     throw createError({ statusCode: 502, statusMessage: 'Delivery failed' })
   }
 
