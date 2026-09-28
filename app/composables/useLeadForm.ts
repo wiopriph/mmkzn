@@ -9,7 +9,7 @@ export function useLeadForm() {
   const company = ref('')
   const startedAt = Date.now()
 
-  const state = ref<'idle' | 'sending' | 'done' | 'unavailable' | 'error'>('idle')
+  const state = ref<'idle' | 'sending' | 'done' | 'invalid' | 'unavailable' | 'error'>('idle')
 
   const route = useRoute()
 
@@ -42,8 +42,11 @@ export function useLeadForm() {
       state.value = 'done'
     } catch (e: unknown) {
       const status = (e as { statusCode?: number })?.statusCode
+      // 400 — не прошла валидация (обычно телефон не в РФ-формате);
       // 501 — ручка не настроена; 404/405 — статическая сборка без сервера
-      state.value = status === 501 || status === 404 || status === 405 ? 'unavailable' : 'error'
+      state.value = status === 400
+        ? 'invalid'
+        : status === 501 || status === 404 || status === 405 ? 'unavailable' : 'error'
     }
   }
 

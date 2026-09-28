@@ -56,7 +56,11 @@ function onSubmit() {
           <NuxtLink to="/politika/" class="consent-link">{{ dialog.consent }}</NuxtLink>
         </UiCheckbox>
 
-        <p v-if="form.state.value === 'unavailable' && contacts" role="status" class="status">
+        <p v-if="form.state.value === 'invalid'" role="status" class="status">
+          Проверьте номер телефона — нужен российский формат,
+          например 8 (900) 000-00-00.
+        </p>
+        <p v-else-if="form.state.value === 'unavailable' && contacts" role="status" class="status">
           Онлайн-заявки заработают после запуска нового сайта. Пока позвоните нам:
           <a :href="`tel:${contacts.phone.tel}`" class="status-link">{{ contacts.phone.display }}</a>
           — или напишите в мессенджеры.
