@@ -86,9 +86,10 @@ export default defineEventHandler(async (event) => {
     utm ? `UTM: ${utm}` : '',
   ].filter(Boolean)
 
-  // NUXT_TELEGRAM_CHAT_ID — один id или несколько через запятую
-  // (личка менеджера — положительный, группа — отрицательный -100…)
-  const chatIds = config.telegramChatId.split(',').map(s => s.trim()).filter(Boolean)
+  // NUXT_TELEGRAM_CHAT_ID — один id или несколько через запятую (личка —
+  // положительный, группа — отрицательный -100…). String(): одиночный
+  // числовой id Nuxt авто-типизирует из env в number
+  const chatIds = String(config.telegramChatId).split(',').map(s => s.trim()).filter(Boolean)
 
   const results = await Promise.allSettled(chatIds.map(chatId =>
     $fetch(`https://api.telegram.org/bot${config.telegramBotToken}/sendMessage`, {
