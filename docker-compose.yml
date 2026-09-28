@@ -1,0 +1,27 @@
+# Прод на Beget VPS: Caddy (TLS, 80/443) → app (Nuxt node-server, :3000).
+# Секреты — в .env рядом с этим файлом (образец: .env.example).
+# Postgres появится третьим сервисом на Этапе 1-доп (история заявок).
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy-data:
+  caddy-config:
