@@ -1,6 +1,12 @@
 # TLS-сертификаты Caddy получает и продлевает сам, когда DNS домена
 # укажет на этот сервер. До переключения DNS сайт проверяется с самого
 # сервера: curl -H "Host: mirumirkzn.ru" http://localhost
+
+# превью по голому IP без TLS — можно убрать после переключения DNS
+http://159.194.240.173 {
+	reverse_proxy app:3000
+}
+
 mirumirkzn.ru {
 	encode zstd gzip
 	reverse_proxy app:3000
