@@ -13,6 +13,11 @@ useSeoMeta({
   description: 'События и новости компании МируМир: поставки нерудных материалов в Татарстане.',
 })
 
+useOgMeta({
+  title: 'Новости — МируМир',
+  description: 'События и новости компании МируМир: поставки нерудных материалов в Татарстане.',
+})
+
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Новости' }],

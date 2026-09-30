@@ -14,6 +14,13 @@ useSeoMeta({
   description: article.value.seo.description || undefined,
 })
 
+useOgMeta({
+  title: article.value.seo.title,
+  description: article.value.seo.description || undefined,
+  image: article.value.cover?.src,
+  type: 'article',
+})
+
 // микроразметка: Article + хлебные крошки
 const site = useSiteConfig()
 useSchemaOrg([

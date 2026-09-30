@@ -17,6 +17,12 @@ useSeoMeta({
   description: material.value.seo.description || undefined,
 })
 
+useOgMeta({
+  title: material.value.seo.title,
+  description: material.value.seo.description || undefined,
+  image: material.value.images[0]?.src,
+})
+
 // микроразметка: Product с ценой и строками таблицы ГОСТ + хлебные крошки
 const site = useSiteConfig()
 const m = material.value

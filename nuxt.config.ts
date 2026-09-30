@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs'
+import { redirects } from './server/utils/redirects'
 
 // lastmod статей для sitemap — из frontmatter (updatedAt, иначе publishedAt);
 // собирается на этапе сборки, рантайму не нужно
@@ -92,6 +93,9 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    // карта 301 из server/utils/redirects.ts — единственного источника
+    ...Object.fromEntries(Object.entries(redirects).map(([from, to]) =>
+      [from, { redirect: { to, statusCode: 301 as const } }])),
     '/**': { prerender: true },
     '/api/**': { prerender: false, robots: false },
     '/_kitchen-sink': { robots: false, sitemap: false },
