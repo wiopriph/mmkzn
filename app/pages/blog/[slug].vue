@@ -14,6 +14,25 @@ useSeoMeta({
   description: article.value.seo.description || undefined,
 })
 
+// микроразметка: Article + хлебные крошки
+const site = useSiteConfig()
+useSchemaOrg([
+  defineArticle({
+    headline: article.value.title,
+    description: article.value.description,
+    image: article.value.cover ? site.url + article.value.cover.src : undefined,
+    datePublished: article.value.publishedAt,
+    dateModified: article.value.updatedAt || undefined,
+  }),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: 'Главная', item: '/' },
+      { name: 'Новости', item: '/blog/' },
+      { name: article.value.title },
+    ],
+  }),
+])
+
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
 }

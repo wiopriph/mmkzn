@@ -12,6 +12,12 @@ useSeoMeta({
   title: page.value.seo.title,
   description: page.value.seo.description || undefined,
 })
+
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Наша продукция' }],
+  }),
+])
 </script>
 
 <template>

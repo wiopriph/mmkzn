@@ -10,6 +10,12 @@ useSeoMeta({
   title: 'Услуги — МируМир',
   description: 'Транспортная обработка грузов, хранение и складирование, оптовая и розничная торговля нерудными материалами.',
 })
+
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Услуги' }],
+  }),
+])
 </script>
 
 <template>

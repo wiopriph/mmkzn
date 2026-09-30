@@ -12,6 +12,12 @@ useSeoMeta({
   description: page.value.seo.description || undefined,
   robots: 'noindex, follow',
 })
+
+useSchemaOrg([
+  defineBreadcrumb({
+    itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Политика обработки персональных данных' }],
+  }),
+])
 </script>
 
 <template>

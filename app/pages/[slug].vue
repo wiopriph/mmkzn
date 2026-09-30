@@ -16,6 +16,48 @@ useSeoMeta({
   title: material.value.seo.title,
   description: material.value.seo.description || undefined,
 })
+
+// микроразметка: Product с ценой и строками таблицы ГОСТ + хлебные крошки
+const site = useSiteConfig()
+const m = material.value
+
+const product: Record<string, unknown> = {
+  name: m.title,
+  description: m.seo.description || undefined,
+  image: m.images[0] ? site.url + m.images[0].src : undefined,
+}
+if (m.price.cashless !== null) {
+  product.offers = [{
+    price: m.price.cashless,
+    priceCurrency: 'RUB',
+    availability: 'https://schema.org/InStock',
+    url: site.url + m.legacyPath,
+    priceSpecification: {
+      '@type': 'UnitPriceSpecification',
+      price: m.price.cashless,
+      priceCurrency: 'RUB',
+      unitText: m.price.unit,
+    },
+  }]
+}
+if (m.specs.length) {
+  product.additionalProperty = m.specs.map(s => ({
+    '@type': 'PropertyValue',
+    name: s.param,
+    value: s.unit ? `${s.actual} ${s.unit}` : s.actual,
+  }))
+}
+
+useSchemaOrg([
+  defineProduct(product),
+  defineBreadcrumb({
+    itemListElement: [
+      { name: 'Главная', item: '/' },
+      { name: 'Наша продукция', item: '/nasha-produkcziya/' },
+      { name: m.shortTitle },
+    ],
+  }),
+])
 </script>
 
 <template>
