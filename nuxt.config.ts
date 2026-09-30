@@ -1,3 +1,18 @@
+import { readFileSync, readdirSync } from 'node:fs'
+
+// lastmod статей для sitemap — из frontmatter (updatedAt, иначе publishedAt);
+// собирается на этапе сборки, рантайму не нужно
+const articleSitemapUrls = readdirSync('./content/articles')
+  .filter(f => f.endsWith('.md'))
+  .map((f) => {
+    const src = readFileSync(`./content/articles/${f}`, 'utf8')
+    const date = (re: RegExp) => src.match(re)?.[1]
+    return {
+      loc: `/blog/${f.replace(/\.md$/, '')}/`,
+      lastmod: date(/updatedAt: "?([\d-]+)/) ?? date(/publishedAt: "?([\d-]+)/),
+    }
+  })
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2026-08-01',
@@ -33,6 +48,19 @@ export default defineNuxtConfig({
   // OG-картинки — Этап 8 (SEO-финиш); рендерер takumi не ставим до тех пор
   ogImage: { enabled: false },
 
+  // Clean-param — директива Яндекса: utm-метки не плодят дубли в индексе
+  // и не жгут краулинговый бюджет. Действует после снятия indexable: false.
+  robots: {
+    groups: [
+      { userAgent: '*', allow: '/' },
+      {
+        userAgent: 'Yandex',
+        allow: '/',
+        cleanParam: ['utm_source&utm_medium&utm_campaign&utm_content&utm_term'],
+      },
+    ],
+  },
+
   image: {
     quality: 72,
     format: ['webp'],
@@ -57,6 +85,10 @@ export default defineNuxtConfig({
       failOnError: true,
     },
     compressPublicAssets: { brotli: true, gzip: true },
+  },
+
+  sitemap: {
+    urls: articleSitemapUrls,
   },
 
   routeRules: {
