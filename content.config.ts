@@ -61,10 +61,11 @@ export default defineContentConfig({
         relatedMaterials: z.array(z.string()).default([]),  // slug'и материалов
         draft: z.boolean().default(false),
         seo: seo,
-        // статьи в sitemap с lastmod из дат контента
+        // статьи в sitemap с lastmod из дат контента; черновики не попадают
         sitemap: defineSitemapSchema({
           z,
           name: 'articles',
+          filter: (entry: unknown) => !(entry as { draft?: boolean }).draft,
           onUrl: (url, entry) => {
             const doc = entry as { updatedAt?: string; publishedAt?: string }
             const lastmod = doc.updatedAt || doc.publishedAt

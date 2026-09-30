@@ -6,7 +6,7 @@ publishedAt: "2026-04-25"
 cover:
   src: /design/photo-supply.jpg
   alt: Портовые краны и баржа в речном порту
-draft: false
+draft: true
 seo:
   title: Открыта навигация 2026 — МируМир
   description: Начало навигации — отгрузка нерудных материалов водным транспортом.

@@ -4,8 +4,9 @@ definePageMeta({ headerTheme: 'solid' })
 
 const route = useRoute()
 
+// черновики не отдаём даже по прямому URL
 const { data: article } = await useAsyncData(`article-${route.params.slug}`, () =>
-  queryCollection('articles').path(route.path).first())
+  queryCollection('articles').path(route.path).where('draft', '=', false).first())
 
 if (!article.value) throw createError({ statusCode: 404, statusMessage: 'Статья не найдена' })
 
