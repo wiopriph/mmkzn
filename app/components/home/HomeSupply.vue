@@ -12,49 +12,87 @@ const props = defineProps<{
   subtitle: string
   image: { src: string; alt: string }
   video?: string
-}>()
+}>();
 
-const sectionEl = ref<HTMLElement>()
-const videoReady = ref(false)
-const showVideo = ref(false)
+const sectionEl = ref<HTMLElement>();
+const videoReady = ref(false);
+const showVideo = ref(false);
 
 onMounted(() => {
-  if (!props.video || !sectionEl.value) return
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  if (!props.video || !sectionEl.value) return;
+
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const io = new IntersectionObserver((entries) => {
     if (entries.some(e => e.isIntersecting)) {
-      showVideo.value = true
-      io.disconnect()
+      showVideo.value = true;
+      io.disconnect();
     }
-  }, { rootMargin: '200px' })
-  io.observe(sectionEl.value)
-  onBeforeUnmount(() => io.disconnect())
-})
+  }, { rootMargin: '200px' });
+
+  io.observe(sectionEl.value);
+  onBeforeUnmount(() => io.disconnect());
+});
 </script>
 
 <template>
-  <section id="supply" ref="sectionEl" class="supply">
+  <section
+    id="supply"
+    ref="sectionEl"
+    class="supply"
+  >
     <NuxtImg
       format="webp"
-      :src="image.src" :alt="image.alt" width="2560" height="1398"
-      sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px" loading="lazy" class="bg"
+      :src="image.src"
+      :alt="image.alt"
+      width="2560"
+      height="1398"
+      sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px"
+      loading="lazy"
+      class="bg"
     />
+
     <video
       v-if="showVideo"
       class="bg video"
       :class="{ ready: videoReady }"
-      autoplay muted loop playsinline preload="none"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="none"
       @playing="videoReady = true"
     >
-      <source :src="video" type="video/mp4">
+      <source
+        :src="video"
+        type="video/mp4"
+      >
     </video>
     <!-- слой затемнения макета — те же два градиента, что в hero -->
-    <div aria-hidden="true" class="shade shade-bottom" />
-    <div aria-hidden="true" class="shade shade-top" />
+    <div
+      aria-hidden="true"
+      class="shade shade-bottom"
+    />
+
+    <div
+      aria-hidden="true"
+      class="shade shade-top"
+    />
 
     <div class="container inner">
-      <h2 v-reveal class="title">{{ title }}</h2>
-      <p v-reveal="{ delay: 150 }" class="subtitle">{{ subtitle }}</p>
+      <h2
+        v-reveal
+        class="title"
+      >
+        {{ title }}
+      </h2>
+
+      <p
+        v-reveal="{ delay: 150 }"
+        class="subtitle"
+      >
+        {{ subtitle }}
+      </p>
     </div>
   </section>
 </template>

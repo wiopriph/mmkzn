@@ -6,7 +6,8 @@ export function useOgMeta(opts: {
   image?: string
   type?: 'website' | 'article'
 }) {
-  const site = useSiteConfig()
+  const site = useSiteConfig();
+
   useSeoMeta({
     ogTitle: opts.title,
     ogDescription: opts.description,
@@ -15,5 +16,5 @@ export function useOgMeta(opts: {
     ogSiteName: site.name,
     ogImage: site.url + (opts.image ?? '/design/photo-hero.jpg'),
     twitterCard: 'summary_large_image',
-  })
+  });
 }

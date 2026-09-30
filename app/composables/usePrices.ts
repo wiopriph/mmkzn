@@ -13,7 +13,9 @@ export interface PriceRow {
 
 export function usePrices() {
   return useAsyncData('prices', async () => {
-    const materials = await queryCollection('materials').order('order', 'ASC').all()
+    const materials = await queryCollection('materials').order('order', 'ASC')
+      .all();
+
     return materials.map((m): PriceRow => ({
       title: m.title,
       shortTitle: m.shortTitle,
@@ -22,10 +24,10 @@ export function usePrices() {
       cash: m.price.cash,
       unit: m.price.unit,
       vatNote: m.price.vatNote,
-    }))
-  })
+    }));
+  });
 }
 
 export function formatPrice(value: number): string {
-  return value.toFixed(2).replace('.', ',')
+  return value.toFixed(2).replace('.', ',');
 }

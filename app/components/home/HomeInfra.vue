@@ -9,36 +9,74 @@
 //   «94»   x 40..600  ряд 2 (число 72px)  |  «500+» x 600..1160 ряд 2 (64px)
 //   текст+кнопка x 0  ряд 3               |  «90+»  x 600..920  ряд 3 (64px)
 interface Stat { label: string; value: string }
+
 defineProps<{
   title: string
   note: string
   stats: Stat[]
-}>()
+}>();
 </script>
 
 <template>
-  <section id="infra" class="infra">
+  <section
+    id="infra"
+    class="infra"
+  >
     <div class="container grid">
-      <h2 v-reveal class="title">{{ title }}</h2>
+      <h2
+        v-reveal
+        class="title"
+      >
+        {{ title }}
+      </h2>
 
       <div
-        v-for="(s, i) in stats" :key="s.label" v-reveal="{ delay: i * 120 }"
-        class="stat" :class="`stat-${i + 1}`"
+        v-for="(s, i) in stats"
+        :key="s.label"
+        v-reveal="{ delay: i * 120 }"
+        class="stat"
+        :class="`stat-${i + 1}`"
       >
-        <p class="stat-label">{{ s.label }}</p>
-        <p class="stat-value">{{ s.value }}</p>
+        <p class="stat-label">
+          {{ s.label }}
+        </p>
+
+        <p class="stat-value">
+          {{ s.value }}
+        </p>
       </div>
 
-      <div v-reveal class="note-block">
-        <p class="note">{{ note }}</p>
+      <div
+        v-reveal
+        class="note-block"
+      >
+        <p class="note">
+          {{ note }}
+        </p>
         <!-- страница «Компания» появится на Этапе 5 — пока ведём к форме диалога -->
-        <UiButton variant="outline-dark" size="lg" href="#dialog">Подробнее о нас</UiButton>
+        <UiButton
+          variant="outline-dark"
+          size="lg"
+          href="#dialog"
+        >
+          Подробнее о нас
+        </UiButton>
       </div>
 
-      <div v-reveal="{ delay: 150 }" class="region" aria-hidden="true">
+      <div
+        v-reveal="{ delay: 150 }"
+        class="region"
+        aria-hidden="true"
+      >
         <span class="region-text">Республика Татарстан</span>
+
         <span class="region-text">Казань—2026</span>
-        <img src="/design/sign-tatarstan.svg" alt="" class="region-sign">
+
+        <img
+          src="/design/sign-tatarstan.svg"
+          alt=""
+          class="region-sign"
+        >
       </div>
     </div>
   </section>

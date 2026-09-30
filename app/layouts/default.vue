@@ -3,10 +3,10 @@
 // на белом — по headerTheme страницы) + контент + подвал.
 // Здесь же — глобальная микроразметка Organization/LocalBusiness:
 // контакты из contacts.yml, разметка попадает на каждую страницу.
-const { data: contacts } = await useContacts()
-const site = useSiteConfig()
+const { data: contacts } = await useContacts();
+const site = useSiteConfig();
 
-const [inn, ogrn] = (contacts.value?.requisites ?? '').split('/')
+const [inn, ogrn] = (contacts.value?.requisites ?? '').split('/');
 
 useSchemaOrg([
   defineLocalBusiness({
@@ -29,15 +29,17 @@ useSchemaOrg([
     },
     areaServed: 'Республика Татарстан',
   }),
-])
+]);
 </script>
 
 <template>
   <div class="shell">
     <LayoutSiteHeader :theme="($route.meta.headerTheme as 'overlay' | 'solid') ?? 'overlay'" />
+
     <div class="page">
       <slot />
     </div>
+
     <LayoutSiteFooter />
   </div>
 </template>

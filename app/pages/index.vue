@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Главная в редизайне (Этап 3, макет Figma «NY 90»).
 // SEO-мета остаётся прежней (copy-first) до отдельного решения.
-definePageMeta({ headerTheme: 'overlay' })
+definePageMeta({ headerTheme: 'overlay' });
 
 interface Home {
   seo: { title: string; description: string; ogImage?: string }
@@ -14,13 +14,15 @@ interface Home {
 }
 
 const { data: home } = await useAsyncData('home', async () => {
-  const doc = await queryCollection('data').where('stem', 'LIKE', '%home').first()
-  return unwrapDataDoc<Home>(doc)
-})
+  const doc = await queryCollection('data').where('stem', 'LIKE', '%home')
+    .first();
 
-if (!home.value) throw createError({ statusCode: 500, statusMessage: 'home.yml not found' })
+  return unwrapDataDoc<Home>(doc);
+});
 
-const site = useSiteConfig()
+if (!home.value) throw createError({ statusCode: 500, statusMessage: 'home.yml not found' });
+
+const site = useSiteConfig();
 
 useSeoMeta({
   title: home.value.seo.title,
@@ -33,17 +35,26 @@ useSeoMeta({
   ogLocale: 'ru_RU',
   ogSiteName: site.name,
   twitterCard: 'summary_large_image',
-})
+});
 </script>
 
 <template>
   <main v-if="home">
     <HomeHero v-bind="home.hero" />
+
     <HomeInfra v-bind="home.infra" />
+
     <HomeProducts v-bind="home.products" />
+
     <HomeTrust v-bind="home.trust" />
+
     <HomeSupply v-bind="home.supply" />
-    <HomeNews :intro="home.news.intro" :cta="home.news.cta" />
+
+    <HomeNews
+      :intro="home.news.intro"
+      :cta="home.news.cta"
+    />
+
     <SectionDialog />
   </main>
 </template>

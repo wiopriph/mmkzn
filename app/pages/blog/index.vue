@@ -1,53 +1,84 @@
 <script setup lang="ts">
 // Черновой каркас ленты блога — полноценная лента и RSS придут на Этапе 7.
-definePageMeta({ headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' });
 
 const { data: articles } = await useAsyncData('blog-list', () =>
   queryCollection('articles')
     .where('draft', '=', false)
     .order('publishedAt', 'DESC')
-    .all())
+    .all());
 
 useSeoMeta({
   title: 'Новости — МируМир',
   description: 'События и новости компании МируМир: поставки нерудных материалов в Татарстане.',
-})
+});
 
 useOgMeta({
   title: 'Новости — МируМир',
   description: 'События и новости компании МируМир: поставки нерудных материалов в Татарстане.',
-})
+});
 
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Новости' }],
   }),
-])
+]);
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })
+  return new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
 }
 </script>
 
 <template>
   <main class="container page">
-    <h1 class="title">Новости</h1>
-    <ul v-if="articles?.length" class="list">
-      <li v-for="a in articles" :key="a.path">
-        <NuxtLink :to="a.path" class="card">
+    <h1 class="title">
+      Новости
+    </h1>
+
+    <ul
+      v-if="articles?.length"
+      class="list"
+    >
+      <li
+        v-for="a in articles"
+        :key="a.path"
+      >
+        <NuxtLink
+          :to="a.path"
+          class="card"
+        >
           <NuxtImg
-            v-if="a.cover" format="webp" :src="a.cover.src" :alt="a.cover.alt"
-            width="780" height="1160" sizes="100vw md:390px" loading="lazy" class="cover"
+            v-if="a.cover"
+            format="webp"
+            :src="a.cover.src"
+            :alt="a.cover.alt"
+            width="780"
+            height="1160"
+            sizes="100vw md:390px"
+            loading="lazy"
+            class="cover"
           />
-          <span aria-hidden="true" class="shade" />
+
+          <span
+            aria-hidden="true"
+            class="shade"
+          />
+
           <span class="caption">
             <span class="card-title">{{ a.title }}</span>
+
             <span class="date">{{ formatDate(a.publishedAt) }}</span>
           </span>
         </NuxtLink>
       </li>
     </ul>
-    <p v-else class="empty">Новостей пока нет.</p>
+
+    <p
+      v-else
+      class="empty"
+    >
+      Новостей пока нет.
+    </p>
   </main>
 </template>
 

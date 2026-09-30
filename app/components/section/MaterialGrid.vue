@@ -6,33 +6,71 @@
 const props = defineProps<{
   title?: string
   exclude?: string
-}>()
+}>();
 
 const { data: materials } = useAsyncData('materials-list', () =>
-  queryCollection('materials').order('order', 'ASC').all())
+  queryCollection('materials').order('order', 'ASC')
+    .all());
 
 const items = computed(() =>
-  (materials.value ?? []).filter(m => m.legacyPath !== props.exclude))
+  (materials.value ?? []).filter(m => m.legacyPath !== props.exclude));
 </script>
 
 <template>
-  <section v-if="items.length" class="container catalog">
-    <h2 v-if="title" v-reveal class="grid-title">{{ title }}</h2>
+  <section
+    v-if="items.length"
+    class="container catalog"
+  >
+    <h2
+      v-if="title"
+      v-reveal
+      class="grid-title"
+    >
+      {{ title }}
+    </h2>
+
     <ul class="cards">
-      <li v-for="(m, i) in items" :key="m.legacyPath" v-reveal="{ delay: (i % 4) * 100 }">
-        <NuxtLink :to="m.legacyPath" class="card">
+      <li
+        v-for="(m, i) in items"
+        :key="m.legacyPath"
+        v-reveal="{ delay: (i % 4) * 100 }"
+      >
+        <NuxtLink
+          :to="m.legacyPath"
+          class="card"
+        >
           <div class="photo-box">
             <NuxtImg
-              v-if="m.images[0]" format="webp" :src="m.images[0].src" :alt="m.images[0].alt"
-              width="640" height="964" sizes="50vw lg:320px" loading="lazy" class="photo"
+              v-if="m.images[0]"
+              format="webp"
+              :src="m.images[0].src"
+              :alt="m.images[0].alt"
+              width="640"
+              height="964"
+              sizes="50vw lg:320px"
+              loading="lazy"
+              class="photo"
             />
           </div>
+
           <p class="name">
             {{ m.shortTitle }}
             <IconArrow class="arrow" />
           </p>
-          <p v-if="m.price.cashless" class="price">{{ m.price.cashless }} руб. / {{ m.price.unit }}.</p>
-          <p v-else class="price">цена по запросу</p>
+
+          <p
+            v-if="m.price.cashless"
+            class="price"
+          >
+            {{ m.price.cashless }} руб. / {{ m.price.unit }}.
+          </p>
+
+          <p
+            v-else
+            class="price"
+          >
+            цена по запросу
+          </p>
         </NuxtLink>
       </li>
     </ul>

@@ -1,39 +1,78 @@
 <script setup lang="ts">
 interface SpecRow { param: string; gost?: string; actual: string; unit?: string }
 
-const props = defineProps<{ specs: SpecRow[]; gostRef?: string }>()
+const props = defineProps<{ specs: SpecRow[]; gostRef?: string }>();
 
-const hasGost = computed(() => props.specs.some(r => r.gost !== undefined))
+const hasGost = computed(() => props.specs.some(r => r.gost !== undefined));
 </script>
 
 <template>
   <div v-if="specs.length">
     <!-- десктоп: полноценная таблица -->
     <table class="table">
-      <caption class="visually-hidden">Характеристики материала</caption>
+      <caption class="visually-hidden">
+        Характеристики материала
+      </caption>
+
       <thead>
         <tr>
-          <th scope="col">Характеристики</th>
-          <th v-if="hasGost" scope="col">{{ gostRef ?? 'Норма' }}</th>
-          <th scope="col">По факту</th>
+          <th scope="col">
+            Характеристики
+          </th>
+
+          <th
+            v-if="hasGost"
+            scope="col"
+          >
+            {{ gostRef ?? 'Норма' }}
+          </th>
+
+          <th scope="col">
+            По факту
+          </th>
         </tr>
       </thead>
+
       <tbody>
-        <tr v-for="row in specs" :key="row.param">
-          <td>{{ row.param }}</td>
-          <td v-if="hasGost" class="gost">{{ row.gost ?? '—' }}</td>
-          <td class="actual">{{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}</td>
+        <tr
+          v-for="row in specs"
+          :key="row.param"
+        >
+          <td>
+            {{ row.param }}
+          </td>
+
+          <td
+            v-if="hasGost"
+            class="gost"
+          >
+            {{ row.gost ?? '—' }}
+          </td>
+
+          <td class="actual">
+            {{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}
+          </td>
         </tr>
       </tbody>
     </table>
 
     <!-- мобильный: список «параметр → значение» -->
     <dl class="list">
-      <div v-for="row in specs" :key="row.param" class="row">
-        <dt class="param">{{ row.param }}</dt>
+      <div
+        v-for="row in specs"
+        :key="row.param"
+        class="row"
+      >
+        <dt class="param">
+          {{ row.param }}
+        </dt>
+
         <dd class="value">
           {{ row.actual }}{{ row.unit ? ` ${row.unit}` : '' }}
-          <span v-if="hasGost && row.gost" class="norm">({{ gostRef ?? 'норма' }}: {{ row.gost }})</span>
+          <span
+            v-if="hasGost && row.gost"
+            class="norm"
+          >({{ gostRef ?? 'норма' }}: {{ row.gost }})</span>
         </dd>
       </div>
     </dl>

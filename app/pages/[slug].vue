@@ -2,36 +2,38 @@
 // Карточка материала в стилистике главной. Живёт под старыми адресами
 // первого уровня (/opgs/, /pesok-rechnoj/ и т.д.) — ЧПУ и 301 на Этапе 4.
 // SEO-мета — прежняя (Yoast, copy-first), h1 = title.
-definePageMeta({ headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' });
 
-const route = useRoute()
-const slug = String(route.params.slug)
+const route = useRoute();
+const slug = String(route.params.slug);
 
 const { data: material } = await useAsyncData(`material-${slug}`, () =>
-  queryCollection('materials').where('legacyPath', '=', `/${slug}/`).first())
+  queryCollection('materials').where('legacyPath', '=', `/${slug}/`)
+    .first());
 
-if (!material.value) throw createError({ statusCode: 404, statusMessage: 'Страница не найдена' })
+if (!material.value) throw createError({ statusCode: 404, statusMessage: 'Страница не найдена' });
 
 useSeoMeta({
   title: material.value.seo.title,
   description: material.value.seo.description || undefined,
-})
+});
 
 useOgMeta({
   title: material.value.seo.title,
   description: material.value.seo.description || undefined,
   image: material.value.images[0]?.src,
-})
+});
 
 // микроразметка: Product с ценой и строками таблицы ГОСТ + хлебные крошки
-const site = useSiteConfig()
-const m = material.value
+const site = useSiteConfig();
+const m = material.value;
 
 const product: Record<string, unknown> = {
   name: m.title,
   description: m.seo.description || undefined,
   image: m.images[0] ? site.url + m.images[0].src : undefined,
-}
+};
+
 if (m.price.cashless !== null) {
   product.offers = [{
     price: m.price.cashless,
@@ -44,14 +46,15 @@ if (m.price.cashless !== null) {
       priceCurrency: 'RUB',
       unitText: m.price.unit,
     },
-  }]
+  }];
 }
+
 if (m.specs.length) {
   product.additionalProperty = m.specs.map(s => ({
     '@type': 'PropertyValue',
     name: s.param,
     value: s.unit ? `${s.actual} ${s.unit}` : s.actual,
-  }))
+  }));
 }
 
 useSchemaOrg([
@@ -63,7 +66,7 @@ useSchemaOrg([
       { name: m.shortTitle },
     ],
   }),
-])
+]);
 </script>
 
 <template>
@@ -71,29 +74,63 @@ useSchemaOrg([
     <div class="container inner">
       <div class="top">
         <div>
-          <h1 v-reveal class="title">{{ material.title }}</h1>
-          <p v-if="material.price.cashless" v-reveal="{ delay: 100 }" class="price">
+          <h1
+            v-reveal
+            class="title"
+          >
+            {{ material.title }}
+          </h1>
+
+          <p
+            v-if="material.price.cashless"
+            v-reveal="{ delay: 100 }"
+            class="price"
+          >
             {{ material.price.cashless }} руб. / {{ material.price.unit }}. {{ material.price.vatNote }}
           </p>
-          <div v-reveal="{ delay: 150 }" class="content body">
+
+          <div
+            v-reveal="{ delay: 150 }"
+            class="content body"
+          >
             <ContentRenderer :value="material" />
           </div>
         </div>
+
         <NuxtImg
-          v-if="material.images[0]" v-reveal="{ delay: 200 }" format="webp"
-          :src="material.images[0].src" :alt="material.images[0].alt"
-          :width="material.images[0].width" :height="material.images[0].height"
-          sizes="100vw lg:400px" class="photo"
+          v-if="material.images[0]"
+          v-reveal="{ delay: 200 }"
+          format="webp"
+          :src="material.images[0].src"
+          :alt="material.images[0].alt"
+          :width="material.images[0].width"
+          :height="material.images[0].height"
+          sizes="100vw lg:400px"
+          class="photo"
         />
       </div>
 
-      <section v-if="material.specs.length" v-reveal class="specs">
-        <h2 class="specs-title">Характеристики</h2>
-        <MaterialSpecTable :specs="material.specs" :gost-ref="material.gostRef" />
+      <section
+        v-if="material.specs.length"
+        v-reveal
+        class="specs"
+      >
+        <h2 class="specs-title">
+          Характеристики
+        </h2>
+
+        <MaterialSpecTable
+          :specs="material.specs"
+          :gostRef="material.gostRef"
+        />
       </section>
     </div>
 
-    <SectionMaterialGrid title="Другая продукция" :exclude="material.legacyPath" />
+    <SectionMaterialGrid
+      title="Другая продукция"
+      :exclude="material.legacyPath"
+    />
+
     <SectionDialog />
   </main>
 </template>

@@ -6,7 +6,7 @@
 // © по центру, справа кружок «тм» и два тёмных круга-декора из макета.
 // Мобилка — по скрину владельца: всё в стопку, лого 290px, меню + иконки
 // в одну строку, © и «тм»-группа в нижней строке.
-const { data: contacts } = useContacts()
+const { data: contacts } = useContacts();
 
 const menu = [
   { label: 'Продукция', to: '/nasha-produkcziya/' },
@@ -14,54 +14,124 @@ const menu = [
   { label: 'Компания', to: '/#infra' },
   { label: 'Новости', to: '/blog/' },
   { label: 'Контакты', to: '/#dialog' },
-]
+];
 </script>
 
 <template>
-  <footer v-if="contacts" id="contacts" class="footer">
+  <footer
+    v-if="contacts"
+    id="contacts"
+    class="footer"
+  >
     <div class="container grid">
       <div class="requisites">
-        <p>{{ contacts.company }}</p>
-        <p>ИНН/ОГРН—{{ contacts.requisites }}</p>
-        <p class="indent address">{{ contacts.address }}</p>
-        <p class="muted">Диспетчерская</p>
+        <p>
+          {{ contacts.company }}
+        </p>
+
+        <p>
+          ИНН/ОГРН—{{ contacts.requisites }}
+        </p>
+
+        <p class="indent address">
+          {{ contacts.address }}
+        </p>
+
+        <p class="muted">
+          Диспетчерская
+        </p>
+
         <p class="indent phones">
           <a :href="`tel:${contacts.phone.tel}`">{{ contacts.phone.display }}</a>
+
           <a :href="`tel:${contacts.dispatcher.tel}`">{{ contacts.dispatcher.display }}</a>
         </p>
-        <p class="muted">e-mail:</p>
-        <a :href="`mailto:${contacts.email}`" class="indent link">{{ contacts.email }}</a>
+
+        <p class="muted">
+          e-mail:
+        </p>
+
+        <a
+          :href="`mailto:${contacts.email}`"
+          class="indent link"
+        >{{ contacts.email }}</a>
       </div>
 
       <div class="logo-wrap">
-        <img src="/design/logo-full.svg" alt="МируМир" width="426" height="281" class="logo">
+        <img
+          src="/design/logo-full.svg"
+          alt="МируМир"
+          width="426"
+          height="281"
+          class="logo"
+        >
       </div>
 
       <div class="right">
-        <nav aria-label="Меню в подвале" class="nav">
-          <NuxtLink v-for="item in menu" :key="item.label" :to="item.to" class="link">
+        <nav
+          aria-label="Меню в подвале"
+          class="nav"
+        >
+          <NuxtLink
+            v-for="item in menu"
+            :key="item.label"
+            :to="item.to"
+            class="link"
+          >
             {{ item.label }}
           </NuxtLink>
         </nav>
 
         <div class="socials">
-          <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
-            <IconTelegram width="36" height="36" />
+          <a
+            :href="contacts.telegram"
+            target="_blank"
+            rel="noopener"
+            aria-label="Telegram"
+            class="social"
+          >
+            <IconTelegram
+              width="36"
+              height="36"
+            />
           </a>
           <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
-          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social">
-            <IconMax width="36" height="36" />
+          <a
+            :href="contacts.whatsapp"
+            target="_blank"
+            rel="noopener"
+            aria-label="Написать в мессенджер"
+            class="social"
+          >
+            <IconMax
+              width="36"
+              height="36"
+            />
           </a>
         </div>
       </div>
     </div>
 
     <div class="container bottom">
-      <NuxtLink to="/politika/" class="link policy">Политика конфиденциальности</NuxtLink>
-      <p class="copyright">©2014-2026</p>
-      <div aria-hidden="true" class="badges">
+      <NuxtLink
+        to="/politika/"
+        class="link policy"
+      >
+        Политика конфиденциальности
+      </NuxtLink>
+
+      <p class="copyright">
+        ©2014-2026
+      </p>
+
+      <div
+        aria-hidden="true"
+        class="badges"
+      >
         <span class="tm">тм</span>
+
         <span class="badge badge--ink" />
+
         <span class="badge badge--strong" />
       </div>
     </div>

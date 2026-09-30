@@ -4,16 +4,29 @@ withDefaults(defineProps<{
   direction?: 'left' | 'right'
   variant?: 'outline-dark' | 'outline-light'
   label: string
-}>(), { direction: 'right', variant: 'outline-dark' })
+}>(), { direction: 'right', variant: 'outline-dark' });
 </script>
 
 <template>
-  <button type="button" class="arrow" :class="variant" :aria-label="label">
+  <button
+    type="button"
+    class="arrow"
+    :class="variant"
+    :aria-label="label"
+  >
     <svg
-      width="27" height="21" viewBox="0 0 27 21" fill="none" aria-hidden="true"
+      width="27"
+      height="21"
+      viewBox="0 0 27 21"
+      fill="none"
+      aria-hidden="true"
       :class="{ flipped: direction === 'left' }"
     >
-      <path d="M16.5 1.5L25.5 10.5L16.5 19.5M25.5 10.5H0.5" stroke="currentColor" stroke-width="1.5" />
+      <path
+        d="M16.5 1.5L25.5 10.5L16.5 19.5M25.5 10.5H0.5"
+        stroke="currentColor"
+        stroke-width="1.5"
+      />
     </svg>
   </button>
 </template>

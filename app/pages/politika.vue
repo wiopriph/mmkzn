@@ -1,28 +1,35 @@
 <script setup lang="ts">
 // Политика обработки ПД: текстовая страница на новом лейауте, noindex.
-definePageMeta({ headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' });
 
 const { data: page } = await useAsyncData('page-politika', () =>
-  queryCollection('pages').where('stem', 'LIKE', '%politika').first())
+  queryCollection('pages').where('stem', 'LIKE', '%politika')
+    .first());
 
-if (!page.value) throw createError({ statusCode: 404 })
+if (!page.value) throw createError({ statusCode: 404 });
 
 useSeoMeta({
   title: page.value.seo.title,
   description: page.value.seo.description || undefined,
   robots: 'noindex, follow',
-})
+});
 
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Политика обработки персональных данных' }],
   }),
-])
+]);
 </script>
 
 <template>
-  <main v-if="page" class="container page">
-    <h1 class="title">{{ page.title }}</h1>
+  <main
+    v-if="page"
+    class="container page"
+  >
+    <h1 class="title">
+      {{ page.title }}
+    </h1>
+
     <div class="content body">
       <ContentRenderer :value="page" />
     </div>

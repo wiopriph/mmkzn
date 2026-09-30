@@ -10,15 +10,25 @@ const props = withDefaults(defineProps<{
   to?: string
   href?: string
   type?: 'button' | 'submit'
-}>(), { variant: 'outline-dark', size: 'md', type: 'button' })
+}>(), {
+  variant: 'outline-dark', size: 'md', type: 'button', to: undefined, href: undefined,
+});
 
-const tag = computed(() => props.to ? resolveComponent('NuxtLink') : props.href ? 'a' : 'button')
+const tag = computed(() => {
+  if (props.to) return resolveComponent('NuxtLink');
+
+  return props.href ? 'a' : 'button';
+});
 </script>
 
 <template>
   <component
-    :is="tag" :to="to" :href="href" :type="to || href ? undefined : type"
-    class="button" :class="[variant, size]"
+    :is="tag"
+    :to="to"
+    :href="href"
+    :type="to || href ? undefined : type"
+    class="button"
+    :class="[variant, size]"
   >
     <slot />
   </component>

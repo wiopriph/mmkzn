@@ -3,7 +3,7 @@
 useHead({
   htmlAttrs: { lang: 'ru' },
   titleTemplate: '%s',
-})
+});
 </script>
 
 <template>

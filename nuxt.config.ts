@@ -1,4 +1,4 @@
-import { redirects } from './server/utils/redirects'
+import { redirects } from './server/utils/redirects';
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -84,4 +84,4 @@ export default defineNuxtConfig({
     // noindex-страница (паритет с Yoast) — в карте ей не место
     '/politika/': { sitemap: false },
   },
-})
+});

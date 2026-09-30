@@ -3,10 +3,10 @@
 // высота полосы ~68px, меню 16px с разделителями 1×30px (по 20px от текста),
 // иконки мессенджеров 24px, телефон 24px, лого-строка ~20px высотой.
 // theme=overlay — прозрачная поверх тёмного hero, theme=solid — на белом.
-withDefaults(defineProps<{ theme?: 'overlay' | 'solid' }>(), { theme: 'overlay' })
+withDefaults(defineProps<{ theme?: 'overlay' | 'solid' }>(), { theme: 'overlay' });
 
-const { data: contacts } = useContacts()
-const menuOpen = ref(false)
+const { data: contacts } = useContacts();
+const menuOpen = ref(false);
 
 // «Компания» появится отдельной страницей на Этапе 5 — пока якорь главной
 const menu = [
@@ -14,71 +14,155 @@ const menu = [
   { label: 'Услуги', to: '/uslugi/' },
   { label: 'Компания', to: '/#infra' },
   { label: 'Контакты', to: '/#dialog' },
-]
+];
 </script>
 
 <template>
-  <header class="header" :class="theme">
+  <header
+    class="header"
+    :class="theme"
+  >
     <div class="container bar">
-      <NuxtLink to="/" aria-label="МируМир — на главную" class="logo-link">
+      <NuxtLink
+        to="/"
+        aria-label="МируМир — на главную"
+        class="logo-link"
+      >
         <img
-          v-if="theme === 'overlay'" src="/design/logo-header-white.svg" alt=""
-          aria-hidden="true" width="180" height="19" class="logo"
+          v-if="theme === 'overlay'"
+          src="/design/logo-header-white.svg"
+          alt=""
+          aria-hidden="true"
+          width="180"
+          height="19"
+          class="logo"
         >
+
         <img
-          v-else src="/design/logo-full.svg" alt="" aria-hidden="true"
-          width="426" height="281" class="logo-solid"
+          v-else
+          src="/design/logo-full.svg"
+          alt=""
+          aria-hidden="true"
+          width="426"
+          height="281"
+          class="logo-solid"
         >
       </NuxtLink>
 
-      <nav aria-label="Основное меню" class="menu">
-        <template v-for="(item, i) in menu" :key="item.to">
-          <span v-if="i > 0" aria-hidden="true" class="divider" />
-          <NuxtLink :to="item.to" class="menu-link">{{ item.label }}</NuxtLink>
+      <nav
+        aria-label="Основное меню"
+        class="menu"
+      >
+        <template
+          v-for="(item, i) in menu"
+          :key="item.to"
+        >
+          <span
+            v-if="i > 0"
+            aria-hidden="true"
+            class="divider"
+          />
+
+          <NuxtLink
+            :to="item.to"
+            class="menu-link"
+          >
+            {{ item.label }}
+          </NuxtLink>
         </template>
       </nav>
 
-      <div v-if="contacts" class="contacts">
+      <div
+        v-if="contacts"
+        class="contacts"
+      >
         <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
         <a
-          :href="contacts.whatsapp" target="_blank" rel="noopener"
-          aria-label="Написать в мессенджер" class="icon-link"
+          :href="contacts.whatsapp"
+          target="_blank"
+          rel="noopener"
+          aria-label="Написать в мессенджер"
+          class="icon-link"
         >
-          <IconMax width="24" height="24" />
+          <IconMax
+            width="24"
+            height="24"
+          />
         </a>
+
         <a
-          :href="contacts.telegram" target="_blank" rel="noopener"
-          aria-label="Написать в Telegram" class="icon-link"
+          :href="contacts.telegram"
+          target="_blank"
+          rel="noopener"
+          aria-label="Написать в Telegram"
+          class="icon-link"
         >
-          <IconTelegram width="24" height="24" />
+          <IconTelegram
+            width="24"
+            height="24"
+          />
         </a>
-        <span aria-hidden="true" class="divider" />
-        <a :href="`tel:${contacts.phone.tel}`" class="phone">
-          <IconPhone width="24" height="24" />
+
+        <span
+          aria-hidden="true"
+          class="divider"
+        />
+
+        <a
+          :href="`tel:${contacts.phone.tel}`"
+          class="phone"
+        >
+          <IconPhone
+            width="24"
+            height="24"
+          />
           {{ contacts.phone.display }}
         </a>
       </div>
 
       <button
-        type="button" class="burger" :aria-expanded="menuOpen"
-        aria-label="Открыть меню" @click="menuOpen = !menuOpen"
+        type="button"
+        class="burger"
+        :aria-expanded="menuOpen"
+        aria-label="Открыть меню"
+        @click="menuOpen = !menuOpen"
       >
-        <span aria-hidden="true" /><span aria-hidden="true" /><span aria-hidden="true" />
+        <span aria-hidden="true" />
+
+        <span aria-hidden="true" />
+
+        <span aria-hidden="true" />
       </button>
 
       <!-- на мобиле телефон — второй строкой шапки, как в макете (фрейм 10390:22383) -->
-      <a v-if="contacts" :href="`tel:${contacts.phone.tel}`" class="phone-mobile">
-        <IconPhone width="18" height="18" />
+      <a
+        v-if="contacts"
+        :href="`tel:${contacts.phone.tel}`"
+        class="phone-mobile"
+      >
+        <IconPhone
+          width="18"
+          height="18"
+        />
         {{ contacts.phone.display }}
       </a>
     </div>
 
-    <nav v-if="menuOpen" aria-label="Мобильное меню" class="mobile-menu">
+    <nav
+      v-if="menuOpen"
+      aria-label="Мобильное меню"
+      class="mobile-menu"
+    >
       <div class="container mobile-menu-list">
         <NuxtLink
-          v-for="item in menu" :key="item.to" :to="item.to"
-          class="mobile-link" @click="menuOpen = false"
-        >{{ item.label }}</NuxtLink>
+          v-for="item in menu"
+          :key="item.to"
+          :to="item.to"
+          class="mobile-link"
+          @click="menuOpen = false"
+        >
+          {{ item.label }}
+        </NuxtLink>
       </div>
     </nav>
   </header>

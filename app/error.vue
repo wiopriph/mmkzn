@@ -1,14 +1,26 @@
 <script setup lang="ts">
-import type { NuxtError } from '#app'
+import type { NuxtError } from '#app';
 
-defineProps<{ error: NuxtError }>()
+
+defineProps<{ error: NuxtError }>();
 </script>
 
 <template>
   <div class="error">
-    <h1 class="title">{{ error.statusCode === 404 ? 'Страница не найдена' : 'Что-то пошло не так' }}</h1>
-    <p class="code">{{ error.statusCode }}</p>
-    <NuxtLink to="/" class="home">На главную</NuxtLink>
+    <h1 class="title">
+      {{ error.statusCode === 404 ? 'Страница не найдена' : 'Что-то пошло не так' }}
+    </h1>
+
+    <p class="code">
+      {{ error.statusCode }}
+    </p>
+
+    <NuxtLink
+      to="/"
+      class="home"
+    >
+      На главную
+    </NuxtLink>
   </div>
 </template>
 

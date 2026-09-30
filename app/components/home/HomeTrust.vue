@@ -6,6 +6,7 @@
 // карточки 366×160 стеком с зазором 10.
 // Узор pattern-dialog слева-снизу: десктоп x-545 y280 w1475, мобилка x-311 y853 w701.
 interface Fact { value: string; label: string }
+
 defineProps<{
   title: string
   textBefore: string
@@ -13,34 +14,89 @@ defineProps<{
   textLinkTo: string
   textAfter: string
   facts: Fact[]
-}>()
+}>();
 </script>
 
 <template>
   <section class="trust">
-    <div aria-hidden="true" class="pattern-holder">
-      <img src="/design/pattern-dialog.svg" alt="" class="pattern pattern-mob">
-      <img src="/design/pattern-trust.svg" alt="" class="pattern pattern-desk">
+    <div
+      aria-hidden="true"
+      class="pattern-holder"
+    >
+      <img
+        src="/design/pattern-dialog.svg"
+        alt=""
+        class="pattern pattern-mob"
+      >
+
+      <img
+        src="/design/pattern-trust.svg"
+        alt=""
+        class="pattern pattern-desk"
+      >
     </div>
 
     <div class="container grid">
-      <img v-reveal src="/design/logo-sign-white.svg" alt="" aria-hidden="true" width="240" height="190" class="sign">
+      <img
+        v-reveal
+        src="/design/logo-sign-white.svg"
+        alt=""
+        aria-hidden="true"
+        width="240"
+        height="190"
+        class="sign"
+      >
 
       <div class="head">
-        <h2 v-reveal class="title">{{ title }}</h2>
-        <p v-reveal="{ delay: 150 }" class="text">
+        <h2
+          v-reveal
+          class="title"
+        >
+          {{ title }}
+        </h2>
+
+        <p
+          v-reveal="{ delay: 150 }"
+          class="text"
+        >
           {{ textBefore }}
-          <NuxtLink :to="textLinkTo" class="text-link">{{ textLink }}</NuxtLink>
+          <NuxtLink
+            :to="textLinkTo"
+            class="text-link"
+          >
+            {{ textLink }}
+          </NuxtLink>
           {{ textAfter }}
         </p>
       </div>
 
       <ul class="facts">
-        <li v-for="(f, i) in facts" :key="f.label" v-reveal="{ delay: i * 120 }" class="fact">
-          <IconArrow v-if="i === facts.length - 1" class="fact-arrow" />
-          <p v-if="f.value" class="value">{{ f.value }}</p>
-          <IconCheckCircle v-else class="check" />
-          <p class="label">{{ f.label }}</p>
+        <li
+          v-for="(f, i) in facts"
+          :key="f.label"
+          v-reveal="{ delay: i * 120 }"
+          class="fact"
+        >
+          <IconArrow
+            v-if="i === facts.length - 1"
+            class="fact-arrow"
+          />
+
+          <p
+            v-if="f.value"
+            class="value"
+          >
+            {{ f.value }}
+          </p>
+
+          <IconCheckCircle
+            v-else
+            class="check"
+          />
+
+          <p class="label">
+            {{ f.label }}
+          </p>
         </li>
       </ul>
     </div>

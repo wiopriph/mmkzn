@@ -1,38 +1,55 @@
 <script setup lang="ts">
 // Черновой каркас страницы услуг — полная вёрстка по макету придёт на Этапе 5.
 // Тексты услуг — со старого сайта (content/services), не выдуманы.
-definePageMeta({ headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' });
 
 const { data: services } = await useAsyncData('services-list', () =>
-  queryCollection('services').order('order', 'ASC').all())
+  queryCollection('services').order('order', 'ASC')
+    .all());
 
 useSeoMeta({
   title: 'Услуги — МируМир',
   description: 'Транспортная обработка грузов, хранение и складирование, оптовая и розничная торговля нерудными материалами.',
-})
+});
 
 useOgMeta({
   title: 'Услуги — МируМир',
   description: 'Транспортная обработка грузов, хранение и складирование, оптовая и розничная торговля нерудными материалами.',
-})
+});
 
 useSchemaOrg([
   defineBreadcrumb({
     itemListElement: [{ name: 'Главная', item: '/' }, { name: 'Услуги' }],
   }),
-])
+]);
 </script>
 
 <template>
   <main class="container page">
-    <h1 class="title">Услуги</h1>
-    <ul v-if="services?.length" class="list">
-      <li v-for="s in services" :key="s.path" class="card">
-        <h2 class="card-title">{{ s.title }}</h2>
-        <p class="summary">{{ s.summary }}</p>
+    <h1 class="title">
+      Услуги
+    </h1>
+
+    <ul
+      v-if="services?.length"
+      class="list"
+    >
+      <li
+        v-for="s in services"
+        :key="s.path"
+        class="card"
+      >
+        <h2 class="card-title">
+          {{ s.title }}
+        </h2>
+
+        <p class="summary">
+          {{ s.summary }}
+        </p>
       </li>
     </ul>
   </main>
+
   <SectionDialog />
 </template>
 

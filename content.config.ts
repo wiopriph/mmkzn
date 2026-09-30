@@ -1,19 +1,20 @@
-import { defineCollection, defineContentConfig, z } from '@nuxt/content'
-import { defineSitemapSchema } from '@nuxtjs/sitemap/content'
+import { defineCollection, defineContentConfig, z } from '@nuxt/content';
+import { defineSitemapSchema } from '@nuxtjs/sitemap/content';
+
 
 const seo = z.object({
   title: z.string().max(70),
   description: z.string().max(180),
   ogImage: z.string().optional(),
   noindex: z.boolean().default(false),
-})
+});
 
 const specRow = z.object({
   param: z.string(),              // «Влажность»
   gost: z.string().optional(),    // норма по ГОСТ, как в протоколе
   actual: z.string(),             // фактическое значение
   unit: z.string().optional(),    // «%», «кг/м³», «Бк/кг»
-})
+});
 
 const price = z.object({
   cashless: z.number().nullable(),  // безнал с НДС
@@ -21,7 +22,7 @@ const price = z.object({
   unit: z.enum(['м3', 'т']).default('м3'),
   vatNote: z.string().default('с НДС 22%'),
   updatedAt: z.string().optional(),
-})
+});
 
 export default defineContentConfig({
   collections: {
@@ -34,7 +35,7 @@ export default defineContentConfig({
         order: z.number(),
         legacyPath: z.string(),     // старый URL, источник карты 301
         gostRef: z.string().optional(),   // «ГОСТ 8736-2014»
-        price: price,
+        price,
         specs: z.array(specRow),
         applications: z.array(z.string()),   // где применяется
         images: z.array(z.object({
@@ -43,15 +44,16 @@ export default defineContentConfig({
           width: z.number().optional(),
           height: z.number().optional(),
         })),
-        seo: seo,
+        seo,
         // материалы в sitemap по их боевым URL (legacyPath), а не по путям
         // контента — иначе в дев-режиме карточек в карте не видно
         sitemap: defineSitemapSchema({
           z,
           name: 'materials',
           onUrl: (url, entry) => {
-            const doc = entry as { legacyPath?: string }
-            if (doc.legacyPath) url.loc = doc.legacyPath
+            const doc = entry as { legacyPath?: string };
+
+            if (doc.legacyPath) url.loc = doc.legacyPath;
           },
         }),
       }),
@@ -70,16 +72,17 @@ export default defineContentConfig({
         tags: z.array(z.string()).default([]),
         relatedMaterials: z.array(z.string()).default([]),  // slug'и материалов
         draft: z.boolean().default(false),
-        seo: seo,
+        seo,
         // статьи в sitemap с lastmod из дат контента; черновики не попадают
         sitemap: defineSitemapSchema({
           z,
           name: 'articles',
           filter: (entry: unknown) => !(entry as { draft?: boolean }).draft,
           onUrl: (url, entry) => {
-            const doc = entry as { updatedAt?: string; publishedAt?: string }
-            const lastmod = doc.updatedAt || doc.publishedAt
-            if (lastmod) (url as { lastmod?: string }).lastmod = lastmod
+            const doc = entry as { updatedAt?: string; publishedAt?: string };
+            const lastmod = doc.updatedAt || doc.publishedAt;
+
+            if (lastmod) (url as { lastmod?: string }).lastmod = lastmod;
           },
         }),
       }),
@@ -93,14 +96,14 @@ export default defineContentConfig({
         order: z.number(),
         icon: z.string().optional(),
         summary: z.string(),
-        seo: seo,
+        seo,
       }),
     }),
 
     pages: defineCollection({
       type: 'page',
       source: 'pages/**/*.md',
-      schema: z.object({ title: z.string(), seo: seo }),
+      schema: z.object({ title: z.string(), seo }),
     }),
 
     documents: defineCollection({
@@ -121,4 +124,4 @@ export default defineContentConfig({
       schema: z.object({}).passthrough(),
     }),
   },
-})
+});

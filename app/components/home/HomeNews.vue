@@ -9,74 +9,134 @@
 defineProps<{
   intro: string
   cta: string
-}>()
+}>();
 
 const { data: articles } = useAsyncData('home-news', () =>
   queryCollection('articles')
     .where('draft', '=', false)
     .order('publishedAt', 'DESC')
     .limit(6)
-    .all())
+    .all());
 
-const scroller = ref<HTMLElement>()
-const active = ref(0)
+const scroller = ref<HTMLElement>();
+const active = ref(0);
 
 function cardStep() {
-  const el = scroller.value
-  if (!el) return 0
-  const card = el.querySelector<HTMLElement>('.card')
-  return card ? card.offsetWidth + 15 : 0
+  const el = scroller.value;
+
+  if (!el) return 0;
+
+  const card = el.querySelector<HTMLElement>('.card');
+
+  return card ? card.offsetWidth + 15 : 0;
 }
 
 function scrollByDir(dir: 1 | -1) {
-  scroller.value?.scrollBy({ left: dir * cardStep(), behavior: 'smooth' })
+  scroller.value?.scrollBy({ left: dir * cardStep(), behavior: 'smooth' });
 }
 
 function onScroll() {
-  const el = scroller.value
-  const step = cardStep()
-  if (!el || !step) return
-  active.value = Math.round(el.scrollLeft / step)
+  const el = scroller.value;
+  const step = cardStep();
+
+  if (!el || !step) return;
+
+  active.value = Math.round(el.scrollLeft / step);
 }
 
 function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' })
+  return new Date(iso).toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: '2-digit' });
 }
 </script>
 
 <template>
-  <section v-if="articles?.length" id="news" class="news">
-    <div v-reveal class="container head">
-      <p class="intro">{{ intro }}</p>
+  <section
+    v-if="articles?.length"
+    id="news"
+    class="news"
+  >
+    <div
+      v-reveal
+      class="container head"
+    >
+      <p class="intro">
+        {{ intro }}
+      </p>
 
       <div class="nav">
-        <UiArrowButton label="Назад" direction="left" @click="scrollByDir(-1)" />
-        <div class="dots" aria-hidden="true">
+        <UiArrowButton
+          label="Назад"
+          direction="left"
+          @click="scrollByDir(-1)"
+        />
+
+        <div
+          class="dots"
+          aria-hidden="true"
+        >
           <span
-            v-for="(a, i) in articles" :key="a.path"
-            class="dot" :class="{ active: i === active }"
+            v-for="(a, i) in articles"
+            :key="a.path"
+            class="dot"
+            :class="{ active: i === active }"
           />
         </div>
-        <UiArrowButton label="Вперёд" @click="scrollByDir(1)" />
+
+        <UiArrowButton
+          label="Вперёд"
+          @click="scrollByDir(1)"
+        />
       </div>
     </div>
 
-    <div ref="scroller" v-reveal="{ delay: 100 }" class="scroller" @scroll.passive="onScroll">
-      <NuxtLink v-for="a in articles" :key="a.path" :to="a.path" class="card">
+    <div
+      ref="scroller"
+      v-reveal="{ delay: 100 }"
+      class="scroller"
+      @scroll.passive="onScroll"
+    >
+      <NuxtLink
+        v-for="a in articles"
+        :key="a.path"
+        :to="a.path"
+        class="card"
+      >
         <NuxtImg
-          v-if="a.cover" format="webp" :src="a.cover.src" :alt="a.cover.alt" width="780" height="1160"
-          sizes="290px md:390px" loading="lazy" class="cover"
+          v-if="a.cover"
+          format="webp"
+          :src="a.cover.src"
+          :alt="a.cover.alt"
+          width="780"
+          height="1160"
+          sizes="290px md:390px"
+          loading="lazy"
+          class="cover"
         />
-        <span aria-hidden="true" class="shade" />
+
+        <span
+          aria-hidden="true"
+          class="shade"
+        />
+
         <span class="caption">
           <span class="card-title">{{ a.title }}</span>
+
           <span class="date">{{ formatDate(a.publishedAt) }}</span>
         </span>
       </NuxtLink>
     </div>
 
-    <p v-reveal class="container more">
-      <UiButton variant="outline-dark" size="lg" to="/blog/">{{ cta }}</UiButton>
+    <p
+      v-reveal
+      class="container more"
+    >
+      <UiButton
+        variant="outline-dark"
+        size="lg"
+        to="/blog/"
+      >
+        {{ cta }}
+      </UiButton>
     </p>
   </section>
 </template>

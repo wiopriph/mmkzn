@@ -13,7 +13,9 @@ export interface Contacts {
 
 export function useContacts() {
   return useAsyncData('contacts', async () => {
-    const doc = await queryCollection('data').where('stem', 'LIKE', '%contacts').first()
-    return unwrapDataDoc<Contacts>(doc)
-  })
+    const doc = await queryCollection('data').where('stem', 'LIKE', '%contacts')
+      .first();
+
+    return unwrapDataDoc<Contacts>(doc);
+  });
 }

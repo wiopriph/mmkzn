@@ -16,74 +16,186 @@ interface DialogData {
 }
 
 const { data: dialog } = await useAsyncData('dialog', async () => {
-  const doc = await queryCollection('data').where('stem', 'LIKE', '%dialog').first()
-  return unwrapDataDoc<DialogData>(doc)
-})
+  const doc = await queryCollection('data').where('stem', 'LIKE', '%dialog')
+    .first();
 
-const { data: contacts } = useContacts()
-const route = useRoute()
-const form = useLeadForm()
+  return unwrapDataDoc<DialogData>(doc);
+});
+
+const { data: contacts } = useContacts();
+const route = useRoute();
+const form = useLeadForm();
 
 function onSubmit() {
-  form.submit(route.path)
+  form.submit(route.path);
 }
 </script>
 
 <template>
-  <section v-if="dialog" id="dialog" class="dialog">
-    <div aria-hidden="true" class="pattern-holder">
-      <img src="/design/pattern-dialog.svg" alt="" class="pattern">
+  <section
+    v-if="dialog"
+    id="dialog"
+    class="dialog"
+  >
+    <div
+      aria-hidden="true"
+      class="pattern-holder"
+    >
+      <img
+        src="/design/pattern-dialog.svg"
+        alt=""
+        class="pattern"
+      >
     </div>
 
     <div class="container inner">
       <div class="top">
-        <h2 v-reveal class="title">{{ dialog.title }}</h2>
-        <p v-reveal="{ delay: 150 }" class="text">{{ dialog.text }}</p>
+        <h2
+          v-reveal
+          class="title"
+        >
+          {{ dialog.title }}
+        </h2>
+
+        <p
+          v-reveal="{ delay: 150 }"
+          class="text"
+        >
+          {{ dialog.text }}
+        </p>
       </div>
 
-      <form v-if="form.state.value !== 'done'" v-reveal="{ delay: 100 }" class="form" @submit.prevent="onSubmit">
+      <form
+        v-if="form.state.value !== 'done'"
+        v-reveal="{ delay: 100 }"
+        class="form"
+        @submit.prevent="onSubmit"
+      >
         <!-- honeypot-антиспам: поле скрыто от людей, боты его заполняют -->
         <input
-          v-model="form.company.value" type="text" name="company" tabindex="-1"
-          autocomplete="off" aria-hidden="true" class="hp"
+          v-model="form.company.value"
+          type="text"
+          name="company"
+          tabindex="-1"
+          autocomplete="off"
+          aria-hidden="true"
+          class="hp"
         >
-        <UiInput v-model="form.name.value" name="name" :label="dialog.nameLabel" required autocomplete="name" />
-        <UiInput v-model="form.phone.value" name="phone" :label="dialog.phoneLabel" type="tel" required autocomplete="tel" />
-        <UiButton variant="gradient" size="lg" type="submit" class="submit" :aria-busy="form.state.value === 'sending'">
+
+        <UiInput
+          v-model="form.name.value"
+          name="name"
+          :label="dialog.nameLabel"
+          required
+          autocomplete="name"
+        />
+
+        <UiInput
+          v-model="form.phone.value"
+          name="phone"
+          :label="dialog.phoneLabel"
+          type="tel"
+          required
+          autocomplete="tel"
+        />
+
+        <UiButton
+          variant="gradient"
+          size="lg"
+          type="submit"
+          class="submit"
+          :aria-busy="form.state.value === 'sending'"
+        >
           {{ form.state.value === 'sending' ? 'Отправляем…' : dialog.submit }}
         </UiButton>
-        <UiCheckbox v-model="form.consent.value" name="consent" required class="consent">
-          <NuxtLink to="/politika/" class="consent-link">{{ dialog.consent }}</NuxtLink>
+
+        <UiCheckbox
+          v-model="form.consent.value"
+          name="consent"
+          required
+          class="consent"
+        >
+          <NuxtLink
+            to="/politika/"
+            class="consent-link"
+          >
+            {{ dialog.consent }}
+          </NuxtLink>
         </UiCheckbox>
 
-        <p v-if="form.state.value === 'invalid'" role="status" class="status">
+        <p
+          v-if="form.state.value === 'invalid'"
+          role="status"
+          class="status"
+        >
           Проверьте номер телефона — нужен российский формат,
           например 8 (900) 000-00-00.
         </p>
-        <p v-else-if="form.state.value === 'unavailable' && contacts" role="status" class="status">
+
+        <p
+          v-else-if="form.state.value === 'unavailable' && contacts"
+          role="status"
+          class="status"
+        >
           Онлайн-заявки заработают после запуска нового сайта. Пока позвоните нам:
-          <a :href="`tel:${contacts.phone.tel}`" class="status-link">{{ contacts.phone.display }}</a>
+          <a
+            :href="`tel:${contacts.phone.tel}`"
+            class="status-link"
+          >{{ contacts.phone.display }}</a>
           — или напишите в мессенджеры.
         </p>
-        <p v-else-if="form.state.value === 'error'" role="status" class="status">
+
+        <p
+          v-else-if="form.state.value === 'error'"
+          role="status"
+          class="status"
+        >
           Не получилось отправить заявку. Позвоните нам или напишите в мессенджер —
           ответим так же быстро.
         </p>
       </form>
 
-      <p v-else role="status" class="thanks">
+      <p
+        v-else
+        role="status"
+        class="thanks"
+      >
         Спасибо! Заявка получена — перезвоним в ближайшее время.
       </p>
 
-      <div v-if="contacts" v-reveal="{ delay: 200 }" class="bottom">
-        <a :href="`tel:${contacts.phone.tel}`" class="phone">{{ contacts.phone.display }}</a>
+      <div
+        v-if="contacts"
+        v-reveal="{ delay: 200 }"
+        class="bottom"
+      >
+        <a
+          :href="`tel:${contacts.phone.tel}`"
+          class="phone"
+        >{{ contacts.phone.display }}</a>
+
         <div class="socials">
           <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
-          <a :href="contacts.whatsapp" target="_blank" rel="noopener" aria-label="Написать в мессенджер" class="social">
+          <a
+            :href="contacts.whatsapp"
+            target="_blank"
+            rel="noopener"
+            aria-label="Написать в мессенджер"
+            class="social"
+          >
             <IconMax />
           </a>
-          <a :href="contacts.telegram" target="_blank" rel="noopener" aria-label="Telegram" class="social">
-            <IconTelegram width="48" height="48" />
+
+          <a
+            :href="contacts.telegram"
+            target="_blank"
+            rel="noopener"
+            aria-label="Telegram"
+            class="social"
+          >
+            <IconTelegram
+              width="48"
+              height="48"
+            />
           </a>
         </div>
       </div>

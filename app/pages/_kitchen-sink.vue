@@ -1,82 +1,198 @@
 <script setup lang="ts">
 // Витрина дизайн-системы вместо Storybook (Этап 2). Не индексируется.
-definePageMeta({ headerTheme: 'solid' })
+definePageMeta({ headerTheme: 'solid' });
 
-useSeoMeta({ title: 'Kitchen sink — дизайн-система', robots: 'noindex, nofollow' })
+useSeoMeta({ title: 'Kitchen sink — дизайн-система', robots: 'noindex, nofollow' });
 
 const colors = [
-  'ink', 'ink-strong', 'ink-muted', 'line', 'paper', 'stone',
-  'brand', 'brand-mid', 'brand-deep', 'accent', 'accent-mid', 'accent-deep', 'logo-red',
-]
+  'ink',
+  'ink-strong',
+  'ink-muted',
+  'line',
+  'paper',
+  'stone',
+  'brand',
+  'brand-mid',
+  'brand-deep',
+  'accent',
+  'accent-mid',
+  'accent-deep',
+  'logo-red',
+];
 
-const textStyles = ['display', 'h1', 'h2', 'h3', 'card', 'lead', 'body', 'body-sm', 'button', 'caption', 'small']
+const textStyles = ['display', 'h1', 'h2', 'h3', 'card', 'lead', 'body', 'body-sm', 'button', 'caption', 'small'];
 
-const name = ref('')
-const phone = ref('')
-const agree = ref(false)
+const name = ref('');
+const phone = ref('');
+const agree = ref(false);
 </script>
 
 <template>
   <main class="container sink">
-    <h1 class="h1">Kitchen sink</h1>
+    <h1 class="h1">
+      Kitchen sink
+    </h1>
 
     <section>
-      <h2 class="section-title">Палитра</h2>
+      <h2 class="section-title">
+        Палитра
+      </h2>
+
       <div class="swatches">
-        <div v-for="c in colors" :key="c" class="swatch">
-          <div class="chip" :style="{ background: `var(--color-${c})` }" />
+        <div
+          v-for="c in colors"
+          :key="c"
+          class="swatch"
+        >
+          <div
+            class="chip"
+            :style="{ background: `var(--color-${c})` }"
+          />
+
           <code class="chip-name">{{ c }}</code>
         </div>
       </div>
+
       <div class="gradients">
-        <div class="grad" style="background-image: var(--gradient-section)" />
-        <div class="grad" style="background-image: var(--gradient-button)" />
+        <div
+          class="grad"
+          style="background-image: var(--gradient-section)"
+        />
+
+        <div
+          class="grad"
+          style="background-image: var(--gradient-button)"
+        />
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">Типографика</h2>
+      <h2 class="section-title">
+        Типографика
+      </h2>
+
       <div class="type-list">
-        <p v-for="t in textStyles" :key="t" class="type-sample" :class="`t-${t}`">
+        <p
+          v-for="t in textStyles"
+          :key="t"
+          class="type-sample"
+          :class="`t-${t}`"
+        >
           {{ t }} — Добыча, хранение и отгрузка
         </p>
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">Кнопки</h2>
+      <h2 class="section-title">
+        Кнопки
+      </h2>
+
       <div class="row">
-        <UiButton variant="outline-dark">Вся продукция</UiButton>
-        <UiButton variant="gradient">Отправить заявку</UiButton>
-        <UiButton variant="glass" size="lg">Получить прайс</UiButton>
+        <UiButton variant="outline-dark">
+          Вся продукция
+        </UiButton>
+
+        <UiButton variant="gradient">
+          Отправить заявку
+        </UiButton>
+
+        <UiButton
+          variant="glass"
+          size="lg"
+        >
+          Получить прайс
+        </UiButton>
+
         <UiArrowButton label="Вперёд" />
-        <UiArrowButton label="Назад" direction="left" />
+
+        <UiArrowButton
+          label="Назад"
+          direction="left"
+        />
       </div>
+
       <div class="row dark">
-        <UiButton variant="outline-light">Все события</UiButton>
-        <UiArrowButton label="Вперёд" variant="outline-light" />
+        <UiButton variant="outline-light">
+          Все события
+        </UiButton>
+
+        <UiArrowButton
+          label="Вперёд"
+          variant="outline-light"
+        />
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">Форма</h2>
+      <h2 class="section-title">
+        Форма
+      </h2>
+
       <div class="form dark">
-        <UiInput v-model="name" name="name" label="Имя" autocomplete="name" />
-        <UiInput v-model="phone" name="phone" label="Телефон" type="tel" autocomplete="tel" />
-        <UiButton variant="gradient" type="submit">Отправить заявку</UiButton>
-        <UiCheckbox v-model="agree" name="consent" required>
+        <UiInput
+          v-model="name"
+          name="name"
+          label="Имя"
+          autocomplete="name"
+        />
+
+        <UiInput
+          v-model="phone"
+          name="phone"
+          label="Телефон"
+          type="tel"
+          autocomplete="tel"
+        />
+
+        <UiButton
+          variant="gradient"
+          type="submit"
+        >
+          Отправить заявку
+        </UiButton>
+
+        <UiCheckbox
+          v-model="agree"
+          name="consent"
+          required
+        >
           Согласен(на) с политикой обработки персональных данных
         </UiCheckbox>
       </div>
     </section>
 
     <section>
-      <h2 class="section-title">Ассеты</h2>
+      <h2 class="section-title">
+        Ассеты
+      </h2>
+
       <div class="assets">
-        <img src="/design/logo-full.svg" alt="Лого полное" class="asset-lg">
-        <div class="asset-dark"><img src="/design/logo-sign-white.svg" alt="Знак белый" class="asset-md"></div>
-        <img src="/design/sign-tatarstan.svg" alt="Знак Татарстана" class="asset-sm">
-        <img src="/design/pattern-dialog.svg" alt="Узор" class="asset-lg">
+        <img
+          src="/design/logo-full.svg"
+          alt="Лого полное"
+          class="asset-lg"
+        >
+
+        <div class="asset-dark">
+          <img
+            src="/design/logo-sign-white.svg"
+            alt="Знак белый"
+            class="asset-md"
+          >
+        </div>
+
+        <img
+          src="/design/sign-tatarstan.svg"
+          alt="Знак Татарстана"
+          class="asset-sm"
+        >
+
+        <img
+          src="/design/pattern-dialog.svg"
+          alt="Узор"
+          class="asset-lg"
+        >
       </div>
     </section>
   </main>

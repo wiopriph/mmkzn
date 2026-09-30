@@ -13,14 +13,15 @@ const props = defineProps<{
   introAfter: string
   cta: string
   photos: Record<string, string>
-}>()
+}>();
 
-const { data: prices } = usePrices()
+const { data: prices } = usePrices();
 
 // показываем те же 4 карточки, что в макете: материалы с ценой и фото,
 // в порядке перечисления в photos (home.yml) — как в макете
 const cards = computed(() => {
-  const order = Object.keys(props.photos)
+  const order = Object.keys(props.photos);
+
   return (prices.value ?? [])
     .map(p => ({
       ...p,
@@ -29,8 +30,8 @@ const cards = computed(() => {
     }))
     .filter(p => p.cashless !== null && p.photo)
     .sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug))
-    .slice(0, 4)
-})
+    .slice(0, 4);
+});
 </script>
 
 <template>
@@ -38,13 +39,39 @@ const cards = computed(() => {
     <div class="banner">
       <!-- мобилка: узор — два зигзага (pattern-dialog × 0.567), сдвинуты вправо-вверх
            с выходом за края баннера (фрейм 341×300 на x130 y-72); десктоп — pattern-heading -->
-      <img src="/design/pattern-dialog.svg" alt="" aria-hidden="true" class="pattern pattern-m">
-      <img src="/design/pattern-heading.svg" alt="" aria-hidden="true" class="pattern pattern-d">
+      <img
+        src="/design/pattern-dialog.svg"
+        alt=""
+        aria-hidden="true"
+        class="pattern pattern-m"
+      >
+
+      <img
+        src="/design/pattern-heading.svg"
+        alt=""
+        aria-hidden="true"
+        class="pattern pattern-d"
+      >
+
       <div class="container banner-inner">
-        <h2 v-reveal class="banner-title">{{ title }}</h2>
-        <p v-reveal="{ delay: 150 }" class="banner-intro">
+        <h2
+          v-reveal
+          class="banner-title"
+        >
+          {{ title }}
+        </h2>
+
+        <p
+          v-reveal="{ delay: 150 }"
+          class="banner-intro"
+        >
           {{ introBefore }}
-          <NuxtLink :to="introLinkTo" class="intro-link">{{ introLink }}</NuxtLink>
+          <NuxtLink
+            :to="introLinkTo"
+            class="intro-link"
+          >
+            {{ introLink }}
+          </NuxtLink>
           {{ introAfter }}
         </p>
       </div>
@@ -52,25 +79,52 @@ const cards = computed(() => {
 
     <div class="container catalog">
       <ul class="cards">
-        <li v-for="(c, i) in cards" :key="c.legacyPath" v-reveal="{ delay: (i % 4) * 100 }">
-          <NuxtLink :to="c.legacyPath" class="card">
+        <li
+          v-for="(c, i) in cards"
+          :key="c.legacyPath"
+          v-reveal="{ delay: (i % 4) * 100 }"
+        >
+          <NuxtLink
+            :to="c.legacyPath"
+            class="card"
+          >
             <div class="photo-box">
               <NuxtImg
-                v-if="c.photo" format="webp" :src="c.photo" :alt="c.title" width="640" height="900"
-                sizes="50vw lg:320px" loading="lazy" class="photo"
+                v-if="c.photo"
+                format="webp"
+                :src="c.photo"
+                :alt="c.title"
+                width="640"
+                height="900"
+                sizes="50vw lg:320px"
+                loading="lazy"
+                class="photo"
               />
             </div>
+
             <p class="name">
               {{ c.shortTitle }}
               <IconArrow class="arrow" />
             </p>
-            <p class="price">{{ c.cashless }} руб. / {{ c.unit }}.</p>
+
+            <p class="price">
+              {{ c.cashless }} руб. / {{ c.unit }}.
+            </p>
           </NuxtLink>
         </li>
       </ul>
 
-      <p v-reveal class="more">
-        <UiButton variant="outline-dark" size="lg" to="/nasha-produkcziya/">{{ cta }}</UiButton>
+      <p
+        v-reveal
+        class="more"
+      >
+        <UiButton
+          variant="outline-dark"
+          size="lg"
+          to="/nasha-produkcziya/"
+        >
+          {{ cta }}
+        </UiButton>
       </p>
     </div>
   </section>
