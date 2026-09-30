@@ -1,4 +1,5 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { defineSitemapSchema } from '@nuxtjs/sitemap/content'
 
 const seo = z.object({
   title: z.string().max(70),
@@ -60,6 +61,16 @@ export default defineContentConfig({
         relatedMaterials: z.array(z.string()).default([]),  // slug'и материалов
         draft: z.boolean().default(false),
         seo: seo,
+        // статьи в sitemap с lastmod из дат контента
+        sitemap: defineSitemapSchema({
+          z,
+          name: 'articles',
+          onUrl: (url, entry) => {
+            const doc = entry as { updatedAt?: string; publishedAt?: string }
+            const lastmod = doc.updatedAt || doc.publishedAt
+            if (lastmod) (url as { lastmod?: string }).lastmod = lastmod
+          },
+        }),
       }),
     }),
 

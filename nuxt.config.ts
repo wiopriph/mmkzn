@@ -1,18 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs'
 import { redirects } from './server/utils/redirects'
-
-// lastmod статей для sitemap — из frontmatter (updatedAt, иначе publishedAt);
-// собирается на этапе сборки, рантайму не нужно
-const articleSitemapUrls = readdirSync('./content/articles')
-  .filter(f => f.endsWith('.md'))
-  .map((f) => {
-    const src = readFileSync(`./content/articles/${f}`, 'utf8')
-    const date = (re: RegExp) => src.match(re)?.[1]
-    return {
-      loc: `/blog/${f.replace(/\.md$/, '')}/`,
-      lastmod: date(/updatedAt: "?([\d-]+)/) ?? date(/publishedAt: "?([\d-]+)/),
-    }
-  })
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -86,10 +72,6 @@ export default defineNuxtConfig({
       failOnError: true,
     },
     compressPublicAssets: { brotli: true, gzip: true },
-  },
-
-  sitemap: {
-    urls: articleSitemapUrls,
   },
 
   routeRules: {
