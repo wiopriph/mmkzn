@@ -44,6 +44,16 @@ export default defineContentConfig({
           height: z.number().optional(),
         })),
         seo: seo,
+        // материалы в sitemap по их боевым URL (legacyPath), а не по путям
+        // контента — иначе в дев-режиме карточек в карте не видно
+        sitemap: defineSitemapSchema({
+          z,
+          name: 'materials',
+          onUrl: (url, entry) => {
+            const doc = entry as { legacyPath?: string }
+            if (doc.legacyPath) url.loc = doc.legacyPath
+          },
+        }),
       }),
     }),
 

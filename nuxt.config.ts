@@ -81,5 +81,7 @@ export default defineNuxtConfig({
     '/**': { prerender: true },
     '/api/**': { prerender: false, robots: false },
     '/_kitchen-sink': { robots: false, sitemap: false },
+    // noindex-страница (паритет с Yoast) — в карте ей не место
+    '/politika/': { sitemap: false },
   },
 })
