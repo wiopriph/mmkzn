@@ -26,12 +26,22 @@ onMounted(() => {
   if (!props.video) return;
 
   // видео только тем, кто не просил убрать анимацию
-  showVideo.value = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   // узким экранам — лёгкий 720p-файл (выбор один раз при загрузке)
   videoSrc.value = props.videoMobile && window.matchMedia('(max-width: 767px)').matches ?
     props.videoMobile :
     props.video;
+
+  // мегабайты видео не должны конкурировать с постером и критическими
+  // ресурсами (LCP/Speed Index) — монтируем после полной загрузки страницы
+  if (document.readyState === 'complete') {
+    showVideo.value = true;
+  } else {
+    window.addEventListener('load', () => {
+      showVideo.value = true;
+    }, { once: true });
+  }
 });
 
 function toggleSound() {

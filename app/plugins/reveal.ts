@@ -23,6 +23,10 @@ export default defineNuxtPlugin((nuxtApp) => {
     mounted(el, binding) {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+      // то, что при загрузке уже в вьюпорте, не прячем: SSR его отрисовал,
+      // и мигание «показали → скрыли → проявили» роняет Speed Index
+      if (el.getBoundingClientRect().top < window.innerHeight) return;
+
       if (binding.value?.delay) el.style.setProperty('--reveal-delay', `${binding.value.delay}ms`);
 
       el.classList.add('reveal');

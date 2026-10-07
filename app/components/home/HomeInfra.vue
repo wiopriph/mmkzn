@@ -75,6 +75,8 @@ defineProps<{
         <img
           src="/design/sign-tatarstan.svg"
           alt=""
+          width="80"
+          height="73"
           class="region-sign"
         >
       </div>
