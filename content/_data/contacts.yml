@@ -8,7 +8,7 @@ dispatcher:
   label: Телефон диспетчерской службы
   display: +7(962) 556-31-19
   tel: "+79625563119"
-whatsapp: https://wa.me/79625563119?text=Здравствуйте
+max: https://max.ru/u/f9LHodD0cOLvBaEJFdbaUhB0t0ZZezJpnTw88R8RnIcd1YTbfUbJZ4xlZmc
 telegram: https://t.me/micro_cosm
 formNote: Оставьте ваш телефон и наш консультант свяжется с вами
 requisites: 1655288455/1141690017864

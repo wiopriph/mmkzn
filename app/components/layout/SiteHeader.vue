@@ -76,12 +76,11 @@ const menu = [
         v-if="contacts"
         class="contacts"
       >
-        <!-- в макете MAX; ссылки на профиль MAX у клиента пока нет — ведёт в WhatsApp-чат (см. DECISIONS) -->
         <a
-          :href="contacts.whatsapp"
+          :href="contacts.max"
           target="_blank"
           rel="noopener"
-          aria-label="Написать в мессенджер"
+          aria-label="Написать в MAX"
           class="icon-link"
         >
           <IconMax

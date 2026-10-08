@@ -4,7 +4,7 @@ export interface Contacts {
   email: string
   phone: { display: string; tel: string }
   dispatcher: { label: string; display: string; tel: string }
-  whatsapp: string
+  max: string
   telegram: string
   formNote: string
   /** ИНН/ОГРН одной строкой; из макета, подтвердить у клиента */
