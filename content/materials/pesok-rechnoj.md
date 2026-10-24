@@ -5,8 +5,8 @@ order: 2
 legacyPath: /pesok-rechnoj/
 gostRef: ГОСТ 8763-2014
 price:
-  cashless: 430
-  cash: 430
+  cashless: 450
+  cash: 450
   unit: т
   vatNote: с НДС 22%
 specs:

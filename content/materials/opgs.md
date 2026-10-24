@@ -5,8 +5,8 @@ order: 1
 legacyPath: /opgs/
 gostRef: ГОСТ 8763-2014
 price:
-  cashless: 1100
-  cash: 1000
+  cashless: 1450
+  cash: 1450
   unit: т
   vatNote: с НДС 22%
 specs:

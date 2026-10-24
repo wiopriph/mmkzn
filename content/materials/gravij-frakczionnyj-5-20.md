@@ -5,8 +5,8 @@ order: 4
 legacyPath: /gravij-frakczionnyj-5-20/
 gostRef: ГОСТ 8763-2014
 price:
-  cashless: 1200
-  cash: 1200
+  cashless: 1900
+  cash: 1900
   unit: т
   vatNote: с НДС 22%
 specs:

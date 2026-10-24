@@ -4,8 +4,8 @@ shortTitle: Гравий (фр. 20+)
 order: 5
 legacyPath: /gravij-frakczionnyj-20/
 price:
-  cashless: 1100
-  cash: 1100
+  cashless: 1500
+  cash: 1500
   unit: т
   vatNote: с НДС 22%
 specs: []

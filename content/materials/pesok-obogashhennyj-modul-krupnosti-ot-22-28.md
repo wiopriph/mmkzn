@@ -5,8 +5,8 @@ order: 3
 legacyPath: /pesok-obogashhennyj-modul-krupnosti-ot-22-28/
 gostRef: ГОСТ 8763-2014
 price:
-  cashless: 1100
-  cash: 1100
+  cashless: 1200
+  cash: 1200
   unit: т
   vatNote: с НДС 22%
 specs:
