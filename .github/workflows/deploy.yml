@@ -63,4 +63,6 @@ jobs:
             docker compose up -d
             docker image prune -f
             sleep 5
-            curl -fsSkL -o /dev/null --max-time 30 -H "Host: mirumirkzn.ru" https://localhost/ && echo "smoke ok"
+            # smoke напрямую в app: https через caddy до переключения DNS
+            # не работает (нет сертификата домена) и ронял джобу зря
+            docker exec mmkzn-app-1 node -e "fetch('http://localhost:3000/').then(r => { if (r.status !== 200) process.exit(1); console.log('smoke ok'); })"
