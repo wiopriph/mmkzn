@@ -3,6 +3,9 @@
 # Postgres появится третьим сервисом на Этапе 1-доп (история заявок).
 services:
   app:
+    # прод тянет готовый образ из GHCR (собирает GitHub Actions);
+    # build оставлен для локальной сборки и аварийного fallback
+    image: ghcr.io/wiopriph/mmkzn:latest
     build: .
     restart: unless-stopped
     env_file: .env
