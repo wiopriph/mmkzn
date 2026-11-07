@@ -9,10 +9,6 @@ services:
     build: .
     restart: unless-stopped
     env_file: .env
-    environment:
-      # docker-сеть без IPv6, а DNS отдает AAAA первым (Telegram API
-      # уходил в connect timeout) - заставляем node ходить по IPv4
-      NODE_OPTIONS: --dns-result-order=ipv4first
     expose:
       - "3000"
 
@@ -32,3 +28,10 @@ services:
 volumes:
   caddy-data:
   caddy-config:
+
+networks:
+  # сеть Sprintbox не маршрутизирует IPv4-путь к api.telegram.org
+  # (старые блокировки подсетей Telegram), работает только IPv6 -
+  # без него отправка заявок падает по таймауту
+  default:
+    enable_ipv6: true
