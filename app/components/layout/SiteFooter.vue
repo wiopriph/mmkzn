@@ -95,6 +95,7 @@ const menu = [
               height="36"
             />
           </a>
+
           <a
             :href="contacts.max"
             target="_blank"
