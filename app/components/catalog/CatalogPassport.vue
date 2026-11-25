@@ -1,7 +1,8 @@
 <script setup lang="ts">
 // "Каждая партия с паспортом" - фреймы 12746:4732 (1280x853) и 12783:5736
 // (моб. 390x1100). В макете значения - заглушки "из паспорта": показываем
-// реальные строки лабораторной таблицы материала (specs), отобранные по params.
+// реальные строки лабораторной таблицы материала (specs); набор строк у каждого
+// материала свой (materials: slug -> начала названий параметров).
 // Материалы без таблицы во вкладки не попадают. Кнопки макета "Скачать образец"
 // и "Сертификат" появятся вместе с PDF-документами; пока есть ссылка на полную
 // таблицу на странице материала.
@@ -11,22 +12,21 @@ const props = defineProps<{
   heading: string
   normLabel: string
   moreLabel: string
-  params: string[]
-  materials: string[]
+  materials: Record<string, string[]>
 }>();
 
 const { data: allMaterials } = useAsyncData('materials-list', () =>
   queryCollection('materials').order('order', 'ASC')
     .all());
 
-const passports = computed(() => props.materials.flatMap((slug) => {
+const passports = computed(() => Object.entries(props.materials).flatMap(([slug, params]) => {
   const material = (allMaterials.value ?? []).find(candidate => candidate.legacyPath === `/${slug}/`);
 
   if (!material || !material.specs.length) {
     return [];
   }
 
-  const rows = props.params.flatMap((prefix) => {
+  const rows = params.flatMap((prefix) => {
     const spec = material.specs.find(candidate => candidate.param.startsWith(prefix));
 
     return spec ?
