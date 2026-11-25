@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // Каталог по макету Figma "NY 90" (раздел "КАТАЛОГ"). SEO-мета прежняя
 // (Yoast, content/pages), тексты секций - content/_data/catalog.yml.
-// Блоки с draft: true ("Подобрать под задачу", FAQ) ждут утверждения клиентом.
+// Блок с draft: true в catalog.yml ("Подобрать под задачу", FAQ) виден только в dev.
 definePageMeta({ headerTheme: 'overlay' });
 
 interface Draftable { draft?: boolean }
@@ -85,7 +85,7 @@ useOgMeta({
 
 const { selector, faq } = catalog.value;
 
-// кнопка hero ведет к подборщику, а пока он в черновике - на форму
+// кнопка hero ведет к подборщику, а если он скрыт - на форму
 const hero = selector ?
   { ...catalog.value.hero, cta: { ...catalog.value.hero.cta, to: '#selector' } } :
   catalog.value.hero;
