@@ -1,25 +1,42 @@
 <script setup lang="ts">
-// Сетка карточек материалов в стиле карточек продукции главной:
-// фото 280/422, название заглавными со стрелкой, цена. Используется
-// в каталоге (/nasha-produkcziya/) и как «другая продукция» на карточке
-// материала (exclude — legacyPath текущего материала).
+// Сетка карточек материалов. Два режима:
+// - каталог (photos задан): только перечисленные материалы в порядке ключей,
+//   фото из макета, 3 колонки - фрейм 12410:4593 (моб. 12783:5191);
+// - "другая продукция" на карточке материала: все материалы кроме exclude, 4 колонки.
 const props = defineProps<{
   title?: string
   exclude?: string
+  photos?: Record<string, string>
 }>();
 
 const { data: materials } = useAsyncData('materials-list', () =>
   queryCollection('materials').order('order', 'ASC')
     .all());
 
-const items = computed(() =>
-  (materials.value ?? []).filter(m => m.legacyPath !== props.exclude));
+const isFeatured = computed(() => Boolean(props.photos));
+
+const items = computed(() => {
+  const all = materials.value ?? [];
+
+  if (!props.photos) {
+    return all
+      .filter(material => material.legacyPath !== props.exclude)
+      .map(material => ({ material, photo: material.images[0]?.src, alt: material.images[0]?.alt }));
+  }
+
+  return Object.entries(props.photos).flatMap(([slug, photo]) => {
+    const material = all.find(candidate => candidate.legacyPath === `/${slug}/`);
+
+    return material ? [{ material, photo, alt: material.title }] : [];
+  });
+});
 </script>
 
 <template>
   <section
     v-if="items.length"
     class="container catalog"
+    :class="{ featured: isFeatured }"
   >
     <h2
       v-if="title"
@@ -31,38 +48,38 @@ const items = computed(() =>
 
     <ul class="cards">
       <li
-        v-for="(m, i) in items"
-        :key="m.legacyPath"
-        v-reveal="{ delay: (i % 4) * 100 }"
+        v-for="(item, index) in items"
+        :key="item.material.legacyPath"
+        v-reveal="{ delay: (index % 4) * 100 }"
       >
         <NuxtLink
-          :to="m.legacyPath"
+          :to="item.material.legacyPath"
           class="card"
         >
           <div class="photo-box">
             <NuxtImg
-              v-if="m.images[0]"
+              v-if="item.photo"
               format="webp"
-              :src="m.images[0].src"
-              :alt="m.images[0].alt"
-              width="640"
-              height="964"
-              sizes="50vw lg:320px"
+              :src="item.photo"
+              :alt="item.alt"
+              :width="isFeatured ? 774 : 640"
+              :height="isFeatured ? 1100 : 964"
+              :sizes="isFeatured ? '50vw lg:400px' : '50vw lg:320px'"
               loading="lazy"
               class="photo"
             />
           </div>
 
           <p class="name">
-            {{ m.shortTitle }}
+            {{ item.material.shortTitle }}
             <IconArrow class="arrow" />
           </p>
 
           <p
-            v-if="m.price.cashless"
+            v-if="item.material.price.cashless"
             class="price"
           >
-            {{ m.price.cashless }} руб. / {{ m.price.unit }}.
+            {{ item.material.price.cashless }} руб. / {{ item.material.price.unit }}.
           </p>
 
           <p
@@ -80,6 +97,14 @@ const items = computed(() =>
 <style scoped lang="scss">
 .catalog {
   padding-block: calc(var(--spacing) * 10);
+
+  &.featured {
+    padding-block: calc(var(--spacing) * 5) calc(var(--spacing) * 16.5);
+
+    @include from-lg {
+      padding-block: calc(var(--spacing) * 18.75) calc(var(--spacing) * 12.25);
+    }
+  }
 }
 
 .grid-title {
@@ -87,7 +112,6 @@ const items = computed(() =>
   @include text-h3;
 }
 
-// карточки — тот же рисунок, что в «Продукции» на главной
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -96,6 +120,13 @@ const items = computed(() =>
   @include from-lg {
     grid-template-columns: repeat(4, 1fr);
     gap: calc(var(--spacing) * 7);
+  }
+}
+
+.featured .cards {
+  @include from-lg {
+    grid-template-columns: repeat(3, 1fr);
+    gap: calc(var(--spacing) * 8.5) calc(var(--spacing) * 5.25);
   }
 }
 
@@ -118,6 +149,14 @@ const items = computed(() =>
   aspect-ratio: 280 / 422;
   overflow: hidden;
   background: var(--color-stone);
+}
+
+.featured .photo-box {
+  aspect-ratio: 179 / 270;
+
+  @include from-lg {
+    aspect-ratio: 387 / 550;
+  }
 }
 
 .photo {
@@ -144,14 +183,17 @@ const items = computed(() =>
     text-transform: uppercase;
   }
 
+  // на мобилке стрелка не должна быть выше строки названия (12/14.4)
   .arrow {
     flex-shrink: 0;
     width: calc(var(--spacing) * 4);
+    height: calc(var(--spacing) * 3.5);
     color: var(--color-ink-muted);
     transition: transform 0.2s;
 
     @include from-md {
       width: auto;
+      height: auto;
     }
   }
 }
@@ -159,6 +201,7 @@ const items = computed(() =>
 .price {
   margin-top: calc(var(--spacing) * 1.25);
   @include text-small;
+  line-height: 1.2;
 
   @include from-md {
     @include text-caption;

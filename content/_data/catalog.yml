@@ -1,0 +1,75 @@
+# Контент страницы каталога (/nasha-produkcziya/), макет Figma "NY 90", раздел "КАТАЛОГ".
+# Цены и характеристики сюда не дублируются - они живут в content/materials.
+
+hero:
+  title: Каталог нерудных материалов
+  text: |-
+    Все в наличии на складе в Казани.
+    Цены ниже указаны за тонну, безналичный расчёт, с НДС 22%, актуальны на 2026 год.
+  # блок "Подобрать под задачу" ждет контента - пока кнопка ведет на форму
+  cta:
+    label: Подобрать под мою задачу
+    to: "#dialog"
+  # фото только на мобилке: в десктопном макете фон - плоская синяя заливка
+  image: /design/catalog/hero-mobile.jpg
+
+products:
+  # порядок перечисления = порядок карточек; ключ - legacyPath материала без слешей
+  photos:
+    gravij-frakczionnyj-20: /design/catalog/gravij-20.jpg
+    gravij-frakczionnyj-5-20: /design/catalog/gravij-5-20.jpg
+    opgs: /design/catalog/opgs.jpg
+    pesok-rechnoj: /design/catalog/pesok-rechnoj.jpg
+    pesok-obogashhennyj-modul-krupnosti-ot-22-28: /design/catalog/pesok-obogashhennyj.jpg
+
+video:
+  image:
+    src: /design/photo-supply.jpg
+    alt: Портовые краны и баржа с нерудными материалами
+  video: /video/supply.mp4
+
+steps:
+  title: |-
+    От выбора материала
+    до отгрузки
+  note: |-
+    Стоимость назовём по адресу и объёму,
+    до выставления счёта.
+  cta:
+    label: Рассчитать с доставкой
+    href: "#dialog"
+  items:
+    - title: Выберите материал
+      caption: Цены и наличие в каталоге.
+    # в макете "В калькуляторе, по телефону или в форме" - калькулятора на сайте пока нет
+    - title: Назовите объём и адрес
+      caption: По телефону или в форме.
+    - title: Получите счёт
+      caption: |-
+        Безналичный расчёт,
+        цена с НДС 22%.
+    - title: Получите отгрузку
+      caption: С документами на партию.
+
+passport:
+  title: |-
+    Каждая партия
+    с паспортом
+  text: Выберите материал, чтобы увидеть образец
+  heading: Паспорт качества
+  normLabel: Нормативный документ
+  moreLabel: Все характеристики
+  # порядок вкладок как в макете; материалы без лабораторной таблицы пропускаются
+  materials:
+    - opgs
+    - gravij-frakczionnyj-20
+    - gravij-frakczionnyj-5-20
+    - pesok-rechnoj
+    - pesok-obogashhennyj-modul-krupnosti-ot-22-28
+  # какие строки лабораторной таблицы материала показывать (по началу названия параметра)
+  params:
+    - Содержание гравия
+    - Модуль крупности
+    - Содержание пылевидных и глинистых частиц
+    - Влажность
+    - Насыпная плотность
