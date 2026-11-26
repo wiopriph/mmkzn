@@ -1,34 +1,27 @@
 <script setup lang="ts">
-// Hero внутренних страниц по фреймам каталога 12410:4382 / 12783:5139:
-// на десктопе фон - плоская синяя заливка, фото (если задано) только на мобилке.
-const props = defineProps<{
+// Hero внутренних страниц (каталог: фреймы 12410:4382 / 12783:5139).
+// Фон - видеополоса SectionVideoBand: постер (первый кадр ролика) и беззвучное
+// видео поверх. В макете десктопный фон был плоской синей заливкой - видео
+// добавлено по решению владельца, как на главной.
+defineProps<{
   title: string
   text: string
   cta?: { label: string; to: string }
-  image?: string
+  image: { src: string; alt: string }
+  video?: string
+  videoMobile?: string
 }>();
-
-const img = useImage();
-const mobilePhoto = computed(() =>
-  props.image ? img(props.image, { width: 800, format: 'webp', quality: 72 }) : undefined);
-
-if (mobilePhoto.value) {
-  useHead({
-    link: [{
-      rel: 'preload',
-      as: 'image',
-      href: mobilePhoto.value,
-      media: '(max-width: 767px)',
-      fetchpriority: 'high',
-    }],
-  });
-}
 </script>
 
 <template>
-  <section
+  <!-- на узком экране кадр 16:9 обрезается по высоте - картинке нужна ширина больше экрана -->
+  <SectionVideoBand
+    :image="image"
+    :video="video"
+    :videoMobile="videoMobile"
+    sizes="xs:200vw sm:200vw md:100vw lg:100vw xl:1440px"
+    isPriority
     class="hero"
-    :style="mobilePhoto ? { '--hero-photo': `url('${mobilePhoto}')` } : undefined"
   >
     <div class="container inner">
       <h1
@@ -61,25 +54,16 @@ if (mobilePhoto.value) {
         </div>
       </div>
     </div>
-  </section>
+  </SectionVideoBand>
 </template>
 
 <style scoped lang="scss">
 .hero {
-  min-height: 50rem;
+  --band-min-height: 50rem;
   background: var(--color-brand-mid);
-  color: var(--color-paper);
-
-  @include below-md {
-    background:
-      var(--gradient-hero-top) top / 100% 18% no-repeat,
-      var(--gradient-hero-bottom),
-      var(--hero-photo, none) center / cover no-repeat,
-      var(--color-brand-mid);
-  }
 
   @include from-md {
-    min-height: 43.75rem;
+    --band-min-height: 43.75rem;
   }
 }
 
@@ -87,12 +71,11 @@ if (mobilePhoto.value) {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 50rem;
+  min-height: var(--band-min-height);
   padding-top: calc(var(--spacing) * 32);
   padding-bottom: calc(var(--spacing) * 12);
 
   @include from-md {
-    min-height: 43.75rem;
     padding-bottom: calc(var(--spacing) * 10.75);
   }
 }

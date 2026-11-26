@@ -2,17 +2,31 @@
 // Полноширинная фото/видео-полоса с затемнением макета (два градиента hero).
 // Видео беззвучное, поверх фото-постера; монтируется, когда секция подъезжает
 // к экрану, а при prefers-reduced-motion не грузится вовсе.
+// isPriority - полоса на первом экране (hero): постер грузится сразу с preload,
+// видео монтируется после полной загрузки страницы, чтобы не мешать LCP.
 // Высота: --band-min-height (по умолчанию 700px).
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   image: { src: string; alt: string }
   video?: string
-}>();
+  videoMobile?: string
+  isPriority?: boolean
+  sizes?: string
+}>(), {
+  video: undefined,
+  videoMobile: undefined,
+  sizes: 'xs:100vw sm:100vw md:100vw lg:100vw xl:1440px',
+});
 
 const bandEl = ref<HTMLElement>();
 const isVideoReady = ref(false);
 const shouldShowVideo = ref(false);
+const videoSrc = ref<string>();
 
 let observer: IntersectionObserver | undefined;
+
+function showVideo() {
+  shouldShowVideo.value = true;
+}
 
 onMounted(() => {
   if (!props.video || !bandEl.value) {
@@ -23,9 +37,24 @@ onMounted(() => {
     return;
   }
 
+  // узким экранам - легкий 720p-файл (выбор один раз при загрузке)
+  videoSrc.value = props.videoMobile && window.matchMedia('(max-width: 767px)').matches ?
+    props.videoMobile :
+    props.video;
+
+  if (props.isPriority) {
+    if (document.readyState === 'complete') {
+      showVideo();
+    } else {
+      window.addEventListener('load', showVideo, { once: true });
+    }
+
+    return;
+  }
+
   observer = new IntersectionObserver((entries) => {
     if (entries.some(entry => entry.isIntersecting)) {
-      shouldShowVideo.value = true;
+      showVideo();
       observer?.disconnect();
     }
   }, { rootMargin: '200px' });
@@ -33,7 +62,10 @@ onMounted(() => {
   observer.observe(bandEl.value);
 });
 
-onBeforeUnmount(() => observer?.disconnect());
+onBeforeUnmount(() => {
+  observer?.disconnect();
+  window.removeEventListener('load', showVideo);
+});
 </script>
 
 <template>
@@ -47,8 +79,10 @@ onBeforeUnmount(() => observer?.disconnect());
       :alt="image.alt"
       width="2560"
       height="1398"
-      sizes="xs:100vw sm:100vw md:100vw lg:100vw xl:1440px"
-      loading="lazy"
+      :sizes="sizes"
+      :loading="isPriority ? 'eager' : 'lazy'"
+      :fetchpriority="isPriority ? 'high' : undefined"
+      :preload="isPriority"
       class="bg"
     />
 
@@ -64,7 +98,7 @@ onBeforeUnmount(() => observer?.disconnect());
       @playing="isVideoReady = true"
     >
       <source
-        :src="video"
+        :src="videoSrc"
         type="video/mp4"
       >
     </video>
@@ -81,7 +115,7 @@ onBeforeUnmount(() => observer?.disconnect());
 
     <div
       v-if="$slots.default"
-      class="content"
+      class="band-content"
     >
       <slot />
     </div>
@@ -130,7 +164,8 @@ onBeforeUnmount(() => observer?.disconnect());
   background: var(--gradient-hero-top);
 }
 
-.content {
+// не .content: это имя занято глобальной типографикой markdown-страниц
+.band-content {
   position: relative;
   z-index: 3;
 }

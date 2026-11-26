@@ -7,7 +7,14 @@ definePageMeta({ headerTheme: 'overlay' });
 interface Draftable { draft?: boolean }
 
 interface Catalog {
-  hero: { title: string; text: string; cta: { label: string; to: string }; image?: string }
+  hero: {
+    title: string
+    text: string
+    cta: { label: string; to: string }
+    image: { src: string; alt: string }
+    video?: string
+    videoMobile?: string
+  }
   products: { photos: Record<string, string> }
   selector?: Draftable & {
     title: string
@@ -19,7 +26,7 @@ interface Catalog {
     tasks: { name: string; hint: string; material?: string; why?: string; with?: string; alt?: string; not?: string }[]
     fallback: { title: string; text: string; cta: string }
   }
-  video: { image: { src: string; alt: string }; video: string }
+  video: { image: { src: string; alt: string }; video: string; videoMobile?: string }
   steps: {
     title: string
     note: string
@@ -120,6 +127,7 @@ useSchemaOrg([
     <SectionVideoBand
       :image="catalog.video.image"
       :video="catalog.video.video"
+      :videoMobile="catalog.video.videoMobile"
       class="video-band"
     />
 

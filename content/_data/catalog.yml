@@ -10,8 +10,13 @@ hero:
   cta:
     label: Подобрать под мою задачу
     to: "#dialog"
-  # фото только на мобилке: в десктопном макете фон - плоская синяя заливка
-  image: /design/catalog/hero-mobile.jpg
+  # фон - видео со склада (постер = первый кадр); экранам уже 768px - легкая 720p-версия.
+  # В десктопном макете фон был плоской синей заливкой
+  image:
+    src: /design/catalog/hero-poster.jpg
+    alt: Сортировочная установка и погрузчик на складе нерудных материалов
+  video: /video/catalog-hero.mp4
+  videoMobile: /video/catalog-hero-720.mp4
 
 products:
   # порядок перечисления = порядок карточек; ключ - legacyPath материала без слешей
@@ -81,9 +86,10 @@ selector:
 
 video:
   image:
-    src: /design/photo-supply.jpg
-    alt: Портовые краны и баржа с нерудными материалами
-  video: /video/supply.mp4
+    src: /design/catalog/band-poster.jpg
+    alt: Погрузчик загружает самосвал на складе нерудных материалов
+  video: /video/catalog-band.mp4
+  videoMobile: /video/catalog-band-720.mp4
 
 steps:
   title: |-
